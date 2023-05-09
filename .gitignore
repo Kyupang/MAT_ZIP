@@ -1,0 +1,58 @@
+/.metadata/
+servers/
+# Compiled files
+*.class
+
+# Build folder
+/target/
+/build/
+
+# Logs folder
+*.log
+/logs/
+
+# IDE-specific folders
+.idea/
+/.project
+/.classpath
+/.pref
+# Dependency folders
+/node_modules/
+/vendor/
+
+# Log4j configuration file
+log4j.xml
+
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.factorypath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+*.pydevprojectc
+.project
+
+# Maven build files
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar

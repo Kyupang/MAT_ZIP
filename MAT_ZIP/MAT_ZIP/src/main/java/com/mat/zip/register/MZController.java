@@ -20,10 +20,12 @@ public class MZController {
 	@Autowired
 	RestaurantDAO restaurantdao;
 	
+
+	//검색 기능 자동완성 데이터 가져오기 and
 	//지도 업데이트 버튼 관련 함수 
-	@RequestMapping("/register/Remap.mz")
+	@RequestMapping(value = {"/register/Remap.mz", "/register/autoComplete.mz"})
 	@ResponseBody // 요청을 받으면 return되는 데이터를 json으로 만들어서 요청하는 곳으로 다시 보냄,
-	public List<MixedWithTwoDBVO> Remap() {
+	public List<MixedWithTwoDBVO> getAddressAndName() {
 		//일단 mz에 있는 주소 다 데려와. 
 		//DB에 일치하는 주소와 name을 가져와서 RestaurantVO에 집어넣고 넘겨.
 		List<MixedWithTwoDBVO> resultList = restaurantdao.addressAndName();

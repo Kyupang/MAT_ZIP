@@ -17,10 +17,14 @@ public class Boss_memberDAO { // CRUD
 	@Autowired
 	SqlSessionTemplate my;
 
-	public void innerJoinAndInsert() {
-        my.insert("boss.insertJoinedData");
+	public void innerJoinAndInsert(Boss_memberVO bag) {
+        my.insert("boss.insertJoinedData", bag);
     }
 
+	public Boss_memberVO login(Boss_memberVO bag) {
+		return my.selectOne("boss.boss_login", bag);
+		
+	}
 //	public int update(Boss_memberVO bag) {
 //		int result = my.update("boss.up", bag);
 //		return result;
@@ -48,8 +52,4 @@ public class Boss_memberDAO { // CRUD
 //
 //	}
 
-	public Boss_memberVO login(Boss_memberVO bag) {
-		return my.selectOne("boss.boss_login", bag);
-
-	}
 }

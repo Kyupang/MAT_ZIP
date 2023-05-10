@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 	@Controller
 	public class Boss_memberController {
@@ -44,13 +45,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	        if (vo != null || bossVo != null) {
 	            if (vo != null) {
 	                // Member 로그인 성공 시, user_id와 nickName을 세션에 저장
-	                session.setAttribute("member_id", vo.getUser_id());
+	                session.setAttribute("user_id", vo.getUser_id());
 	                session.setAttribute("nickName", vo.getNickName());
 	            }
 
 	            if (bossVo != null) {
-	                // Boss_member 로그인 성공 시, boss_id를 세션에 저장
+	                // Boss_member 로그인 성공 시, boss_id와 store_id를 세션에 저장
 	                session.setAttribute("boss_id", bossVo.getUser_id());
+	                session.setAttribute("store_id", bossVo.getStore_id());
 	            }
 
 	            // 로그인 성공 후 이전 페이지로 리다이렉트
@@ -59,7 +61,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	                return "redirect:" + prevPage;
 	            } else {
 	                // 이전 페이지 정보가 없는 경우, 기본 페이지로 리다이렉트
-	                return "redirect:board2.jsp";
+	                return "redirect:board_index.jsp";
 	            }
 	        } else {
 	            model.addAttribute("msg", "로그인에 실패했습니다. 다시 시도해주세요.");
@@ -77,9 +79,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	    public String logout(HttpSession session) {
 	        // 모든 세션 제거
 	        session.invalidate();
-	        return "redirect:board2.jsp"; // 로그아웃 후 리다이렉트 될 페이지
+	        return "redirect:board_index.jsp"; // 로그아웃 후 리다이렉트 될 페이지
 	    }
 
+	    @PostMapping("/boss/innerJoinAndInsert")
+	    public String innerJoinAndInsert(@RequestParam String store_id, HttpSession session) {
+	    	// 세션에서 현재 로그인한 사용자의 ID를 가져옵니다.
+	    	String user_id = (String) session.getAttribute("user_id");
+
+	    	// bag에 사용자 ID와 store_id를 저장합니다.
+	    	Boss_memberVO bag = new Boss_memberVO();
+	    	bag.setUser_id(user_id);
+	    	bag.setStore_id(store_id);
+
+	    	// member 테이블과 bossmember 테이블을 inner join해서 회원가입 처리를 합니다.
+	    	dao.innerJoinAndInsert(bag);
+	    	// 이제 이 사용자는 사장님 계정으로도 로그인되어 있으므로, 'boss_id' 세션에도 사용자 ID를 저장합니다.
+	        session.setAttribute("boss_id", user_id);
+	        // log 확인용 (삭제가능)
+	    	System.out.println("사장회원가입완료");
+	    	 System.out.println("store_id: " + store_id);
+	    	// 회원가입 처리가 완료되면 메인 페이지로 리다이렉트합니다.
+	    	return "forward:board_index.jsp";
+	    }
+	}
 	    
 //	    @PostMapping("/boss/boss_login")
 //	    public String boss_login(Boss_memberVO bag, HttpSession session, HttpServletRequest request,Model model) {
@@ -96,11 +119,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //	        }
 //	    }
 
-	    @PostMapping("innerJoinAndInsert")
-	    public void innerJoinAndInsert() {
-	        dao.innerJoinAndInsert();
-	    }
-	}
 
 
 	

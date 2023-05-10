@@ -11,37 +11,5 @@ servers/
 *.log
 /logs/
 
-# IDE-specific folders
-.idea/
-/.project
-/.classpath
-/.pref
-# Dependency folders
-/node_modules/
-/vendor/
 
-# Log4j configuration file
-log4j.xml
-
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.factorypath
-
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# PyDev specific (Python IDE for Eclipse)
-*.pydevproject
-*.pydevprojectc
-.project
 

@@ -55,4 +55,5 @@ public class RestaurantVO {
 		return "RestaurantVO [no=" + no + ", landNumAddress=" + landNumAddress + ", roadNameAddress=" + roadNameAddress
 				+ ", name=" + name + ", status=" + status + ", tel=" + tel + ", food=" + food + "]";
 	}
+
 }

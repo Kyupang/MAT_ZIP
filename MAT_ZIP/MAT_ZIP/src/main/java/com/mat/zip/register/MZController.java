@@ -21,9 +21,9 @@ public class MZController {
 	RestaurantDAO restaurantdao;
 	
 
-	//검색 기능 자동완성 데이터 가져오기 and
+	//검색 기능 자동완성 데이터 가져오기 and 검색 키워드 마커찍어주기 컨트롤러 기능 
 	//지도 업데이트 버튼 관련 함수 
-	@RequestMapping(value = {"/register/Remap.mz", "/register/autoComplete.mz"})
+	@RequestMapping(value = {"/register/Remap.mz", "/register/autoComplete.mz" , "register/searchResultMarker.mz"})
 	@ResponseBody // 요청을 받으면 return되는 데이터를 json으로 만들어서 요청하는 곳으로 다시 보냄,
 	public List<MixedWithTwoDBVO> getAddressAndName() {
 		//일단 mz에 있는 주소 다 데려와. 
@@ -33,6 +33,15 @@ public class MZController {
 		return resultList ;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//등록 이미지 저장 코드 
 	@Autowired
 	OCRGeneralAPI ocrService;

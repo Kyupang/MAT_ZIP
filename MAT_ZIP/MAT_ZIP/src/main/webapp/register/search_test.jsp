@@ -47,10 +47,10 @@
 	        // disabled: true, // 자동완성 기능 끄기
 	    });
 	
-		//todo list 검색 버튼을 누르면 지도에 관련 벨류를 포함하는 값의 마커를 찍어준다.
+		 //todo list 검색 버튼을 누르면 지도에 관련 벨류를 포함하는 값의 마커를 찍어준다.
 	    $("#getSearchResult").click(function() {
 	    	$.ajax({
-				url : "",
+				url : "searchResultMarker.mz",
 				dataType : "json",
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
@@ -59,29 +59,63 @@
 					
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 				    mapOption = { 
-				        center: new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
+				        center: new kakao.maps.LatLng(37.4967, 127.0630), // 지도의 중심좌표 // 코드 합치면 바로 쓸 수 있는 lat lon
 				        level: 3 // 지도의 확대 레벨
 				    };
 
 					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 					
+					// 반복문 map으로 수정 가능할 것 같슴..
 					
-					for (var i = 0; i < json.length; i++) {
-			            var obj = json[i];
-			            // Access the properties of the object
-			            var name = obj.name;
-			            var address = obj.storeAddress;
-			            
-			            var geocoder = new kakao.maps.services.Geocoder();
-			            
-			            geocoder.addressSearch(address, function(result, status) {
-						    // 정상적으로 검색이 완료됐으면 
-						     if (status === kakao.maps.services.Status.OK) {
-								//좌표값 저장.
-						       addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
-						     } 
-						});			            
-			        }
+					// input value를 포함하고 있는 name 배열의 요소들의 짝인 주소들을 바꿔주면 된다. 
+					
+					var matchedItems = json.filter(function(item) {
+	                      return item.name.includes(inputValue);
+	                    });
+	                
+					var matchedNames = matchedItems.map(function(item) {
+	                      return item.name;
+	                    });
+	                var matchedAddresses = matchedItems.map(function(item) {
+	                	  return item.storeAddress;
+	                	});
+					console.log(matchedAddresses.length);
+					
+					
+	                var geocoder = new kakao.maps.services.Geocoder();
+					
+					
+	                if(matchedAddresses.length == 1){
+	                	var address = matchedAddresses[0];
+	                	
+	                	geocoder.addressSearch(address, function(result, status) {
+						    // if the search was successful
+						    if (status === kakao.maps.services.Status.OK) {
+						      // Save coordinate values
+						      addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
+						      map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
+						      
+						    }
+						});
+	                	
+	                }else if(matchedAddresses.length > 1){
+	                	for (var i = 0; i < matchedAddresses.length; i++) {
+							var address = matchedAddresses[i];
+				            
+							geocoder.addressSearch(address, function(result, status) {
+							    // if the search was successful
+							    if (status === kakao.maps.services.Status.OK) {
+							      // Save coordinate values
+							      addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
+							    }
+							});	            
+				        }
+	                	map.setCenter(new kakao.maps.LatLng(37.4967,127.0630));
+	                	map.setLevel(8);
+	                }
+	                
+	                
+					
 					
 					function addMarker(position) {
 			            
@@ -109,17 +143,14 @@
 			             	 infowindow.open(map, marker);  
 			        	});
 			            
+			        	
 			            
-			            // 생성된 마커를 배열에 추가합니다
-			            markers.push(marker);
+			            
 			        }
-					
-						
-					
 				} //success
 			}) //ajax
-		})//b2
-		})
+		})//b2 
+		
 	
 	});
 </script>

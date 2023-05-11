@@ -23,6 +23,13 @@ body {
 	right: 100px;
 	top: 50px;
 }
+.logout {
+	text-align: center;
+	position: absolute;
+	right: 100px;
+	top: 90px;
+	z-index: 100;
+}
 
 #search {
 	position: relative;
@@ -42,15 +49,16 @@ body {
 }
 </style>
 <meta charset="UTF-8">
-<title>맛.zip 게시물등록</title>
+<title>맛.zip</title>
 </head>
 <body>
 
 	<h1 style="color: green;" id="main">
-		<a href="board2.jsp"><button class="btn btn-outline-success"
-				style="width: 100px; border-bottom: 2px solid green;">
-				<em>맛.zip</em>
-			</button></a>
+	<a href ="board_index.jsp">
+		<button class="btn btn-outline-success"
+			style="width: 100px; border-bottom: 2px solid green;">
+			<em>맛.zip</em>
+		</button></a>
 	</h1>
 	<form action="Board_one" method="get" id="search">
 		<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
@@ -61,24 +69,42 @@ body {
 	<h3 style="color: gray;" id="main2">
 		<em><span style="border-bottom: 2px solid gray;">사장님</span></em>
 	</h3>
-	<%
-		if (session.getAttribute("id") != null) {
-	%>
-	<h3 style="color: green;">
-		<em class="id"><span class="badge text-bg-warning">${id}님</span></em>
-	</h3>
 
-	<%
-		} else {
-	%><a href="owner_login.jsp">
-		<button class="btn btn-success">로그인</button>
-	</a>
-	<a href="owner_member.jsp">
-		<button class="btn btn-warning">회원가입화면으로go</button>
-	</a>
-	<%
-		}
-	%>
+
+	<div class="container">
+		<!--컨테이너  -->
+		<div class="row">
+			<%
+				if (session.getAttribute("user_id") != null) {
+			%>
+			<h3 style="color: green;">
+				<em class="id"><span class="badge text-bg-warning">${nickName}님</span></em>
+			</h3>
+			<h3 style="color: green;">
+				<em class="logout"> <a href="logout"><button type="button"
+							class="btn btn-danger opacity-75 bi bi-box-arrow-right">로그아웃  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-box-arrow-right"
+						viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+							d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+  <path fill-rule="evenodd"
+							d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+</svg></button>
+				</a> </em>
+			</h3>
+			<%
+				} else {
+			%>
+			<a href="boss_member.jsp"> <span class="id2"><button
+						class="btn btn-warning">회원가입</button></span>
+			</a><a href="boss_login.jsp"> <span class="id"><button
+						class="btn btn-success">로그인</button></span>
+			</a>
+			<%
+				}
+			%>
+		</div>
+	</div>
 
 
 	<div class="container">
@@ -128,7 +154,7 @@ body {
 
 		<hr color="green">
 		<form action="Board_insert" method="get">
-			<input name="writer" value="${id}" type="hidden"
+			<input name="writer" value="${user_id}" type="hidden"
 				style="width: 600px;"><br> <input name="title"
 				placeholder="제목을 입력해주세요" maxlength="50" style="width: 600px;"><br>
 			<br>

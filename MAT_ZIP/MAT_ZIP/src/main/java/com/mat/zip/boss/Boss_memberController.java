@@ -69,12 +69,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 	        }
 	    }
 
-
-
-
-
-
-	    
 	    @GetMapping("/boss/logout")
 	    public String logout(HttpSession session) {
 	        // 모든 세션 제거

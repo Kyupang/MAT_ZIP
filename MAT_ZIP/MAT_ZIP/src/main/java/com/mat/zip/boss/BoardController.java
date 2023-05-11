@@ -3,9 +3,13 @@ package com.mat.zip.boss;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,7 +23,7 @@ public class BoardController {
 	@Autowired
 	Boss_memberDAO dao3;
 
-	@RequestMapping("Board_insert")
+	@RequestMapping("/boss/Board_insert")
 	public void insert(BoardVO bag) {
 
 		System.out.println("insert요청됨.");
@@ -29,15 +33,24 @@ public class BoardController {
 
 	}
 
-	@RequestMapping("Board_update")
-	public void update(BoardVO bag, Model model) {
-		System.out.println("update요청됨.");
-		int bag2 = dao.update(bag);
-		model.addAttribute("bag", bag2);
-
+	@PostMapping("/boss/Board_update")
+	public String update(@ModelAttribute BoardVO bag, HttpSession session, Model model) {
+	    System.out.println("update요청됨.");
+	    dao.update(bag);
+	    model.addAttribute("bag", bag);
+	   System.out.println(bag);
+	    // 이전 페이지로 리다이렉트
+	    String prevPage = (String) session.getAttribute("prevPage");
+	    if (prevPage != null) {
+	        return "redirect:" + prevPage;
+	    } else {
+	        // 이전 페이지 정보가 없는 경우, 기본 페이지로 리다이렉트
+	        return "forward:Board_list"; // 이 부분은 원하는 기본 페이지 URL로 변경하세요
+	    }
 	}
 
-	@RequestMapping("Board_delete")
+
+	@RequestMapping("/boss/Board_delete")
 	public void delete(int board_id) {
 		System.out.println("delete요청됨.");
 		System.out.println(board_id);
@@ -48,7 +61,7 @@ public class BoardController {
 //	
 //
 //	
-	@RequestMapping("Board_one")
+	@RequestMapping("/boss/Board_one")
 	public void one(int board_id, Model model) {
 		System.out.println("one요청됨.");
 		dao.view(board_id);
@@ -57,13 +70,13 @@ public class BoardController {
 		model.addAttribute("bag", bag);
 	}
 
-	@RequestMapping("Board_detail")
+	@RequestMapping("/boss/Board_detail")
 	public void detail(int board_id, Model model) {
 		System.out.println("상세페이지요청됨.");
 		BoardVO bag = dao.one(board_id);
 		dao.view(board_id);
 		List<ComVO> list = dao2.list(board_id);
-		List<BoardVO> list2 = dao.list();
+		List<BoardVO> list2 = dao.list(30);
 		model.addAttribute("Com_list", list);
 		model.addAttribute("Board_list", list2);
 		System.out.println("댓글테이블요청됨");
@@ -71,18 +84,21 @@ public class BoardController {
 
 	}
 
-	@RequestMapping("Board_list")
+	@RequestMapping("/boss/Board_list")
 	public void list(Model model) {
-		List<BoardVO> list = dao.list();
+		List<BoardVO> list = dao.list(30);
 		System.out.println(list.size()); // 사이즈를 찍어보세요.
 		model.addAttribute("Board_list", list);
 	}
 
-	@RequestMapping("Board_like")
-	public void like(int board_id) {
-		System.out.println("좋아요");
-		dao.like(board_id);
+	@PostMapping("/boss/like")
+	public String like(int board_id) {
+	    dao.increaseLikeCount(board_id);
+	    return "redirect:";
 	}
+	
+	
+
 
 //	@RequestMapping("Bbsone")
 //	public void Bbsone(int no, Model model) {

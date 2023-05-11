@@ -17,7 +17,7 @@ public class ComController {
 //	@Autowired
 //	ReplyDAO dao2;
 
-	@RequestMapping("Board_insertcom")
+	@RequestMapping("/boss/Board_insertcom")
 	public void insert(ComVO bag, int board_id, Model model) {
 		List<ComVO> list = dao.list(board_id);
 		System.out.println("insert요청됨.");
@@ -26,14 +26,14 @@ public class ComController {
 		dao.insert(bag);
 	}
 
-	@RequestMapping("Com_update")
+	@RequestMapping("/boss/Com_update")
 	public void update(ComVO bag) {
 		System.out.println("update요청됨.");
 		System.out.println(bag);
 		dao.update(bag);
 	}
 
-	@RequestMapping("Com_delete")
+	@RequestMapping("/boss/Com_delete")
 	public void delete(int reply_id) {
 		System.out.println("delete요청됨.");
 		System.out.println(reply_id);

@@ -18,6 +18,7 @@
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="../../resources/css/boss.css" rel="stylesheet">
 
 <script type="text/javascript">
 	$(function() {

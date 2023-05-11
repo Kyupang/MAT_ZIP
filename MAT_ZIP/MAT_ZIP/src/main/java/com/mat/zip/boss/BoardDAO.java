@@ -46,21 +46,18 @@ public class BoardDAO {
 		return bag;
 	}// one
 
-	public List<BoardVO> list() {
-		List<BoardVO> list = my.selectList("board.list");
-		System.out.println(list.size());
-		Collections.reverse(list);
-		return list;
+	public List<BoardVO> list(int limit) {
+		return my.selectList("board.list",limit);
 
 	} //list
 	public int view(int board_id) {
 		int result = my.update("board.view",board_id);
 		return result;
 	}
-	public int like(int board_id) {
-		int result = my.update("board.like",board_id);
-		return result;
+	public void increaseLikeCount(int board_id) {
+	    my.update("board.increaseLikeCount", board_id);
 	}
+
 	
 	
 }

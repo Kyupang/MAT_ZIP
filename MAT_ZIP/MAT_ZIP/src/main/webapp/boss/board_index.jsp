@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -34,7 +36,7 @@
           successUrl: 'http://localhost:8887/MAT_ZIP/boss/tossSuccess.jsp',
           failUrl: 'http://localhost:8887/MAT_ZIP/boss/tossSuccess.jsp',
         })
-      }
+       }
     </script>
 <meta charset="UTF-8">
 <title>맛.zip</title>
@@ -79,8 +81,6 @@
 </svg></button>
 				</a> </em>
 			</h3>
-
-
 			<%
 				} else {
 			%>

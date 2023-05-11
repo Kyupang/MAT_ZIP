@@ -19,21 +19,25 @@
 		update board set viewscount =
 		viewscount+1 where board_id = #{board_id}
 	</update>
-	<update id="like" parameterType="BoardVO">
-		update board set likecount =
-		likecount+1 where board_id = #{board_id}
+	<update id="increaseLikeCount">
+		UPDATE board
+		SET likecount = likecount + 1
+		WHERE board_id = #{board_id}
 	</update>
 
+
 	<select id="one" parameterType="int" resultType="BoardVO">
-		select * from board where board_id = #{board_id}
+		select * from
+		board where board_id = #{board_id}
 	</select>
 	<select id="detail" parameterType="int" resultType="BoardVO">
-		select * from board where board_id = #{board_id}
+		select * from
+		board where board_id = #{board_id}
 	</select>
 	<select id="list" resultType="BoardVO">
-		select * from board
+		SELECT * FROM board ORDER BY
+		board_id DESC LIMIT #{limit}
 	</select>
-
 
 </mapper>
 

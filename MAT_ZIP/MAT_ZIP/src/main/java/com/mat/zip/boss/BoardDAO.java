@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.ibatis.javassist.runtime.Desc;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -57,7 +59,36 @@ public class BoardDAO {
 	public void increaseLikeCount(int board_id) {
 	    my.update("board.increaseLikeCount", board_id);
 	}
+	public void decreaseLikeCount(int board_id) {
+        my.update("board.decreaseLikeCount", board_id);
+    }
+
+    public void addLike(String user_id, int board_id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_id", user_id);
+        params.put("board_id", board_id);
+        my.insert("board.addLike", params);
+    }
+
+    public void removeLike(String user_id, int board_id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_id", user_id);
+        params.put("board_id", board_id);
+        my.delete("board.removeLike", params);
+    }
+
+    public boolean isLikedByUser(String user_id, int board_id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_id", user_id);
+        params.put("board_id", board_id);
+        return my.selectOne("board.isLikedByUser", params);
+    }
+    
+    public int getLikeCount(int board_id) {
+        return my.selectOne("board.getLikeCount", board_id);
+    }
+}
 
 	
 	
-}
+

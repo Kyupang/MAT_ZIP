@@ -60,10 +60,11 @@
 <body>
 
 	<h1 style="color: green;" id="main">
+	<a href ="board_index.jsp">
 		<button class="btn btn-outline-success"
 			style="width: 100px; border-bottom: 2px solid green;">
 			<em>맛.zip</em>
-		</button>
+		</button></a>
 	</h1>
 	<form action="Board_one" method="get" id="search">
 		<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">

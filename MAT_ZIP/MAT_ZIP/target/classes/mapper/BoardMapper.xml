@@ -19,11 +19,41 @@
 		update board set viewscount =
 		viewscount+1 where board_id = #{board_id}
 	</update>
+
+	<!-- 좋아요 버튼구현 -->
 	<update id="increaseLikeCount">
 		UPDATE board
 		SET likecount = likecount + 1
+		WHERE
+		board_id = #{board_id}
+	</update>
+	<update id="decreaseLikeCount">
+		UPDATE board
+		SET likecount = likecount - 1
 		WHERE board_id = #{board_id}
 	</update>
+
+	<insert id="addLike">
+		INSERT INTO likes (user_id, board_id)
+		VALUES (#{user_id}, #{board_id})
+	</insert>
+
+	<delete id="removeLike">
+		DELETE FROM likes
+		WHERE user_id = #{user_id} AND board_id = #{board_id}
+	</delete>
+
+	<select id="isLikedByUser" resultType="boolean">
+		SELECT COUNT(*) FROM likes
+		WHERE user_id = #{user_id} AND board_id = #{board_id}
+	</select>
+	<select id="getLikeCount" resultType="int">
+		SELECT likecount
+		FROM board
+		WHERE board_id = #{board_id}
+	</select>
+<!-- 좋아요 버튼 끝 -->
+
 
 
 	<select id="one" parameterType="int" resultType="BoardVO">

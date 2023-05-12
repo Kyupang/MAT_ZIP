@@ -211,11 +211,12 @@
 	</div>
 	<script>
 $(document).ready(function(){
-    $('form').on('submit', function(event){
-        event.preventDefault(); // 폼의 기본 제출 동작을 방지
+    $('.like-form').on('submit', function(event){
+        event.preventDefault();
         var form = $(this);
         var board_id = form.find('input[name="board_id"]').val();
-        
+        var likeButton = form.find('.like-button');
+
         $.ajax({
             url: form.attr('action'),
             type: 'POST',
@@ -223,19 +224,19 @@ $(document).ready(function(){
                 board_id: board_id
             },
             success: function(response) {
-                // 서버로부터의 응답을 처리
-                // 예를 들어, '좋아요' 카운트를 업데이트하는 등의 동작을 여기서 수행할 수 있습니다.
-                console.log(response);
+                // '좋아요' 카운트를 업데이트
+                likeButton.text('좋아요 ' + response);
             }
         });
     });
 });
 </script>
-	<!-- 좋아요 버튼 -->
-<form action="like" method="post">
+
+<form action="like" method="post" class="like-form">
     <input type="hidden" name="board_id" value="${bag.board_id}">
-    <button type="submit">좋아요</button>
+    <button type="submit" class="like-button">좋아요 ${bag.likecount}</button>
 </form>
+
 
 	
 	<hr color="green">

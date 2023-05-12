@@ -10,6 +10,15 @@ public class BoardVO {
 	private java.sql.Timestamp deletedate;
 	private int viewscount;
 	private int likecount;
+	private boolean liked;
+
+	public boolean isLiked() {
+		return liked;
+	}
+
+	public void setLiked(boolean liked) {
+		this.liked = liked;
+	}
 
 	public int getBoard_id() {
 		return board_id;

@@ -6,11 +6,14 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // 스프링에서 제어하는 역할로 등록!
@@ -92,11 +95,21 @@ public class BoardController {
 	}
 
 	@PostMapping("/boss/like")
-	public String like(int board_id) {
-	    dao.increaseLikeCount(board_id);
-	    return "redirect:";
+	public ResponseEntity<?> like(HttpSession session, @RequestParam("board_id") int board_id) {
+	    String user_id = session.getAttribute("user_id").toString();
+	    if (dao.isLikedByUser(user_id, board_id)) {
+	        dao.decreaseLikeCount(board_id);
+	        dao.removeLike(user_id, board_id);
+	    } else {
+	        dao.increaseLikeCount(board_id);
+	        dao.addLike(user_id, board_id);
+	    }
+	    int likeCount = dao.getLikeCount(board_id);
+	    return new ResponseEntity<>(likeCount, HttpStatus.OK);
 	}
-	
+
+	    }
+
 	
 
 
@@ -140,4 +153,3 @@ public class BoardController {
 
 	// https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%9E%90%EB%8F%99%EC%B0%A8
 
-}

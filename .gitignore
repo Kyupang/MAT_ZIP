@@ -11,5 +11,5 @@ servers/
 *.log
 /logs/
 
-
+pom.properties
 

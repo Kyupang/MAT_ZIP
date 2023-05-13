@@ -111,8 +111,9 @@ public class OCRGeneralAPI {
 	}
 
 	private static List<String> KoreaAddressExtractor(String resultStr) {
-		String address = resultStr;
-
+		String resultStr2 = resultStr;
+		
+		
 		// 지번주소
 		String regex = "(([가-힣]+(시|도)?|[서울]|[인천]|[대구]|[광주]|[부산]|[울산])( |))" // 그룹1
 				+ "([가-힣]+(시|군|구)( |))" // 그룹5
@@ -123,31 +124,51 @@ public class OCRGeneralAPI {
 				+ "([가-힣]+(시|군|구)( |))" // 그룹5
 				+ "([가-힣]+(로|동|길)(\\d+)?(길|번길)?( |)?)" // 그룹8,9,10
 				+ "(\\d{1,4}( |)?)" + "((-|~)?(\\d+)?( |)?)";
-
-		Matcher matcher = Pattern.compile(regex).matcher(address);
-		Matcher newMatcher = Pattern.compile(newRegex).matcher(address);
-
+		
+		String dateRegex ="(\\d{2,4})(년|\\.|\\/)( |)?(\\d{1,2})(월|\\.|\\/)( |)?(\\d{1,2})((일)( |)?)?";
+		String timeRegex = "(\\d{1,2})( |)?(\\:)( |)?(\\d{1,2})(( |)?(\\:)( |)?(\\d{1,2}))?";
+		
+		
+		
+		Matcher matcher = Pattern.compile(regex).matcher(resultStr2);
+		Matcher newMatcher = Pattern.compile(newRegex).matcher(resultStr2);
+		Matcher dateMatcher = Pattern.compile(dateRegex).matcher(resultStr2);
+		Matcher timeMatcher = Pattern.compile(timeRegex).matcher(resultStr2);
+		
+		
 		List<String> result = new ArrayList<>();
 		String jibun = "";
 		String doro = "";
+		String date = "";
+		String time = "";
+		
 		if (matcher.find()) {
-			// System.out.println(matcher.group());
 			jibun = matcher.group();
 		} else {
-			//System.out.println("안돼용~1");
 			jibun = "안돼용~1";
 		}
 		if (newMatcher.find()) {
-			// System.out.println(newMatcher.group());
 			doro = newMatcher.group();
 		} else {
-			//System.out.println("안돼용~2");
 			doro = "안돼용~2";
 		}
-
+		if (timeMatcher.find()) {
+            time = timeMatcher.group();
+        } else {
+            time = "안돼용~3";
+        }
+		if (dateMatcher.find()) {
+            date = dateMatcher.group();
+        } else {
+        	date = "안돼용~4";
+        }
+		
+		
 		result.add(jibun);
 		result.add(doro);
-
+		result.add(date);
+		result.add(time);
+		
 		return result;
 	}
 

@@ -33,15 +33,7 @@ public class MZController {
 		return resultList ;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	//등록 이미지 저장 코드 
 	@Autowired
 	OCRGeneralAPI ocrService;
@@ -84,7 +76,9 @@ public class MZController {
 		// 이 값들을 동시에 가진 DB row가 있는지? 
 		// mapper.xml:select count(*) from mzinfo where id = #{sessionId} and storeAdress = #{storeAddress}
 		// dao : return count
-		String buyTime = "20230211";
+		String buyTime = list.get(2) +" "+ list.get(3);
+		System.out.println(buyTime);
+		
 		//2.
 		MZInfoVO bag = new MZInfoVO();
 		

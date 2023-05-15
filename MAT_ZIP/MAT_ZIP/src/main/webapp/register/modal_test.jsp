@@ -106,10 +106,6 @@
 </head>
 
 
-
-
-
-
 <body>
 	<h1>Mat.zip</h1>
 	
@@ -236,6 +232,7 @@
 					
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 				    mapOption = { 
+						//기본 멀티캠퍼스 좌표 
 				        center: new kakao.maps.LatLng(37.4967, 127.0630), // 지도의 중심좌표 // 코드 합치면 바로 쓸 수 있는 lat lon
 				        level: 3 // 지도의 확대 레벨
 				    };
@@ -287,6 +284,7 @@
 							    }
 							});	            
 				        }
+	                	//한국 강남 중심좌표 
 	                	map.setCenter(new kakao.maps.LatLng(37.4967,127.0630));
 	                	map.setLevel(8);
 	                }

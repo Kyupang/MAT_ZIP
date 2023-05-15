@@ -337,6 +337,7 @@ a:focus {
   .detail-box {
     color: $white;
     margin-bottom: 145px;
+    width: 100%; /* 추가 */
 
     h1 {
       font-size: 3.5rem;

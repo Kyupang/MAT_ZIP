@@ -157,15 +157,13 @@ public class OCRGeneralAPI {
 		}
 		if (dateMatcher.find()) {
             date = dateMatcher.group();
-            System.out.println(date);
         } else {
-            System.out.println("No match found.");
+        	date = "안돼용~3";
         }
 		if (timeMatcher.find()) {
             time = timeMatcher.group();
-            System.out.println(time);
         } else {
-            System.out.println("No match found.");
+        	time = "안돼용~4";
         }
 		
 		

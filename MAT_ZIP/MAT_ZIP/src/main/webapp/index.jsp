@@ -66,7 +66,7 @@
                 <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="book.html">Book Table</a>
+                <a class="nav-link" href="book.jsp">Book Table</a>
               </li>
             </ul>
             <div class="user_option">

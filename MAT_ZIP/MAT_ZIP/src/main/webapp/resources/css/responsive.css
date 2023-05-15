@@ -88,6 +88,13 @@ padding-left: 0;
   }
 }
 
+/** 랭킹에 들어갈 컨테이너 최소 사이즈 정의*/
+@media (min-width: 769px){
+	.offer_container{
+	 margin: 30px 90px auto;
+	}
+}
+
 
 @media (min-width:576px) and (max-width:991px) {
   .rent_solution_container .col-md-4.col-sm-6 {

@@ -12,6 +12,7 @@
       <typeAlias type="com.mat.zip.boss.ComVO" alias="ComVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.Boss_memberVO" alias="boss_memberVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.MemberVO" alias="memberVO"></typeAlias>
+      <typeAlias type="com.mat.zip.point.PointSaveHistoryVO" alias="pointsavehistoryVO"></typeAlias>
    </typeAliases>
    <mappers>
    <!-- SQL문 정의하는 파일들의 목록을 지정. -->
@@ -21,5 +22,6 @@
       <mapper resource="mapper/ComMapper.xml" />
       <mapper resource="mapper/MemberMapper.xml" />
       <mapper resource="mapper/BossMapper.xml" />
+<mapper resource="mapper/pointMapper.xml" />
    </mappers>
 </configuration>

@@ -24,8 +24,9 @@ import org.springframework.stereotype.Service;
 public class OCRGeneralAPI {
 
 	public List<String> OCRAPI(String imagePath) {
+		
 		String apiURL = "https://f1ohx0ypx2.apigw.ntruss.com/custom/v1/22051/8c2c8f8be327e59d5e0261d6fc8d7fadf5c2e85d31657e897e5149913eab86c0/general";
-		String secretKey = "c2NJZHNVZ0ppd0ZzVVBkQ05ucGRXVkZxeVRETkxGT1c=";
+		String secretKey = "elNqY1REb0ZBWGRtTkNCTFpXdEV6U0ZvVlBuS3BZS0Y=";
 		String imageFile = imagePath;
 		List<String> regResultStr = null;
 
@@ -92,15 +93,16 @@ public class OCRGeneralAPI {
 				resultStr += inferText + " ";
 			}
 //			System.out.println("ocr_result>> "+ list);
-//			System.out.println("ocr_resultStr>> "+ resultStr);
+			System.out.println("ocr_resultStr>> "+ resultStr);
 
 			// result List ìëë¤.
 			regResultStr = KoreaAddressExtractor(resultStr);
-//			System.out.println(resultStr);
+			System.out.println(resultStr);
 
 			System.out.println("jibun : " + regResultStr.get(0));
 			System.out.println("doro myung : " + regResultStr.get(1));
-
+			System.out.println("date : " + regResultStr.get(2));
+			System.out.println("time : " + regResultStr.get(3));
 //////////////////////////////////////////////////////////////////////////////////////		
 			return regResultStr;
 		} catch (Exception e) {
@@ -111,7 +113,7 @@ public class OCRGeneralAPI {
 	}
 
 	private static List<String> KoreaAddressExtractor(String resultStr) {
-		String address = resultStr;
+		String resultStr2 = resultStr;
 
 		// 지번주소
 		String regex = "(([가-힣]+(시|도)?|[서울]|[인천]|[대구]|[광주]|[부산]|[울산])( |))" // 그룹1
@@ -123,13 +125,22 @@ public class OCRGeneralAPI {
 				+ "([가-힣]+(시|군|구)( |))" // 그룹5
 				+ "([가-힣]+(로|동|길)(\\d+)?(길|번길)?( |)?)" // 그룹8,9,10
 				+ "(\\d{1,4}( |)?)" + "((-|~)?(\\d+)?( |)?)";
-
-		Matcher matcher = Pattern.compile(regex).matcher(address);
-		Matcher newMatcher = Pattern.compile(newRegex).matcher(address);
-
+		
+		String dateRegex ="(\\d{2,4})(년|\\.|\\/)( |)?(\\d{1,2})(월|\\.|\\/)( |)?(\\d{1,2})((일)( |)?)?";
+		String timeRegex = "(\\d{1,2})( |)?(\\:)( |)?(\\d{1,2})(( |)?(\\:)( |)?(\\d{1,2}))?";
+		
+		Matcher matcher = Pattern.compile(regex).matcher(resultStr2);
+		Matcher newMatcher = Pattern.compile(newRegex).matcher(resultStr2);
+		Matcher dateMatcher = Pattern.compile(dateRegex).matcher(resultStr2);
+		Matcher timeMatcher = Pattern.compile(timeRegex).matcher(resultStr2);
+		
+		
 		List<String> result = new ArrayList<>();
 		String jibun = "";
 		String doro = "";
+		String date ="";
+		String time ="";
+		
 		if (matcher.find()) {
 			// System.out.println(matcher.group());
 			jibun = matcher.group();
@@ -144,10 +155,28 @@ public class OCRGeneralAPI {
 			//System.out.println("안돼용~2");
 			doro = "안돼용~2";
 		}
+		if (dateMatcher.find()) {
+            date = dateMatcher.group();
+            System.out.println(date);
+        } else {
+            System.out.println("No match found.");
+        }
+		if (timeMatcher.find()) {
+            time = timeMatcher.group();
+            System.out.println(time);
+        } else {
+            System.out.println("No match found.");
+        }
+		
+		
 
 		result.add(jibun);
 		result.add(doro);
-
+		result.add(date);
+		result.add(time);
+		
+		
+		
 		return result;
 	}
 

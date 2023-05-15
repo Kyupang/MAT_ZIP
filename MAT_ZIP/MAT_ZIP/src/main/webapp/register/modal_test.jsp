@@ -361,7 +361,7 @@
 						     if (status === kakao.maps.services.Status.OK) {
 								//좌표값 저장.
 						       addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
-						     } 
+						     } 	
 						});			            
 			        }
 					

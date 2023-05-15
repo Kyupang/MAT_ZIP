@@ -2,7 +2,6 @@ package com.mat.zip.register;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mat.zip.point.PointSaveHistoryService;
+import com.mat.zip.point.PointSaveHistoryVO;
+
 
 @Controller
 public class MZController {
@@ -19,6 +21,8 @@ public class MZController {
 	MZInfoDAO mzInfodao;
 	@Autowired
 	RestaurantDAO restaurantdao;
+	@Autowired
+	PointSaveHistoryService PointSaveHistoryService;
 	
 
 	//검색 기능 자동완성 데이터 가져오기 and 검색 키워드 마커찍어주기 컨트롤러 기능 
@@ -82,6 +86,10 @@ public class MZController {
 		//2.
 		MZInfoVO bag = new MZInfoVO();
 		
+		// 포인트 적립 기능
+		PointSaveHistoryVO bag2 = new PointSaveHistoryVO();
+		bag2.setUser_id("home");
+		
 		bag.setUserId(userId); //-
 		bag.setStoreAddress(storeAddress); //-
 		bag.setBuyTime(buyTime); //-
@@ -106,7 +114,9 @@ public class MZController {
 				//첫번째 등록
 				// 등록이 완료되었습니다.  
 				bag.setStoreAddress("k");
-				//영휘님 코드 작성부분
+				
+				//포인트 적립 서비스 호출(영휘)
+				PointSaveHistoryService.addPoint(bag2);
 				
 				return bag;
 			}else {

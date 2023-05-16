@@ -177,14 +177,10 @@
   <!-- offer section -->
 
   <section class="offer_section layout_padding-bottom" style="padding-top: 0;">
-      <div class="list-container margin-control" style="width: 1500px;">
+      <div class="list-container margin-control" style="width: 1200px;">
     <div class="offer_container  rank-location">
-  <div class="heading_container heading_center psudo_white_primary mb_45">
-        <h2>
-          	맛슐랭 맛집 리스트
-        </h2>
-      </div>
-      <div class="row" >
+  
+      <div class="row" style="line-height: 100%">
           <div class="col-md-6 rank-location">
           <div class="box">
           <div class="detail-box" style="position: relative;">

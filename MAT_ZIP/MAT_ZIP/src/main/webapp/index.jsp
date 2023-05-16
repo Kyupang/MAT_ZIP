@@ -143,12 +143,12 @@
     </header>
     <!-- end header section -->
     <!-- slider section -->
-  <section class="slider_section">
+	  <section class="slider_section">
 	  <div class="container">
 	    <div class="row">
 	      <div class="detail-box" style="width: 100%; position: relative;">
 	        <!-- 지도 들어갈 위치 -->
-	        <div id="map" style="width: 100%; height: 450px;"></div>
+	        <div id="map" class="map-div" style="width: 100%; height: 450px;"></div>
 	        
 	        <!-- 검색창 -->
 	        <div id="search-container" style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
@@ -177,24 +177,28 @@
 
   <!-- offer section -->
 
-  <section class="offer_section layout_padding-bottom">
-    <div class="offer_container">
-      <div class="container ">
-        <div class="row">
-          <div class="col-md-6  ">
-            <div class="box ">
-              <div class="img-box">
-                <img src="resources/images/o1.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Tasty Thursdays
-                </h5>
-                <h6>
-                  <span>20%</span> Off
-                </h6>
-                <a href="">
-                  Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+  <section class="offer_section layout_padding-bottom" style="padding-top: 0;">
+      <div class="list-container margin-control" style="width: 1500px;">
+    <div class="offer_container  rank-location">
+  <div class="heading_container heading_center psudo_white_primary mb_45">
+        <h2>
+          	맛슐랭 맛집 리스트
+        </h2>
+      </div>
+      <div class="row" >
+          <div class="col-md-6 rank-location">
+          <div class="box">
+          <div class="detail-box" style="position: relative;">
+          <div class="img-box">
+	          <a href="">
+	          	<img alt="랭킹 이미지" src="resources/images/o1.jpg" style="width: 100%; position: relative">
+	          </a>
+       		<div class="ranking-text" style="position: absolute;">
+          			<span class="title" >강남 맛집 5곳</span>
+	          			<p> 맛슐랭 유저가 자주 찾는 강남 맛집 5곳 </p>
+	          		</div>
+          </div>
+              
                     <g>
                       <g>
                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -245,25 +249,86 @@
                     </g>
                     <g>
                     </g>
-                  </svg>
-                </a>
+		          </div>
+                </div>
+            </div>
+          <div class="col-md-6  rank-location">
+            <div class="box ">
+              <div class="detail-box" style="position: relative;">
+              <div class="img-box">
+              	<a>
+                <img src="resources/images/o2.jpg" alt="랭킹 이미지" style="width: 100%; position: relative;'">
+              	</a>
+              	<div class="ranking-text" style="position: absolute;">
+          			<span class="title" >여성 선호 맛집 5곳</span>
+	          			<p> 맛슐랭 여성 유저가 자주 찾는 맛집 5곳 </p>
+	          		</div>
+              </div>
+                    <g>
+                      <g>
+                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                     c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                     C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                     c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                     C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                     c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                      </g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    <g>
+                    </g>
+                    </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6  ">
+            <div class="col-md-6  rank-location">
             <div class="box ">
+              <div class="detail-box" style="position: relative;">
               <div class="img-box">
-                <img src="resources/images/o2.jpg" alt="">
+              	<a>
+                <img src="resources/images/f2.png" alt="랭킹 이미지" style="width: 100%; position: relative;'">
+              	</a>
+              	<div class="ranking-text" style="position: absolute;">
+          			<span class="title" >남성 선호 맛집 5곳</span>
+	          			<p> 맛슐랭 남성 유저가 자주 찾는 맛집 5곳 </p>
+	          		</div>
               </div>
-              <div class="detail-box">
-                <h5>
-                  Pizza Days
-                </h5>
-                <h6>
-                  <span>15%</span> Off
-                </h6>
-                <a href="">
-                  Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                     <g>
                       <g>
                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -314,14 +379,12 @@
                     </g>
                     <g>
                     </g>
-                  </svg>
-                </a>
+                    </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
 
   <!-- end offer section -->

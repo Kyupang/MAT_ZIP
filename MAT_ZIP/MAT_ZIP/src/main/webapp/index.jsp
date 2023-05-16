@@ -57,7 +57,8 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              	
+                <a class="nav-link" href="index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="menu.html">Menu</a>

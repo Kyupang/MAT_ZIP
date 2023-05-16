@@ -102,12 +102,13 @@ a:focus {
           flex-direction: column;
 }
 
+/** 메인에 들어가는 햄버거 사진 높이 조절*/
 .bg-box {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 80%; 
 }
 
 .bg-box img {
@@ -409,27 +410,31 @@ a:focus {
       -ms-flex-align: center;
           align-items: center;
   margin-top: 45px;
+  margin-right: 0px;
   border-radius: 5px;
   padding: 20px 15px;
   background-color: #222831;
   color: #ffffff;
+  max-width: 400px;
 }
 
+/** 이미지 사이즈 조절, 사진 감싸는 선 제거*/
 .offer_section .box .img-box {
-  width: 175px;
-  min-width: 175px;
-  height: 175px;
-  margin-right: 15px;
+  width: 370px;
+  min-width: 370px;
   position: relative;
   -webkit-transition: all 0.1 0.5s;
   transition: all 0.1 0.5s;
-  border-radius: 100%;
-  border: 5px solid #ffbe33;
   overflow: hidden;
 }
 
 .offer_section .box .img-box img {
   width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
+  vertical-align: middle;
+  margin: auto;
   -webkit-transition: all .2s;
   transition: all .2s;
 }
@@ -450,12 +455,10 @@ a:focus {
   font-weight: bold;
 }
 
+/** a 태그 감싸는 선, 배경색 삭제*/
 .offer_section .box .detail-box a {
-  display: inline-block;
-  padding: 10px 30px;
-  background-color: #ffbe33;
+	display: inline-block;
   color: #ffffff;
-  border-radius: 45px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   border: none;
@@ -475,6 +478,12 @@ a:focus {
 .offer_section .box:hover .img-box img {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
+}
+
+/** 랭킹 제목에 여백 설정*/
+.offer_section .title_ranking {
+	margin-left: 90px;
+	margin-right: 90px;
 }
 
 .food_section .filters_menu {
@@ -1004,4 +1013,36 @@ a:focus {
 .footer_section .footer-info p a {
   color: inherit;
 }
+
+/** 맵을 감쌀 띄*/
+.map-div{
+	border: 5px solid #ffbe33;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+/** 내용 들어갈 자리 선정*/
+.ranking-text{
+	position: absolute;
+	left: 50%;
+	width: 100%;
+	transform: translate(-50%, -200%);
+	text-align: center;
+}
+
+.col-md-6{
+	  max-width: 450px;
+}
+
+.margin-control{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.rank-location{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
 /*# sourceMappingURL=style.css.map */

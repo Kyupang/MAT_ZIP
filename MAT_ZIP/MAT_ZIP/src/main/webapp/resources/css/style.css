@@ -409,19 +409,19 @@ a:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-top: 45px;
+  margin-top: 0px;
   margin-right: 0px;
   border-radius: 5px;
-  padding: 20px 15px;
+  padding: 15px 15px;
   background-color: #222831;
   color: #ffffff;
-  max-width: 400px;
+  max-width: 300px;
 }
 
 /** 이미지 사이즈 조절, 사진 감싸는 선 제거*/
 .offer_section .box .img-box {
-  width: 370px;
-  min-width: 370px;
+  width: 270px;
+  min-width: 270px;
   position: relative;
   -webkit-transition: all 0.1 0.5s;
   transition: all 0.1 0.5s;
@@ -1028,10 +1028,20 @@ a:focus {
 	width: 100%;
 	transform: translate(-50%, -200%);
 	text-align: center;
+  	font-weight: bold;
+}
+
+/** 폰트 설정 */
+.ranking-text span{
+	font-size: 1.5rem;
+}
+
+.ranking-text p{
+	font-size: 0.8rem;
 }
 
 .col-md-6{
-	  max-width: 450px;
+	  max-width: 350px;
 }
 
 .margin-control{
@@ -1042,6 +1052,8 @@ a:focus {
 .rank-location{
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: auto;
+	margin-top: auto;
 }
 
 

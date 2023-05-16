@@ -95,9 +95,9 @@ padding-left: 0;
 }
 
 /** 랭킹에 들어갈 컨테이너 최소 사이즈 정의*/
-@media (min-width: 1400px){
+@media (min-width: 1200px){
 	.offer_container{
-	  max-width: 1500px;
+	  max-width: 1400px;
 	}
 }
 

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 	@Controller
@@ -96,6 +97,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 	    	// 회원가입 처리가 완료되면 메인 페이지로 리다이렉트합니다.
 	    	return "forward:board_index.jsp";
 	    }
+	    
+	   
+
+
+
 	}
 	    
 //	    @PostMapping("/boss/boss_login")

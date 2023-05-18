@@ -137,7 +137,7 @@ function goBack() {
 						"http://localhost:8887/mvc200/callback.jsp");
 				var state = naver_id_login.getUniqState();
 				naver_id_login.setButton("white", 2, 40);
-				naver_id_login.setDomain("http://localhost:8887/mvc200");
+				naver_id_login.setDomain("http://localhost:8887/MAT_ZIP/boss");
 				naver_id_login.setState(state);
 				//naver_id_login.setPopup();
 				naver_id_login.init_naver_id_login();

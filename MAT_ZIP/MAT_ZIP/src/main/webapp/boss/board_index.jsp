@@ -21,23 +21,51 @@
 	; 
 </style>
 <script src="https://js.tosspayments.com/v1/payment"></script>
-    <script src="https://js.tosspayments.com/v1/payment"></script>
-    <script>
-      var clientKey = 'test_ck_Wd46qopOB89oxwWnw2OVZmM75y0v'
-      var tossPayments = TossPayments('test_ck_Wd46qopOB89oxwWnw2OVZmM75y0v')
+<script>
+  var clientKey = 'test_ck_Wd46qopOB89oxwWnw2OVZmM75y0v'
+  var tossPayments = TossPayments('test_ck_Wd46qopOB89oxwWnw2OVZmM75y0v')
 
-      // 결제 요청 함수
-      function requestPayment() {
-        tossPayments.requestPayment('카드', {
-          amount: 2900,
-          orderId: '9y7RxePkwux50_Dx3Vuyk',
-          orderName: '사장님커뮤니티 구독결제',
-          customerName: '일반회원',
-          successUrl: 'http://localhost:8887/MAT_ZIP/boss/tossSuccess.jsp',
-          failUrl: 'http://localhost:8887/MAT_ZIP/boss/tossSuccess.jsp',
-        })
-       }
-    </script>
+  function generateOrderId() {
+  // 영문 대소문자, 숫자, 특수문자 (-, _)로 이루어진 문자열
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  
+  let orderId = "";
+  
+  // 길이가 10인 주문 ID 생성
+  for (let i = 0; i < 10; i++) {
+    // characters 문자열에서 무작위로 문자 선택
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    // 선택된 문자를 주문 ID에 추가
+    orderId += characters.charAt(randomIndex);
+  }
+  
+  return orderId;
+}
+
+  // 결제 요청 함수
+  function requestPayment() {
+    <% if (session.getAttribute("user_id") != null) { %>
+      var userId = '<%= session.getAttribute("user_id") %>';
+      var orderId = generateOrderId();
+      console.log("생성된 orderId:", orderId);
+      tossPayments.requestPayment('카드', {
+        amount: 2900,
+        orderId: orderId,
+        orderName:'사장님커뮤니티 구독결제',
+        customerName: userId,
+        successUrl: 'http://localhost:8887/MAT_ZIP/boss/tossSuccess',
+        failUrl: 'http://localhost:8887/MAT_ZIP/boss/tossFail', 
+      });
+    <% } else { %>
+      // 세션에 user_id가 없는 경우에 대한 처리
+      console.log("세션에 user_id가 없습니다.");
+      // 적절한 대체 처리 방식을 추가하세요.
+    <% } %>
+  }
+</script>
+
+
+
 <meta charset="UTF-8">
 <title>맛.zip</title>
 </head>
@@ -63,6 +91,8 @@
 	<div class="container">
 		<!--컨테이너  -->
 		<div class="row">
+		<!-- 음식결제하기 메뉴는 세션 잡지않은상태 아직 고민중  -->
+		<a href="paymentTest.jsp"> <button class="btn btn-success" style="z-index:200;">음식결제하러가기</button></a>
 			<%
 				if (session.getAttribute("user_id") != null) {
 			%>
@@ -106,9 +136,9 @@
 				<tr class="table-success">
 					<div class="col-md-3">
 						<!-- 12개의 컬럼중에 3개씩 할당 -->
-						<td><a href="owner_login">
+						<td><a href="boss_chart.jsp">
 								<button style="background-color: #fafafa;">
-									<h4>매출,마진계산기</h4>
+									<h4>매출장부</h4>
 								</button>
 						</a></td>
 					</div>
@@ -205,7 +235,7 @@
 			</table>
 		</div>
 	</div>
-	<!--  -->
+	<!-- 여기까지가 사장세션 접속시 보이는 리얼값 -->
 	<%
 		} else {
 	%>
@@ -282,7 +312,7 @@
 			</table>
 		</div>
 	</div>
-
+	
 	<%
 		}
 	%>

@@ -194,7 +194,7 @@
 	    $("#searchInput").autocomplete({ // 오토 컴플릿 시작
 	        source: function (request, response) {
 	            $.ajax({
-	                url: "autoComplete.mz", // 컨트롤러 URL을 입력하세요.
+	                url: "autoComplete.mz", 
 	                dataType: "json",
 	                data: {
 	                    term: request.term
@@ -459,7 +459,7 @@
   		  formData.append('uploadFile', file_selected);
 
   		  $.ajax({
-  		    url: 'uploadFormAction',
+  		    url: 'register.mz',
   		    type: 'POST',
   		    data: formData,
   		    processData: false,

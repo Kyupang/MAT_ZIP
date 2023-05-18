@@ -1,4 +1,4 @@
-package com.mat.zip.register;
+package com.mat.zip.registerAndSearch.service;
 
 import java.io.BufferedReader;
 
@@ -20,7 +20,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
-@Service
 public class OCRGeneralAPI {
 
 	public List<String> OCRAPI(String imagePath) {
@@ -150,29 +149,29 @@ public class OCRGeneralAPI {
 			jibun = matcher.group();
 		} else {
 			//System.out.println("안돼용~1");
-			jibun = "안돼용~1";
+			jibun = "Can not extract address";
 		}
 		if (newMatcher.find()) {
 			// System.out.println(newMatcher.group());
 			doro = newMatcher.group();
 		} else {
 			//System.out.println("안돼용~2");
-			doro = "안돼용~2";
+			doro = "Can not extract address";
 		}
 		if (dateMatcher.find()) {
             date = dateMatcher.group();
         } else {
-        	date = "안돼용~3";
+        	date = "Can not extract date";
         }
 		if (timeMatcher.find()) {
             time = timeMatcher.group();
         } else {
-        	time = "안돼용~4";
+        	time = "Can not extract time";
         }
 		if (phoneMatcher.find()) {
             phone = phoneMatcher.group();
         } else {
-        	phone = "안돼용~4";
+        	phone = "Can not extract store phone number";
         }
 		
 

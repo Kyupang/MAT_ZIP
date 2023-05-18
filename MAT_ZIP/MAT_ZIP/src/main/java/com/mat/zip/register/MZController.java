@@ -39,6 +39,7 @@ public class MZController {
 
 
 	//등록 이미지 저장 코드 
+	
 	@Autowired
 	OCRGeneralAPI ocrService;
 
@@ -59,9 +60,13 @@ public class MZController {
 			}
 		}
 		System.out.println("savedFilePath : " + savedFilePath);
+		// 리턴을 하고 리턴값을 클로버OCR 부를때 인풋으로 집어넣고 
+		
+		
 		
 		List<String> list = clovaOCR(savedFilePath);
 		
+		// 나온 결과값을 셋팅해주고
 		//String에 주소 저장.
 		String storeAddress = "";
 		if(list.get(0).length() <= list.get(1).length() ) {
@@ -71,7 +76,6 @@ public class MZController {
 		}
 		System.out.println(storeAddress);
 		
-		///////////////////////////////////////////////////////////////////
 		// String userId = session.getAttribute('id') 라고 하고
 		String userId = "admin";
 		// storeAddress 스트링을 OCR을 통해 가져왔다. 
@@ -93,11 +97,15 @@ public class MZController {
 		bag.setUserId(userId); //-
 		bag.setStoreAddress(storeAddress); //-
 		bag.setBuyTime(buyTime); //-
+		//
+		
+		
+		
+		// 그 가방을 가지고 로직을 돌린다. 
 		int searchResultCountByMZInfo = mzInfodao.countByIdAndAddress(bag);
 		// controller : if (count> 0){}
 		//					else{}
 		if(searchResultCountByMZInfo == 0) {
-			///////////////////////////////////////////////////////////////////
 			// 해당 결과물에 대한 mzinfo db값이 없다면 즉 count가 0이라면 
 			// 식당mapper 파일에서 select count(*) from restaurant where address = address가 1이라면.
 			// dao에서 return count!!!
@@ -107,7 +115,6 @@ public class MZController {
 			if(searchResultCountByRestaurant > 0) {
 				// dao.insert (아이디,시간,주소,카운트(1))을 등록 해야하고 
 				// 만약 그런 column이 없다면 불가 메시지를 보내야함. 
-				///////////////////////////////////////////////////////////////////			
 				bag.setResiCount(1);
 				mzInfodao.insert(bag);	
 				
@@ -133,7 +140,6 @@ public class MZController {
 			}
 
 		} else {
-			///////////////////////////////////////////////////////////////////
 			// 해당 결과물에 대한 db값이 있다면 즉 count가 1이라면 			
 			// 추출된 시간과 bag에 있는 시간 값을 비교해서 다르다면 
 			
@@ -144,8 +150,6 @@ public class MZController {
 				//dao.update 기존 카운트에 카운트를 1추가해서 저장~ 
 				bag.setResiCount(inDBResult.getResiCount()+1);
 				mzInfodao.update(bag);
-				
-				//영휘님 
 				
 				return bag;
 			}else {
@@ -172,7 +176,6 @@ public class MZController {
 		return results;
 	}
 
-	
 	
 	
 

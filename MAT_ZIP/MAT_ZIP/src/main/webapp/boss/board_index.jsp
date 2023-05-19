@@ -136,7 +136,7 @@
 				<tr class="table-success">
 					<div class="col-md-3">
 						<!-- 12개의 컬럼중에 3개씩 할당 -->
-						<td><a href="boss_chart.jsp">
+						<td><a href="boss_chartIndex.jsp">
 								<button style="background-color: #fafafa;">
 									<h4>매출장부</h4>
 								</button>

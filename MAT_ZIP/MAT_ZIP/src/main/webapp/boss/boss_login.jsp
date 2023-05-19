@@ -17,21 +17,6 @@
 	charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- <script type="text/javascript">
-	$(function() {
-		$('#b1').click(function() {
-			$.ajax({
-				url : "Board_list",
-				success : function(x) {
-					$("#result").html(x);
-				},
-				error : function() {
-					alert('computer요청 실패!')
-				}//error
-			})//ajax
-		})//b1
-	})//$
-</script> -->
 <style>
 html, body {
 	height: 100%;

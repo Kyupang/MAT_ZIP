@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,117 +20,6 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-google.charts.load('current', {'packages':['line']});
-google.charts.setOnLoadCallback(drawChart);
-
-function drawChart() {
-    var storeId = '<%= session.getAttribute("store_id") %>'; /* 세션에서 storeId 가져오기 */
-    var encodedStoreId = encodeURIComponent(storeId);
-    console.log('chart/' + encodedStoreId);
-    $.ajax({
-        url: 'chart/'+ encodedStoreId,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            /* console.log(response); */
-            var data = new google.visualization.DataTable();
-            data.addColumn('number', '날짜'); //날짜 대신에 달의 날짜를 표시
-            data.addColumn('number', '이번달');
-            data.addColumn('number', '저번달');
-			
-            /* 이번달,저번달 총 매출액  */
-            var thisMonthData = response.thisMonthTotal;
-			var lastMonthData = response.lastMonthTotal;
-			
-			var thisMonthTotalAmount = thisMonthData.reduce(function (total, item) {
-			    return total + item.total_amount;
-			}, 0);
-			
-			var lastMonthTotalAmount = lastMonthData.reduce(function (total, item) {
-			    return total + item.total_amount;
-			}, 0);
-			
-		
-            // HTML 태그에 매출액 설정
-            document.getElementById('thisMonthTotal').textContent = '이번달 총매출: ' + thisMonthTotalAmount.toLocaleString('ko-KR') + '원';
-			document.getElementById('lastMonthTotal').textContent = '저번달 총매출: ' + lastMonthTotalAmount.toLocaleString('ko-KR') + '원';
-
-            
-            /* 최근7일간의 이번달과 저번달 매출액  */
-            var thisMonthData = response.thisMonth;
-            var lastMonthData = response.lastMonth;
-            /* reduce함수 */
-            var thisMonthDays = thisMonthData.reduce(function(total, item) { return total + item.total_amount; }, 0);
-            var lastMonthDays = lastMonthData.reduce(function(total, item) { return total + item.total_amount; }, 0);
-         
-         	// HTML 태그에 매출액 설정
-            document.getElementById('thisMonthDays').textContent = '같은기간 이번달 매출: ' + thisMonthDays.toLocaleString('ko-KR') + '원';
-            document.getElementById('lastMonthDays').textContent = '같은기간 저번달 매출: ' + lastMonthDays.toLocaleString('ko-KR') + '원';
-
-            var rows = [];
-
-            for (var i = 0; i < thisMonthData.length; i++) {
-                var dateParts = thisMonthData[i].date.split("-");
-                if (dateParts.length === 3) {
-                    var dayOfMonth = dateParts[2];
-                    rows[dayOfMonth] = [parseInt(dayOfMonth), thisMonthData[i].total_amount, null];
-                } else {
-                    console.log(`날짜 형식이 잘못되었습니다: ${thisMonthData[i].date}`);
-                }
-            }
-
-            for (var i = 0; i < lastMonthData.length; i++) {
-                var dateParts = lastMonthData[i].date.split("-");
-                if (dateParts.length === 3) {
-                    var dayOfMonth = dateParts[2];
-                    if(rows[dayOfMonth]) {
-                        rows[dayOfMonth][2] = lastMonthData[i].total_amount;
-                    } else {
-                        rows[dayOfMonth] = [parseInt(dayOfMonth), null, lastMonthData[i].total_amount];
-                    }
-                } else {
-                    console.log(`날짜 형식이 잘못되었습니다: ${lastMonthData[i].date}`);
-                }
-            }
-
-              // Add rows to data table
-            Object.keys(rows).forEach(function(key) {
-    		data.addRow(rows[key]);
-			});
-                   
-           	
-            var options = {
-                chart: {
-                    title: '<%= session.getAttribute("store_id") %>',
-                    subtitle: '일별매출, 월별비교'
-                },
-                width: 1200,
-                height: 400,
-                hAxis: {
-                  //날짜 포맷설정 format:'D' 원하는 문자열 삽입
-                   
-                },
-                vAxis: {
-                    format: '#,###'  // Y축 단위변경 
-                },
-                series: {
-                    0: { color: '#0064FF' }, // 이번달 선 색상
-                    1: { color: '#FF9100' }  // 저번달 선 색상
-                }
-            };
-
-            var chart = new google.charts.Line(document.getElementById('linechart_material'));
-
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
-}
-
-</script>
 <!-- 재방문율 차트 -->
 	 <!-- 이번달,지난달 재방문율 차트 조회 -->
 	<script type="text/javascript">
@@ -253,32 +141,114 @@ function drawChart() {
 		        });
 		    }
 </script>
-	
+	<!-- 재방문율 차트 -->
+	 <!-- 이번달,저번달 신규회원 주문건수,총액 / 재주문 회원 주문건수, 총액 -->
+<script type="text/javascript">
+google.charts.load("current", {packages:['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var storeId = '<%= session.getAttribute("store_id") %>';
+        var encodedStoreId = encodeURIComponent(storeId);
+        $.ajax({
+            url: 'orderTotal/' + encodedStoreId,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+            	console.log(response);
+            	/* 신규고객 */
+            	var thisMonthNewOrder = response.thisMonthNewTotal.newOrdersThisMonth;  /* 이번달 신규 고객 주문수 */
+            	var thisMonthNewTotal = response.thisMonthNewTotal.newOrderTotalThisMonth;  /* 이번달 신규 고객 총 결제금액 */
+            	var lastMonthNewOrder = response.lastMonthNewTotal.newOrdersLastMonth; /* 지난달 신규 고객 주문수 */
+            	var lastMonthNewTotal = response.lastMonthNewTotal.newOrdersTotalLastMonth; /* 지난달 신규 고객 총 결제금액 */
+				/* 재주문고객  */
+            	var thisMonthReturnOrder = response.thisMonthReturnTotal.returningOrdersThisMonth; /* 이번달 재주문 고객 주문수 */
+            	var thisMonthReturnTotal = response.thisMonthReturnTotal.returningOrderTotalThisMonth; /* 이번달 재주문 고객 총 결제금액 */
+            	var lastMonthReturnOrder = response.lastMonthReturnTotal.returningOrdersLastMonth; /* 저번달 재주문 고객 주문수 */
+            	var lastMonthReturnTotal = response.lastMonthReturnTotal.returningOrderTotalLastMonth; /* 저번달 재주문 고객 총 결제금액 */
+				console.log(thisMonthNewOrder);
+            	/* 여기서부터 로직 짜야댐 */
+            	/* 신규 고객 결제금액 증가율 */
+				var newOrderTotalGrowth; 
+				if (lastMonthNewTotal === 0) {
+				    newOrderTotalGrowth = thisMonthNewTotal > 0 ? 100 : 0;
+				} else {
+				    newOrderTotalGrowth = (thisMonthNewTotal - lastMonthNewTotal) / lastMonthNewTotal * 100; 
+				}
+				
+				/* 신규 고객 주문건 증가율 */
+				var newOrderCountGrowth; 
+				if (lastMonthNewOrder === 0) {
+				    newOrderCountGrowth = thisMonthNewOrder > 0 ? 100 : 0;
+				} else {
+				    newOrderCountGrowth = (thisMonthNewOrder - lastMonthNewOrder) / lastMonthNewOrder * 100; 
+				}
+				
+				/* 재주문 고객 결제 금액증가율 */
+				var returnOrderTotalGrowth; 
+				if (lastMonthReturnTotal === 0) {
+				    returnOrderTotalGrowth = thisMonthReturnTotal > 0 ? 100 : 0;
+				} else {
+				    returnOrderTotalGrowth = (thisMonthReturnTotal - lastMonthReturnTotal) / lastMonthReturnTotal * 100;
+				}
+				console.log(returnOrderTotalGrowth);
+				
+				/* 재주문 고객 주문건 증가율 */
+				var returnOrderCountGrowth; 
+				if (lastMonthReturnOrder === 0) {
+				    returnOrderCountGrowth = thisMonthReturnOrder > 0 ? 100 : 0;
+				} else {
+				    returnOrderCountGrowth = (thisMonthReturnOrder - lastMonthReturnOrder) / lastMonthReturnOrder * 100;
+				}
+				console.log(returnOrderCountGrowth);
 
 
+
+                /* HTML 태그에 데이터 설정 */
+				/* 신규 고객 주문수와 총 결제금액을 HTML에 출력 */
+				document.getElementById('thisMonthNewOrder').textContent = '이번달 신규 고객 주문수: ' + thisMonthNewOrder;
+				document.getElementById('thisMonthNewTotal').textContent = '이번달 신규 고객 총 결제금액: ' + thisMonthNewTotal + '원';
+
+				/* 지난달 신규 고객 주문수와 총 결제금액을 HTML에 출력 */
+				document.getElementById('lastMonthNewOrder').textContent = '지난달 신규 고객 주문수: ' + lastMonthNewOrder;
+				document.getElementById('lastMonthNewTotal').textContent = '지난달 신규 고객 총 결제금액: ' + lastMonthNewTotal + '원';
+
+				/* 이번달 재주문 고객 주문수와 총 결제금액을 HTML에 출력 */
+				document.getElementById('thisMonthReturnOrder').textContent = '이번달 재주문 고객 주문수: ' + thisMonthReturnOrder;
+				document.getElementById('thisMonthReturnTotal').textContent = '이번달 재주문 고객 총 결제금액: ' + thisMonthReturnTotal + '원';
+
+				/* 지난달 재주문 고객 주문수와 총 결제금액을 HTML에 출력 */
+				document.getElementById('lastMonthReturnOrder').textContent = '저번달 재주문 고객 주문수: ' + lastMonthReturnOrder;
+				document.getElementById('lastMonthReturnTotal').textContent = '저번달 재주문 고객 총 결제금액: ' + lastMonthReturnTotal + '원';
+
+				/* 증가율을 HTML에 출력 */
+				document.getElementById('newOrderTotalGrowth').textContent = '신규 고객 결제금액 증가율: ' + newOrderTotalGrowth.toFixed(2) + '%';
+				document.getElementById('newOrderCountGrowth').textContent = '신규 고객 주문건 증가율: ' + newOrderCountGrowth.toFixed(2) + '%';
+				document.getElementById('returnOrderTotalGrowth').textContent = '재주문 고객 결제 금액증가율: ' + returnOrderTotalGrowth.toFixed(2) + '%';
+				document.getElementById('returnOrderCountGrowth').textContent = '재주문 고객 주문건 증가율: ' + returnOrderCountGrowth.toFixed(2) + '%';
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
 
 </head>
 <body>
-	<div class="container">
-	<div id="linechart_material" style="width: 1200px; height: 400px"></div>
-	<div class="row">
-	<table>
-	<tr>
-	<td>
-	<div class="text-bg-primary p-3">
-	<div id="thisMonthDays">같은기간 이번달 매출</div>
-	<div id="thisMonthTotal">이번달 총 매출</div>
-	</div>
-	</td>
-	<td>
-	<div class="text-bg-warning p-3">
-	<div id="lastMonthDays">같은기간 저번달 매출</div>
-	<div id="lastMonthTotal">저번달 총 매출</div>
-	</div></td></tr>
-	</table>
-	</div>
-	</div>
-	<div class="container">
+<div id="thisMonthNewOrder"></div>
+	<div id="thisMonthNewTotal"></div>
+	<div id="lastMonthNewOrder"></div>
+	<div id="lastMonthNewTotal"></div>
+	<div id="thisMonthReturnOrder"></div>
+	<div id="thisMonthReturnTotal"></div>
+	<div id="lastMonthReturnOrder"></div>
+	<div id="lastMonthReturnTotal"></div>
+	<div id="newOrderTotalGrowth"></div>
+	<div id="newOrderCountGrowth"></div>
+	<div id="returnOrderTotalGrowth"></div>
+	<div id="returnOrderCountGrowth"></div>
+<div class="container">
 	<table>
 	<tr>
 	<td><div class="col-md-6"><div id="donutchart" style="width: 500px; height: 300px;"></div></div></td>
@@ -292,9 +262,12 @@ function drawChart() {
 	<div class="text-bg-primary p-3">
 	<div id="newCustomerGrowth"></div></div>
 	</td></tr>
-	
 	</table>
+	
+	
+	
+	
+	
 	</div>
 </body>
-
 </html>

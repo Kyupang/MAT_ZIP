@@ -14,6 +14,10 @@
       <typeAlias type="com.mat.zip.boss.MemberVO" alias="memberVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.PaymentVO" alias="paymentVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.ChartVO" alias="ChartVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.return_CustomerCountVO" alias="return_CustomerCountVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
+      
    </typeAliases>
    
    <mappers>

@@ -17,21 +17,6 @@
 	charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- <script type="text/javascript">
-	$(function() {
-		$('#b1').click(function() {
-			$.ajax({
-				url : "Board_list",
-				success : function(x) {
-					$("#result").html(x);
-				},
-				error : function() {
-					alert('computer요청 실패!')
-				}//error
-			})//ajax
-		})//b1
-	})//$
-</script> -->
 <style>
 html, body {
 	height: 100%;
@@ -137,7 +122,7 @@ function goBack() {
 						"http://localhost:8887/mvc200/callback.jsp");
 				var state = naver_id_login.getUniqState();
 				naver_id_login.setButton("white", 2, 40);
-				naver_id_login.setDomain("http://localhost:8887/mvc200");
+				naver_id_login.setDomain("http://localhost:8887/MAT_ZIP/boss");
 				naver_id_login.setState(state);
 				//naver_id_login.setPopup();
 				naver_id_login.init_naver_id_login();

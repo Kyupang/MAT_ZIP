@@ -72,10 +72,17 @@
               </li>
             </ul>
             <div class="user_option">
-            <!-- 마이페이지 연동 -->
-              <a href="" class="user_link">
+            <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
+            <c:if test="${memberInfo != null}">
+              <a href="mz_member/myPage" class="user_link">
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
+			</c:if>
+            <c:if test="${memberInfo == null}">
+              <a href="mz_member/signUp" class="user_link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>
+			</c:if>
               <a class="cart_link" href="#">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
@@ -135,9 +142,16 @@
                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
               </form>
-              <a href="" class="order_online">
-                LOGIN
-              </a>
+              <c:if test="${memberInfo == null}">
+	              <a href="mz_member/login" class="order_online">
+	                LOGIN
+	              </a>
+				</c:if>
+              <c:if test="${memberInfo != null}">
+	              <a href="mz_member/logout" class="order_online">
+	                LOGOUT
+	              </a>
+				</c:if>
             </div>
           </div>
         </nav>

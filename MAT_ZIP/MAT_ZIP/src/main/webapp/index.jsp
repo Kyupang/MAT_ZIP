@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -71,6 +72,7 @@
               </li>
             </ul>
             <div class="user_option">
+            <!-- 마이페이지 연동 -->
               <a href="" class="user_link">
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
@@ -134,7 +136,7 @@
                 </button>
               </form>
               <a href="" class="order_online">
-                Order Online
+                LOGIN
               </a>
             </div>
           </div>

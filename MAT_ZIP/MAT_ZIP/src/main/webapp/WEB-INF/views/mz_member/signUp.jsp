@@ -15,11 +15,24 @@
   <title>맛.zip 회원가입</title>
   <meta charset="utf-8" content="charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
-  
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
+
   <script type="text/javascript">
   $(function(){
 	  
@@ -78,15 +91,23 @@
   	</script>
 </head>
 <body>
-<header>
-    <h1> &emsp; 맛집 </h1>      
-</header>
-	<hr style="border: solid 1px;">
+	        <!-- header section strats -->
+    <header class="header_section" style="background-color: #343a40;">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.jsp">
+            <span>
+              Mat.zip
+            </span>
+          </a>
+        </nav>
+      </div>
+    </header>
 	
 <form action="signUp" method="post" accept-charset="utf-8">
-<div class="container">
+<div class="member-container">
 
-  <h1 style="text-align: center">일반 회원가입</h1>
+  <h1 style="text-align: center">SGIN UP</h1>
   <hr style="border: solid 2px;">
 
     <div class="form-group" style="margin-bottom: 0;">
@@ -121,7 +142,7 @@
       <span id="pwCk"></span>
     </div>
       
-    <div class="form-group">
+    <div class="form-group" style="margin-bottom: 5px;">
       <label for="name">이름</label>
       <input type="text" class="form-control pl-1r" id="name" name = "name" value="${memberDTO.name}" placeholder="이름을 입력하세요.">
       <% if(valid_name != null) { %>
@@ -160,14 +181,16 @@
       <% } %>
     	</div>
     		<hr style="margin-top: 25px; margin-bottom: 25px;">
-        	<button type="submit" class="btn p2-10 bt-1" id="signUp" name="signUp"  disabled="disabled">가입하기</button> &ensp;&nbsp;
-        	<button type="button" class="btn p2-10 bt-1" name="noSignUp" onclick="location.href='totalUI.jsp'">가입취소</button>
+        	<button type="submit" class="btn bt-1" id="signUp" name="signUp"  disabled="disabled">가입하기</button> &ensp;&nbsp;
+        	<button type="button" class="btn p2-10 bt-1" name="noSignUp" onclick="location.href='index.jsp'">가입취소</button>
 	</div>
 </form>
-	<div class="container">
-			  <p style="text-align: center; font-size: small;">
+	<div class="member-container">
+		<div class="form-group">
+			  <p style="text-align: center; font-size: small; margin: 13px 0px;">
 			     맛.zip의 회원이신가요? <a href="login" style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">로그인</a>
 			  </p>
+		</div>
 </div>
 </body>
 </html>

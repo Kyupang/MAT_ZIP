@@ -126,42 +126,43 @@
                 </svg>
           <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
            <div class="client_section">
-            <div class="box">
+            <div class="box" style="margin: 10px;">
               <div class="user-img-box">
-            	<span onclick="openNav()" class="user_link">
               	<c:if test="${memberInfo == null}">
               	<a href="mz_member/signUp">
-                <img src="resources/images/basic.jpg" alt="" class="box-img" style="width: 50px;">
+                <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
 				</c:if>
               	<c:if test="${memberInfo != null}">
               	<a href="mz_member/myPage">
-                <img src="resources/images/basic.jpg" alt="" class="box-img" style="width: 50px;">
+                <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
 				</c:if>
-              	</span>
               </div>
             </div>
           </div>
-			<!-- Nav -->
-			<div id="myNav" class="overlay"style="width: 0%">
-					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
-				<div class="overlay-content">
-					<a href="index.jsp">HOME</a>
-					<a href="mz_member/myPage">ABOUT ME</a>
-					<a href="book.jsp">BOOK TABLE</a>
+            <c:if test="${memberInfo == null}">
+	            <a href="mz_member/login" class="order_online">
+	              LOGIN
+	            </a>
+			</c:if>
+            <c:if test="${memberInfo != null}">
+	            <a href="mz_member/logout" class="order_online">
+	              LOGOUT
+	            </a>
+			</c:if>
+            	<span onclick="openNav()" class="user_link" style="margin-left: 15px;">
+                	<img src="resources/images/menu.png" alt="" class="box-img" style="width: 50px; background-color:transparent;">
+              	</span>
+				<!-- Nav -->
+				<div id="myNav" class="overlay"style="width: 0%">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
+					<div class="overlay-content">
+						<a href="index.jsp">HOME</a>
+						<a href="mz_member/myPage">ABOUT ME</a>
+						<a href="book.jsp">BOOK TABLE</a>
+					</div>
 				</div>
-			</div>
-              <c:if test="${memberInfo == null}">
-	              <a href="mz_member/login" class="order_online">
-	                LOGIN
-	              </a>
-				</c:if>
-              <c:if test="${memberInfo != null}">
-	              <a href="mz_member/logout" class="order_online">
-	                LOGOUT
-	              </a>
-				</c:if>
             </div>
           </div>
         </nav>

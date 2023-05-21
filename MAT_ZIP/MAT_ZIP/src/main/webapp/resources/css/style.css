@@ -214,6 +214,10 @@ a:focus {
   color: #ffbe33;
 }
 
+.user_option .user_link img {
+	filter: opacity(0.5) drop-shadow(0 0 0 #ffbe33);
+}
+
 .user_option .cart_link {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1097,5 +1101,87 @@ a:focus {
   	margin-top: 30px;
 }
 
+.member-container{
+	width: 35rem;
+	height: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 14px;
+	line-height: 1.42857143;
+}
+
+.member-container div{
+	padding-bottom: 5px;
+	padding-top: 3px;
+}
+
+.member-container h1{
+	font-size: 2em;
+	display: block;
+	font-weight: bolder;
+}
+
+.member-container hr{
+	margin: 20px 0px;
+}
+
+.member-container .form-group{
+	margin-bottom: 15px;
+}
+
+.member-container .form-group input{
+	padding-left: 1rem;
+	padding-right: 2.75rem;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.member-container .form-group .form-control{
+	display: block;
+	width: 100%;
+	height: 34px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.member-container .btn{
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 400;
+	vertical-align: middle;
+	font-size: 14px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.member-container .bt-1{
+	margin: auto;
+	width: 46%;
+	text-align: center;
+}
+
+.member-container label{
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 5px;
+	font-weight: 700;
+}
+
+.OAuth-btn{
+	text-align: center;
+	padding-bottom: 10px;
+	padding-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.OAuth-btn img{
+	width: 250px;
+}
 
 /*# sourceMappingURL=style.css.map */

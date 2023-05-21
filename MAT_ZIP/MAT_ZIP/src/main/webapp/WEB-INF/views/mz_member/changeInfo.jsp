@@ -6,10 +6,23 @@
 <title>회원 정보 수정 </title>
 <meta charset="utf-8" content="charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
 <style type="text/css">
 	input{
 		margin-bottom: 15px;
@@ -18,12 +31,20 @@
 
 </head>
 <body>
-<header>
-    <h1> &emsp; 맛집 </h1>      
-</header>
-	<hr style="border: solid 1px;">
+	        <!-- header section strats -->
+    <header class="header_section" style="background-color: #343a40;">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.jsp">
+            <span>
+              Mat.zip
+            </span>
+          </a>
+        </nav>
+      </div>
+    </header>
 	
-	<div class="container">
+	<div class="member-container">
 
   <h1 style="text-align: center">${memberInfo.nickName} 님의 정보</h1>
   <hr style="border: solid 2px;">
@@ -52,7 +73,7 @@
     	</div>
     </div>
     
-    <div class="container">
+    <div class="member-container">
 			  <p style="text-align: center; font-size: small;">
 			     맛집 보러가기 <a href="/tastezip/totalUI.jsp" style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">맛.zip</a>
 			  </p>

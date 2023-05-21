@@ -11,5 +11,6 @@ servers/
 *.log
 /logs/
 
+pom.properties
 
-
+MANIFEST.MF

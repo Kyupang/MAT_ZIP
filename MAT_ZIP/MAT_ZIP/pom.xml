@@ -192,7 +192,14 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.3</version>
 		</dependency>
-
+		
+		<!-- HAM 저장 디펜던시 -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20210307</version>
+		</dependency>
+	
 	</dependencies>
 	<build>
 		<plugins>

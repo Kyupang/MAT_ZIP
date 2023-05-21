@@ -12,8 +12,12 @@
       <typeAlias type="com.mat.zip.boss.ComVO" alias="ComVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.Boss_memberVO" alias="boss_memberVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.MemberVO" alias="memberVO"></typeAlias>
-      <typeAlias type="com.mat.zip.point.PointSaveHistoryVO" alias="pointsavehistoryVO"></typeAlias>
-   </typeAliases>
+		<typeAlias type="com.mat.zip.point.gifticonVO" alias="gifticonVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.ProductPointVO" alias="productPointVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
+	</typeAliases>
    <mappers>
    <!-- SQL문 정의하는 파일들의 목록을 지정. -->
       <mapper resource="mapper/mzInfoMapper.xml" />
@@ -22,6 +26,9 @@
       <mapper resource="mapper/ComMapper.xml" />
       <mapper resource="mapper/MemberMapper.xml" />
       <mapper resource="mapper/BossMapper.xml" />
-<mapper resource="mapper/pointMapper.xml" />
+		<mapper resource="mapper/gifticonMapper.xml" />
+		<mapper resource="mapper/productPointMapper.xml" />
+		<mapper resource="mapper/PointExchangeHistoryMapper.xml" />
+		<mapper resource="mapper/pointMapper.xml" />
    </mappers>
 </configuration>

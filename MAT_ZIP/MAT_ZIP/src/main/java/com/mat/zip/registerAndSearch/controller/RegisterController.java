@@ -3,9 +3,9 @@ package com.mat.zip.registerAndSearch.controller;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,14 +15,15 @@ import com.mat.zip.registerAndSearch.service.FileUploadService;
 import com.mat.zip.registerAndSearch.service.OCRService;
 
 @Controller
-@RequestMapping("/registerAndSearch/controller")
 public class RegisterController {
+	@Autowired
 	FileUploadService fileUploadService;
+	@Autowired
 	OCRService ocrService;
+	@Autowired
 	DataValidationService dataValidationService;
 	
-	
-	@PostMapping("/register.mz")
+	@PostMapping("/registerAndSearch/controller/register")
 	@ResponseBody
 	public RegistedAddressAndNameVO register(MultipartFile[] uploadFile) throws FileNotFoundException {
 		String savedFilePath=fileUploadService.saveFile(uploadFile);

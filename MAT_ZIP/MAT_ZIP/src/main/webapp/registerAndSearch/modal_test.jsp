@@ -194,13 +194,12 @@
 	    $("#searchInput").autocomplete({ // 오토 컴플릿 시작
 	        source: function (request, response) {
 	            $.ajax({
-	                url: "autoComplete.mz", 
+	                url: "controller/autoComplete.mz", 
 	                dataType: "json",
 	                data: {
 	                    term: request.term
 	                },
 	                success: function(data) {
-	                	console.log(data);
 	                    var searchTerm = request.term;
 	                    var matchedItems = data.filter(function(item) {
 	                      return item.name.includes(searchTerm);
@@ -223,7 +222,7 @@
 		 //todo list 검색 버튼을 누르면 지도에 관련 벨류를 포함하는 값의 마커를 찍어준다.
 	    $("#getSearchResult").click(function() {
 	    	$.ajax({
-				url : "searchResultMarker.mz",
+				url : "controller/searchResultMarker.mz",
 				dataType : "json",
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
@@ -251,9 +250,8 @@
 	                      return item.name;
 	                    });
 	                var matchedAddresses = matchedItems.map(function(item) {
-	                	  return item.storeAddress;
+	                	  return item.landNumAddress;
 	                	});
-					console.log(matchedAddresses.length);
 					
 					
 	                var geocoder = new kakao.maps.services.Geocoder();
@@ -261,12 +259,37 @@
 					
 	                if(matchedAddresses.length == 1){
 	                	var address = matchedAddresses[0];
+	                	var name = matchedNames[0];
 	                	
 	                	geocoder.addressSearch(address, function(result, status) {
 						    // if the search was successful
 						    if (status === kakao.maps.services.Status.OK) {
 						      // Save coordinate values
-						      addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
+						      
+						      
+						      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+								
+						      addMarker(coords);  
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						      var marker = new kakao.maps.Marker({
+						          map: map,
+						          position: coords,
+						          clickable: true
+						      });
+						      
+						      
+						      // 인포윈도우로 장소에 대한 설명을 표시합니다
+						      var infowindow = new kakao.maps.InfoWindow({
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+'</div>',
+						          removable: true
+						      });
+						      infowindow.open(map, marker);
+						      
+						      kakao.maps.event.addListener(marker, 'click', function() {
+					              // 마커 위에 인포윈도우를 표시합니다
+					              infowindow.open(map, marker);  
+					          });
+						      
 						      map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
 						      
 						    }
@@ -275,12 +298,13 @@
 	                }else if(matchedAddresses.length > 1){
 	                	for (var i = 0; i < matchedAddresses.length; i++) {
 							var address = matchedAddresses[i];
-				            
 							geocoder.addressSearch(address, function(result, status) {
 							    // if the search was successful
 							    if (status === kakao.maps.services.Status.OK) {
-							      // Save coordinate values
-							      addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
+							   	  var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+									
+								  addMarker(coords);  
+								  
 							    }
 							});	            
 				        }
@@ -331,7 +355,7 @@
 		//현 위치기반 찍힌 마커 보여주기. 
 		$('#b2').click(function() {
 			$.ajax({
-				url : "Remap.mz",
+				url : "controller/Remap.mz",
 				dataType : "json",
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
@@ -350,7 +374,7 @@
 			            var obj = json[i];
 			            // Access the properties of the object
 			            var name = obj.name;
-			            var address = obj.storeAddress;
+			            var address = obj.landNumAddress;
 			            
 			            var geocoder = new kakao.maps.services.Geocoder();
 			            
@@ -451,15 +475,33 @@
   	  
 	  function uploadFile_tmp(file){
 	  		file_selected = file;
-	  		console.log(file_selected);
+	  		/* console.log(file_selected); */
 	  } 
   	  
+	  //이슈처리 변수 
+	  var submitButton = document.querySelector("button");
+	  var clickInProgress = false;
   	  function uploadFile() {
+  		  //등록 버튼을 빠르게 누르면 처리를 계속 하는 이슈 발생
+  		  //이 방식을 통해 클릭 딜레이를 걸어 이슈 처리 
+  		  if (clickInProgress) {
+  		    return; // If a click event is already in progress, exit the function
+  		  }
+
+  		  clickInProgress = true;
+  		  submitButton.disabled = true;
+
+  		  setTimeout(function () {
+  		    submitButton.disabled = false;
+  		    clickInProgress = false;
+  		  }, 3000);
+		 /* 이슈 처리 끝 */
+  		  
   		  const formData = new FormData();
   		  formData.append('uploadFile', file_selected);
 
   		  $.ajax({
-  		    url: 'register.mz',
+  		    url: 'controller/register',
   		    type: 'POST',
   		    data: formData,
   		    processData: false,
@@ -470,8 +512,9 @@
   		    	
   		    	document.getElementById("map").innerHTML = "";
 				
-				storeAddress = json.storeAddress
-				
+				landNumAddress = json.landNumAddress;
+				name = json.name;
+				count = json.count;
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				mapOption = {
 					center : new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
@@ -486,18 +529,22 @@
 				var geocoder = new kakao.maps.services.Geocoder();
 				
 				//주소가 "b" 이거나 "a" 라면 alert 하고 
-				if(storeAddress === "k"){
+				if(landNumAddress === "k"){
 					alert("등록 되셨습니다!!!!! 지도에 표시되려면 다음번에 한번 더 등록해주세요~");
-				} else if (storeAddress === "a") {
+				} else if (landNumAddress === "a") {
 					alert("찍어주신 주소와 일치하는 가게가 없습니다.");
-				} else if(storeAddress === "b") {
+				} else if(landNumAddress === "b") {
 					alert("영수증에 나와있는 결제일자 시간이 같습니다. 다른 영수증을 등록해주십시오");
-				} else if(storeAddress === "c"){
+				} else if(landNumAddress === "c"){
 					alert("주소 추출이 불가합니다. 개발자에게 문의하세요.");
+				} else if(landNumAddress === "x"){
+					alert("하루 등록 가능 최대 횟수 5회를 초과하셨습니다! 내일 다시 등록해주세요~");
 				} else{
 					// 주소로 좌표를 검색합니다
-					
-					geocoder.addressSearch(storeAddress, function(result, status) {
+					// 카운트를 통해서 마커의 색깔을 변경해 줄 수 있을 것 
+					// 5회 이상인 것에 대해서 마커를 변경할 수 있게 처리하면 될듯 
+					alert(count + "번 째 등록하셨습니다~ 감사해용~!")
+					geocoder.addressSearch(landNumAddress, function(result, status) {
 
 					    // 정상적으로 검색이 완료됐으면 
 					     if (status === kakao.maps.services.Status.OK) {
@@ -508,15 +555,24 @@
 					        // 결과값으로 받은 위치를 마커로 표시합니다
 					        var marker = new kakao.maps.Marker({
 					            map: map,
-					            position: coords
+					            position: coords,
+					            clickable:ture
 					        });
 
 					        // 인포윈도우로 장소에 대한 설명을 표시합니다
 					        var infowindow = new kakao.maps.InfoWindow({
-					            content: '<div style="width:150px;text-align:center;padding:6px 0;">존맛집</div>'
+					            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+'</div>',
+					        	removable: true
 					        });
 					        infowindow.open(map, marker);
-
+					        
+					        // 마커에 클릭이벤트를 등록합니다
+				        	kakao.maps.event.addListener(marker, 'click', function() {
+				              // 마커 위에 인포윈도우를 표시합니다
+				             	 infowindow.open(map, marker);  
+				        	});
+					        
+							
 					        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					        map.setCenter(coords);
 					    } 
@@ -561,31 +617,31 @@
 		
 	
 	
-		// Get the modal
-		var modal = document.getElementById("myModal");
+	// Get the modal
+	var modal = document.getElementById("myModal");
 
-		// Get the button that opens the modal
-		var btn = document.getElementsByTagName("button")[0];
+	// Get the button that opens the modal
+	var btn = document.getElementsByTagName("button")[0];
 
-		// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
 
-		// When the user clicks the button, open the modal 
-		function openModal() {
-			modal.style.display = "block";
-		}
+	// When the user clicks the button, open the modal 
+	function openModal() {
+		modal.style.display = "block";
+	}
 
-		// When the user clicks on <span> (x), close the modal
-		function closeModal() {
+	// When the user clicks on <span> (x), close the modal
+	function closeModal() {
+		modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal) {
 			modal.style.display = "none";
 		}
-
-		// When the user clicks anywhere outside of the modal, close it
-		window.onclick = function(event) {
-			if (event.target == modal) {
-				modal.style.display = "none";
-			}
-		}
+	}
 	</script>
 </body>
 </html>

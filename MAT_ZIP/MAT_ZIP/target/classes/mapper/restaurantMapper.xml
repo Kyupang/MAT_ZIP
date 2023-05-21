@@ -14,31 +14,31 @@
 	
 	<!--지도에 마커를 그려주기 위해서 주소와 이름을 가져온다. -->
 	<!--지번주소와 이름을 가져온다. -->
-	<select id="addressesAndNames"
+	<select id="addressAndName"
 		parameterType="mzRegisterInfoVO"
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT DISTINCT
 		s.landNumAddress,
 		s.name
 		FROM mzregisterinfo
-		LEFT JOIN restaurant s
-		ON s.landNumAddress = #{storeAddress}  
-		OR s.roadNameAddress = #{storeAddress}  
-		OR s.tel = #{storePhoneNumber}  
+		LEFT JOIN restaurant s 
+		ON s.tel = #{storePhoneNumber}  
+		OR s.landNumAddress = #{storeAddress} 
+		OR s.roadNameAddress = #{storeAddress}   
 	</select> 
 	
 	
 	<!-- 알맞는 데이터 하나만 가져온다. -->
-	<select id="addressAndName"
+	<select id="addressesAndNames"
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
-		SELECT 
-		landNumAddress,
-		name
+		SELECT distinct 
+		s.landNumAddress,
+		s.name
 		FROM mzregisterinfo m
-		LEFT JOIN restaurant s
-    	ON m.storeAddress = s.landNumAddress  
-    	OR m.storeAddress = s.roadNameAddress 
-    	OR m.storePhoneNumber = s.tel 
+		JOIN restaurant s
+		ON m.storeAddress = s.landNumAddress  
+		OR m.storeAddress = s.roadNameAddress 
+		OR m.storePhoneNumber = s.tel 
 	</select>
 
 

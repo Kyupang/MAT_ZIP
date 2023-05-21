@@ -3,7 +3,14 @@ package com.mat.zip.registerAndSearch.model;
 public class RegistedAddressAndNameVO {
 	private String landNumAddress;
 	private String name;
+	private int count;
 	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public String getLandNumAddress() {
 		return landNumAddress;
 	}
@@ -18,6 +25,8 @@ public class RegistedAddressAndNameVO {
 	}
 	@Override
 	public String toString() {
-		return "RegistedAddressAndNameVO [landNumAddress=" + landNumAddress + ", name=" + name + "]";
+		return "RegistedAddressAndNameVO [landNumAddress=" + landNumAddress + ", name=" + name + ", count=" + count
+				+ "]";
 	}
+	
 }

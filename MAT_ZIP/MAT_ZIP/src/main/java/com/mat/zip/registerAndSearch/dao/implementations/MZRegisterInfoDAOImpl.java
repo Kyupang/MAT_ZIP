@@ -29,10 +29,17 @@ public class MZRegisterInfoDAOImpl implements MZRegisterInfoDAO {
 	}
 	
 	@Override
-	public List<MZRegisterInfoVO> IdInfoList(String userID) {
+	public List<MZRegisterInfoVO> idInfoList(String userID) {
 		List<MZRegisterInfoVO> result = my.selectList("mzRegisterInfo.idInfoAll",userID);
 		return result;
 	}
+	
+	@Override
+	public List<String> getBuyTimes(String userID) {
+		List<String> result = my.selectList("getBuyTimes",userID);
+		return result;
+	}
+	
 	
 	// 추후 관리를 위한 CRUD 코드
 	@Override
@@ -47,13 +54,14 @@ public class MZRegisterInfoDAOImpl implements MZRegisterInfoDAO {
 		return result;
 
 	}
-	
+	@Override
 	public List<MZRegisterInfoVO> list() {
 		List<MZRegisterInfoVO> result = my.selectList("mzRegisterInfo.all");
 		return result;
-
 	}
 	//
+
+	
 
 	
 }

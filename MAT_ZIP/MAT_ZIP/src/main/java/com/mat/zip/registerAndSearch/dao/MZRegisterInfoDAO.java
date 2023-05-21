@@ -10,7 +10,9 @@ public interface MZRegisterInfoDAO {
 	
 	int insert(MZRegisterInfoVO bag);
 	
-	List<MZRegisterInfoVO> IdInfoList(String userID);
+	List<MZRegisterInfoVO> idInfoList(String userID);
+	
+	List<String> getBuyTimes(String userID);
 	
 	int selectOne(String userId);
 	

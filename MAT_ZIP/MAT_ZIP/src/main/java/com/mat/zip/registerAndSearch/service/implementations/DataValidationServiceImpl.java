@@ -27,8 +27,6 @@ public class DataValidationServiceImpl implements DataValidationService {
 		//알파벳은 각각의 처리 결과를 보여준다. 
 		RegistedAddressAndNameVO result = new RegistedAddressAndNameVO(); 
 		
-		
-		
 		//OCR에서 나온 결과값 1,2,3,4,5를 처리.
 		//주소 1,2  결제일시 3,4  전화번호 5
 		
@@ -46,9 +44,36 @@ public class DataValidationServiceImpl implements DataValidationService {
 		//DB에 저장을 하기위한 VO 전처리 후 로직시작 
 		MZRegisterInfoVO vo = new MZRegisterInfoVO();
 		vo.setUserId(userId);
+		
+		
+		//먼저 하루 등록 횟수 제한 5번을 통해 무자비한 등록을 차단한다. 
+		//등록 해도 되니? 체크
+		//아이디로 mz에 등록한 데이터 시간 싸악 가져와서 
+		//서브스트링끼리 비교한 후 같은 일자가 5번 있으면 return !!! 
+		String targetDate = extractedData.get(2);
+		int targetCount = 5;
+		boolean isTargetCount = false;
+		int count = 0;
+		List<String> TimesWithId = mzRegisterInfoDAO.getBuyTimes(userId);
+		System.out.println(TimesWithId);
+		
+		for (String dd : TimesWithId) {
+            if (dd.substring(0, targetDate.length()).equals(targetDate)) {
+                count++;
+                if (count == targetCount) {
+                    isTargetCount = true;
+                    result.setLandNumAddress("x");
+                    return result;
+                }
+            }
+		}
+		
+		//DB에 저장을 하기위한 VO 전처리 후 로직시작
 		vo.setStoreAddress(storeAddress);
 		vo.setStorePhoneNumber(storePhoneNumber);
 		vo.setBuyTime(buyTime);
+		
+		
 		
 		// 이 값들을 동시에 가진 DB row가 있는지 없는지를 판단하므로 
 		// 첫 등록인지 두 번째 등록인지 판단.
@@ -65,6 +90,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 				mzRegisterInfoDAO.insert(vo);
 				
 				result.setLandNumAddress("k");
+				result.setCount(1);
 				return result;
 			}else {
 				//OCR 기능이 잘 처리되지 않았거나 
@@ -83,7 +109,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 			//추출된 시간과 DB에 있는 시간을 비교 후 동일한 시간이 있으면 X
 			//동일한 시간이 없다면 insert 후 주소 리턴 
 			Boolean isSameTime = true;
-			List<MZRegisterInfoVO> inDBResult = mzRegisterInfoDAO.IdInfoList(userId);
+			List<MZRegisterInfoVO> inDBResult = mzRegisterInfoDAO.idInfoList(userId);
 			for(MZRegisterInfoVO inDBResultVO : inDBResult) {
 				if(!inDBResultVO.getBuyTime().equals(vo.getBuyTime())){
 					isSameTime = false;
@@ -95,6 +121,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 			}
 			mzRegisterInfoDAO.insert(vo);
 			result = restaurantDAO.addressAndName(vo);
+			result.setCount(countInfoInMZ);
 			return result;
 		}
 		

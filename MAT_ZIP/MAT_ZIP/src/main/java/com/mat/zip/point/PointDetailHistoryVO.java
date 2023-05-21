@@ -1,11 +1,19 @@
 package com.mat.zip.point;
 
-public class PointSaveHistoryVO {
+public class PointDetailHistoryVO {
 
+	private int no;
 	private String user_id;
 	private String type;
 	private int point;
-	private int sumpoint;
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
 
 	public String getUser_id() {
 		return user_id;
@@ -31,18 +39,9 @@ public class PointSaveHistoryVO {
 		this.point = point;
 	}
 
-	public int getSumpoint() {
-		return sumpoint;
-	}
-
-	public void setSumpoint(int sumpoint) {
-		this.sumpoint = sumpoint;
-	}
-
 	@Override
 	public String toString() {
-		return "PointSaveHistoryVO [user_id=" + user_id + ", type=" + type + ", point=" + point + ", sumpoint="
-				+ sumpoint + "]";
+		return "PointDetailHistoryVO [no=" + no + ", user_id=" + user_id + ", type=" + type + ", point=" + point + "]";
 	}
 
 }

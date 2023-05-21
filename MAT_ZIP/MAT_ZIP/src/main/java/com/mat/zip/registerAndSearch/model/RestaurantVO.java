@@ -1,4 +1,4 @@
-package com.mat.zip.register;
+package com.mat.zip.registerAndSearch.model;
 
 public class RestaurantVO {
 	private int no;

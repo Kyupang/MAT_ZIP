@@ -1,4 +1,4 @@
-package com.mat.zip.register;
+package com.mat.zip.registerAndSearch.service;
 
 import java.io.BufferedReader;
 
@@ -18,11 +18,14 @@ import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OCRGeneralAPI {
-
+	@Autowired
+	MZRegularExpression regEx;
+	
 	public List<String> OCRAPI(String imagePath) {
 		
 		String apiURL = "https://f1ohx0ypx2.apigw.ntruss.com/custom/v1/22051/8c2c8f8be327e59d5e0261d6fc8d7fadf5c2e85d31657e897e5149913eab86c0/general";
@@ -74,8 +77,8 @@ public class OCRGeneralAPI {
 				response.append(inputLine);
 			}
 			br.close();
-//////////////////////////////////////////////////////////////////////////////////////////////
-//			System.out.println(response);
+			
+			//데이터 파싱 
 			org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 
 			org.json.simple.JSONObject jsonResult2 = (org.json.simple.JSONObject) parser.parse(response.toString());
@@ -87,23 +90,18 @@ public class OCRGeneralAPI {
 			for (int i = 0; i < fields.size(); i++) {
 				org.json.simple.JSONObject fields_one = (org.json.simple.JSONObject) fields.get(i);
 				String inferText = (String) fields_one.get("inferText");
-//				System.out.print(inferText + " ");
 				list.add(inferText);
 
 				resultStr += inferText + " ";
 			}
-//			System.out.println("ocr_result>> "+ list);
 			System.out.println("ocr_resultStr>> "+ resultStr);
-
-			// result List ìëë¤.
-			regResultStr = KoreaAddressExtractor(resultStr);
+			
+			
+			// 정규식으로 데이터를 추출한다. 
+			// 지번주소, 번지주소, 가게번호, 결제 일 시 
+			regResultStr = regEx.MZRegularExpress(resultStr);
 			System.out.println(resultStr);
-
-			System.out.println("jibun : " + regResultStr.get(0));
-			System.out.println("doro myung : " + regResultStr.get(1));
-			System.out.println("date : " + regResultStr.get(2));
-			System.out.println("time : " + regResultStr.get(3));
-//////////////////////////////////////////////////////////////////////////////////////		
+			
 			return regResultStr;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -112,75 +110,7 @@ public class OCRGeneralAPI {
 		return regResultStr;
 	}
 
-	private static List<String> KoreaAddressExtractor(String resultStr) {
-		String resultStr2 = resultStr;
 
-		// 지번주소
-		String regex = "(([가-힣]+(시|도)?|[서울]|[인천]|[대구]|[광주]|[부산]|[울산])( |))" // 그룹1
-				+ "([가-힣]+(시|군|구)( |))" // 그룹5
-				+ "(([가-힣]+(d|d(,|.)d|)+(로|읍|면|동|가|리)(\\d+)?(가)?)( |)?)"// 그룹8
-				+ "(\\d{1,4}-?\\d{1,4}( |)?)"; // 그룹14
-
-		String newRegex = "(([가-힣]+(시|도)?|[서울]|[인천]|[대구]|[광주]|[부산]|[울산])( |))" // 그룹1
-				+ "([가-힣]+(시|군|구)( |))" // 그룹5
-				+ "([가-힣]+(로|동|길)(\\d+)?(길|번길)?( |)?)" // 그룹8,9,10
-				+ "(\\d{1,4}( |)?)" + "((-|~)?(\\d+)?( |)?)";
-		
-		String dateRegex ="(\\d{2,4})(년|\\.|\\/)( |)?(\\d{1,2})(월|\\.|\\/)( |)?(\\d{1,2})((일)( |)?)?";
-		String timeRegex = "(\\d{1,2})( |)?(\\:)( |)?(\\d{1,2})(( |)?(\\:)( |)?(\\d{1,2}))?";
-		
-		Matcher matcher = Pattern.compile(regex).matcher(resultStr2);
-		Matcher newMatcher = Pattern.compile(newRegex).matcher(resultStr2);
-		Matcher dateMatcher = Pattern.compile(dateRegex).matcher(resultStr2);
-		Matcher timeMatcher = Pattern.compile(timeRegex).matcher(resultStr2);
-		
-		
-		List<String> result = new ArrayList<>();
-		String jibun = "";
-		String doro = "";
-		String date ="";
-		String time ="";
-		
-		if (matcher.find()) {
-			// System.out.println(matcher.group());
-			jibun = matcher.group();
-		} else {
-			//System.out.println("안돼용~1");
-			jibun = "안돼용~1";
-		}
-		if (newMatcher.find()) {
-			// System.out.println(newMatcher.group());
-			doro = newMatcher.group();
-		} else {
-			//System.out.println("안돼용~2");
-			doro = "안돼용~2";
-		}
-		if (dateMatcher.find()) {
-            date = dateMatcher.group();
-        } else {
-        	date = "안돼용~3";
-        }
-		if (timeMatcher.find()) {
-            time = timeMatcher.group();
-        } else {
-        	time = "안돼용~4";
-        }
-		
-		
-
-		result.add(jibun);
-		result.add(doro);
-		result.add(date);
-		result.add(time);
-		
-		
-		
-		return result;
-	}
-
-	
-	
-	
 	private static void writeMultiPart(OutputStream out, String jsonMessage, File file, String boundary)
 			throws IOException {
 		StringBuilder sb = new StringBuilder();

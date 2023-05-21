@@ -1,11 +1,12 @@
-package com.mat.zip.register;
+package com.mat.zip.registerAndSearch.model;
 
-public class MZInfoVO {
+public class MZRegisterInfoVO {
 	private int no;
 	private String userId;
 	private String storeAddress;
-	private int resiCount;
+	private String storePhoneNumber;
 	private String buyTime;
+	
 	public int getNo() {
 		return no;
 	}
@@ -24,11 +25,11 @@ public class MZInfoVO {
 	public void setStoreAddress(String storeAddress) {
 		this.storeAddress = storeAddress;
 	}
-	public int getResiCount() {
-		return resiCount;
+	public String getStorePhoneNumber() {
+		return storePhoneNumber;
 	}
-	public void setResiCount(int resiCount) {
-		this.resiCount = resiCount;
+	public void setStorePhoneNumber(String storePhoneNumber) {
+		this.storePhoneNumber = storePhoneNumber;
 	}
 	public String getBuyTime() {
 		return buyTime;
@@ -38,7 +39,7 @@ public class MZInfoVO {
 	}
 	@Override
 	public String toString() {
-		return "MapVO [no=" + no + ", userId=" + userId + ", storeAddress=" + storeAddress + ", resiCount=" + resiCount
-				+ ", buyTime=" + buyTime + "]";
+		return "MZRegisterInfoVO [no=" + no + ", userId=" + userId + ", storeAddress=" + storeAddress
+				+ ", storePhoneNumber=" + storePhoneNumber + ", buyTime=" + buyTime + "]";
 	}
 }

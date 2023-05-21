@@ -200,14 +200,36 @@
 	                    term: request.term
 	                },
 	                success: function(data) {
+	                	
 	                    var searchTerm = request.term;
+	                   	
 	                    var matchedItems = data.filter(function(item) {
-	                      return item.name.includes(searchTerm);
+                    	  return item.name.includes(searchTerm);
 	                    });
-	                    var matchedNames = matchedItems.map(function(item) {
-	                      return item.name;
-	                    });
-	                    response(matchedNames);
+
+                    	var matchedNames = matchedItems.map(function(item) {
+                    	  return item.name;
+                    	});
+
+                    	var matchedFoodItems = data.filter(function(item) {
+                    	  return item.food.includes(searchTerm);
+                    	});
+
+                    	var matchedFoodTypes = matchedFoodItems
+                    	  .map(function(item) {
+                    	    return item.food;
+                    	  })
+                    	  .filter(function(value, index, self) {
+                    	    return self.indexOf(value) === index;
+                    	});
+	                    
+                    	if (matchedNames.length > 0) {
+                            response(matchedNames);
+                        } else if (matchedFoodTypes.length > 0) {
+                            response(matchedFoodTypes);
+                        } else {
+                            response([]); // No suggestions found
+                        }
 	                  }
 	            });
 	        },
@@ -215,7 +237,7 @@
 	            return false;
 	        },
 	        minLength: 1, // 최소 글자수
-	        delay: 100, // autocomplete 딜레이 시간(ms)
+	        delay: 50, // autocomplete 딜레이 시간(ms)
 	        // disabled: true, // 자동완성 기능 끄기
 	    });
 	
@@ -243,13 +265,14 @@
 					// input value를 포함하고 있는 name 배열의 요소들의 짝인 주소들을 바꿔주면 된다. 
 					
 					var matchedItems = json.filter(function(item) {
-	                      return item.name.includes(inputValue);
+	                      return item.name.includes(inputValue) || item.food.includes(inputValue) ;
 	                    });
 	                
 					var matchedNames = matchedItems.map(function(item) {
 	                      return item.name;
 	                    });
 	                var matchedAddresses = matchedItems.map(function(item) {
+	                	console.log(item.landNumAddress);
 	                	  return item.landNumAddress;
 	                	});
 					

@@ -19,7 +19,7 @@
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT DISTINCT
 		s.landNumAddress,
-		s.name
+		s.name,
 		FROM mzregisterinfo
 		LEFT JOIN restaurant s 
 		ON s.tel = #{storePhoneNumber}  
@@ -28,19 +28,22 @@
 	</select> 
 	
 	
-	<!-- 알맞는 데이터 하나만 가져온다. -->
+	<!-- 알맞는 데이터의 주소,이름, 음식종류를 가져온다. -->
+	<!-- 검색에 사용한다.  -->
 	<select id="addressesAndNames"
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT distinct 
 		s.landNumAddress,
-		s.name
+		s.name,
+		s.food
 		FROM mzregisterinfo m
 		JOIN restaurant s
 		ON m.storeAddress = s.landNumAddress  
 		OR m.storeAddress = s.roadNameAddress 
 		OR m.storePhoneNumber = s.tel 
 	</select>
-
+	
+	
 
 </mapper>
 

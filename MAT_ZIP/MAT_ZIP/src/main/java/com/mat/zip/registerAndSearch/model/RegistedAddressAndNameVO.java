@@ -4,7 +4,14 @@ public class RegistedAddressAndNameVO {
 	private String landNumAddress;
 	private String name;
 	private int count;
+	private String food;
 	
+	public String getFood() {
+		return food;
+	}
+	public void setFood(String food) {
+		this.food = food;
+	}
 	public int getCount() {
 		return count;
 	}
@@ -26,7 +33,8 @@ public class RegistedAddressAndNameVO {
 	@Override
 	public String toString() {
 		return "RegistedAddressAndNameVO [landNumAddress=" + landNumAddress + ", name=" + name + ", count=" + count
-				+ "]";
+				+ ", food=" + food + "]";
 	}
+	
 	
 }

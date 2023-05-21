@@ -72,18 +72,6 @@
               </li>
             </ul>
             <div class="user_option">
-            <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
-            <c:if test="${memberInfo != null}">
-              <a href="mz_member/myPage" class="user_link">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-			</c:if>
-            <c:if test="${memberInfo == null}">
-              <a href="mz_member/signUp" class="user_link">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-			</c:if>
-              <a class="cart_link" href="#">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
@@ -136,12 +124,34 @@
                   <g>
                   </g>
                 </svg>
-              </a>
-              <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
+          <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
+           <div class="client_section">
+            <div class="box">
+              <div class="user-img-box">
+            	<span onclick="openNav()" class="user_link">
+              	<c:if test="${memberInfo == null}">
+              	<a href="mz_member/signUp">
+                <img src="resources/images/basic.jpg" alt="" class="box-img" style="width: 50px;">
+              	</a>
+				</c:if>
+              	<c:if test="${memberInfo != null}">
+              	<a href="mz_member/myPage">
+                <img src="resources/images/basic.jpg" alt="" class="box-img" style="width: 50px;">
+              	</a>
+				</c:if>
+              	</span>
+              </div>
+            </div>
+          </div>
+			<!-- Nav -->
+			<div id="myNav" class="overlay"style="width: 0%">
+					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
+				<div class="overlay-content">
+					<a href="index.jsp">HOME</a>
+					<a href="mz_member/myPage">ABOUT ME</a>
+					<a href="book.jsp">BOOK TABLE</a>
+				</div>
+			</div>
               <c:if test="${memberInfo == null}">
 	              <a href="mz_member/login" class="order_online">
 	                LOGIN
@@ -568,7 +578,16 @@
   
   </script>
   <!-- End Google Map -->
-  
+  <!-- Nav Function -->
+  <script type="text/javascript">
+  	function openNav() {
+		document.getElementById("myNav").style.width = "40%";
+	}
+  	function closeNav() {
+		document.getElementById("myNav").style.width = "0%";
+	}
+  </script>
+  <!-- End Nav Function -->
   
   
 </body>

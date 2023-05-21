@@ -152,7 +152,6 @@
 	            </a>
 			</c:if>
             	<span onclick="openNav()" class="user_link" style="margin-left: 15px;">
-                	<img src="resources/images/menu.png" alt="" class="box-img" style="width: 50px; background-color:transparent;">
               	</span>
 				<!-- Nav -->
 				<div id="myNav" class="overlay"style="width: 0%">

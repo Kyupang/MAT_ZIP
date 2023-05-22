@@ -39,6 +39,7 @@
 		<mapper resource="mapper/productPointMapper.xml" />
 		<mapper resource="mapper/PointExchangeHistoryMapper.xml" />
 		<mapper resource="mapper/pointMapper.xml" />
+      <mapper resource="mapper/mzMemberMapper.xml" />
    </mappers>
    
 </configuration>

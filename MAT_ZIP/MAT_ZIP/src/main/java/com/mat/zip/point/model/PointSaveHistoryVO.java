@@ -1,10 +1,11 @@
-package com.mat.zip.point;
+package com.mat.zip.point.model;
 
-public class PointExchangeHistoryVO {
+public class PointSaveHistoryVO {
 
 	private String user_id;
 	private String type;
 	private int point;
+	private int sumpoint;
 
 	public String getUser_id() {
 		return user_id;
@@ -30,9 +31,18 @@ public class PointExchangeHistoryVO {
 		this.point = point;
 	}
 
+	public int getSumpoint() {
+		return sumpoint;
+	}
+
+	public void setSumpoint(int sumpoint) {
+		this.sumpoint = sumpoint;
+	}
+
 	@Override
 	public String toString() {
-		return "PointExchangeHistoryVO [user_id=" + user_id + ", type=" + type + ", point=" + point + "]";
+		return "PointSaveHistoryVO [user_id=" + user_id + ", type=" + type + ", point=" + point + ", sumpoint="
+				+ sumpoint + "]";
 	}
 
 }

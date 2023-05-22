@@ -1,4 +1,4 @@
-package com.mat.zip.point;
+package com.mat.zip.point.service;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,6 +6,13 @@ import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.mat.zip.point.dao.PointExchangeHistoryDAO;
+import com.mat.zip.point.model.PointDetailHistoryVO;
+import com.mat.zip.point.model.PointExchangeHistoryVO;
+import com.mat.zip.point.model.PointSaveHistoryVO;
+import com.mat.zip.point.model.ProductPointVO;
+import com.mat.zip.point.model.SendSmsVO;
 
 @Service
 public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryService {
@@ -52,7 +59,7 @@ public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryServ
 		sms.setUser_id(userpoint.getUser_id());
 		sms.setImg(product.getImg());
 		// sms.setTel(tel);
-		sensapi.sendSMS(sms);
+		//sensapi.sendSMS(sms);
 	}
 
 	@Override

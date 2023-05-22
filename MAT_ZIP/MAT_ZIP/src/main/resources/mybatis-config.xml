@@ -3,41 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 별명을 지어서 사용 -->
-	<typeAliases>
-		<typeAlias
-			type="com.mat.zip.registerAndSearch.model.MZRegisterInfoVO"
-			alias="mzRegisterInfoVO"></typeAlias>
-		<typeAlias
-			type="com.mat.zip.registerAndSearch.model.RestaurantVO"
-			alias="restaurantVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.BoardVO" alias="boardVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.ComVO" alias="ComVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.Boss_memberVO"
-			alias="boss_memberVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.MemberVO" alias="memberVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.PaymentVO"
-			alias="paymentVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.ChartVO" alias="ChartVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.return_CustomerCountVO"
-			alias="return_CustomerCountVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.return_OrderCountVO"
-			alias="return_OrderCountVO"></typeAlias>
-		<typeAlias type="com.mat.zip.boss.return_OrderTotalVO"
-			alias="return_OrderTotalVO"></typeAlias>
-
-		<typeAlias type="com.mat.zip.point.gifticonVO"
-			alias="gifticonVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.ProductPointVO"
-			alias="productPointVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.PointExchangeHistoryVO"
-			alias="PointExchangeHistoryVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.PointSaveHistoryVO"
-			alias="PointSaveHistoryVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.PointDetailHistoryVO"
-			alias="PointDetailHistoryVO"></typeAlias>
-
-		<typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>
+<!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 
+     별명을 지어서 사용 -->
+   <typeAliases>
+      <typeAlias type="com.mat.zip.registerAndSearch.model.MZRegisterInfoVO" alias="mzRegisterInfoVO"></typeAlias>      
+      <typeAlias type="com.mat.zip.registerAndSearch.model.RestaurantVO" alias="restaurantVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.BoardVO" alias="boardVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.ComVO" alias="ComVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.Boss_memberVO" alias="boss_memberVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.MemberVO" alias="memberVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.PaymentVO" alias="paymentVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.ChartVO" alias="ChartVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.return_CustomerCountVO" alias="return_CustomerCountVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.gifticonVO" alias="gifticonVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.ProductPointVO" alias="productPointVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
+      <typeAlias type="com.mat.zip.mzMember.model.MzMemberDTO" alias="memberDTO"></typeAlias>
+      
+     <typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.PostComVO"
 			alias="postComVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.PhotoVO" alias="photoVO"></typeAlias>
@@ -47,27 +34,29 @@
 			alias="reviewVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.ReviewComVO"
 			alias="reviewComVO"></typeAlias>
-	</typeAliases>
-	<mappers>
-		<!-- SQL문 정의하는 파일들의 목록을 지정. -->
-		<mapper resource="mapper/mzRegisterInfoMapper.xml" />
-		<mapper resource="mapper/restaurantMapper.xml" />
-		<mapper resource="mapper/BoardMapper.xml" />
-		<mapper resource="mapper/ComMapper.xml" />
-		<mapper resource="mapper/MemberMapper.xml" />
-		<mapper resource="mapper/BossMapper.xml" />
-		<mapper resource="mapper/PaymentMapper.xml" />
-		<mapper resource="mapper/ChartMapper.xml" />
+   </typeAliases>
+   
+   <mappers>
+   <!-- SQL문 정의하는 파일들의 목록을 지정. -->
+      <mapper resource="mapper/mzRegisterInfoMapper.xml" />      
+      <mapper resource="mapper/restaurantMapper.xml" />
+      <mapper resource="mapper/BoardMapper.xml" />
+      <mapper resource="mapper/ComMapper.xml" />
+      <mapper resource="mapper/MemberMapper.xml" />
+      <mapper resource="mapper/BossMapper.xml" />
+      <mapper resource="mapper/PaymentMapper.xml" />
+      <mapper resource="mapper/ChartMapper.xml" />
 		<mapper resource="mapper/gifticonMapper.xml" />
 		<mapper resource="mapper/productPointMapper.xml" />
 		<mapper resource="mapper/PointExchangeHistoryMapper.xml" />
 		<mapper resource="mapper/pointMapper.xml" />
-
-		<mapper resource="mapper/PostMapper.xml" />
+     <mapper resource="mapper/mzMemberMapper.xml" />
+     <mapper resource="mapper/PostMapper.xml" />
 		<mapper resource="mapper/PostComMapper.xml" />
 		<mapper resource="mapper/PhotoMapper.xml" />
 		<mapper resource="mapper/PhotoComMapper.xml" />
 		<mapper resource="mapper/ReviewMapper.xml" />
 		<mapper resource="mapper/ReviewComMapper.xml" />
-	</mappers>
+   </mappers>
+   
 </configuration>

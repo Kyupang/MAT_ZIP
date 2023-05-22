@@ -17,7 +17,6 @@
       <typeAlias type="com.mat.zip.boss.return_CustomerCountVO" alias="return_CustomerCountVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
-      <typeAlias type="com.mat.zip.point.PointSaveHistoryVO" alias="pointsavehistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.gifticonVO" alias="gifticonVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.ProductPointVO" alias="productPointVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>

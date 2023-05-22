@@ -24,13 +24,18 @@
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
 <style type="text/css">
+body{
+	background-color: rgba(0, 0, 0, 0.2);
+}
 .img-box{
-	width: 200px;
-	height: 200px;
+	width: 180px;
+	height: 180px;
 	border-radius: 50%;
 	overflow: hidden;
 	padding-bottom: 0px;
 	padding-top: 0px;
+	margin-bottom: 20px;
+	margin-top: 20px;
 }
 .profile{
 	width: 100%;
@@ -43,6 +48,10 @@
 .a-tag{
 	font-size: 1.1em;
 	padding: 0;
+}
+.member-Info-container{
+	min-width: 550px;
+	width: 550px;
 }
 </style>
 </head>
@@ -60,7 +69,9 @@
       </div>
     </header>
     
-<div class="img-box myPage-margin-size" style="background: #ffffff; float: left">
+<div class="member-Info-container" style="top: 140px; left: 20%; position: absolute; height: 700px; background-color: white; border-radius: 20px;">
+<div class="member-Info">
+<div class="img-box myPage-margin-size" style="background: #ffffff; margin-left: auto; margin-right: auto;">
 	<c:if test="${memberInfo.profile == null}">
 	<img class="profile" src="${pageContext.request.contextPath}/resources/images/basic.png">
 	</c:if>
@@ -68,12 +79,12 @@
 	<img class="profile" src="${pageContext.request.contextPath}/resources/images/${memberInfo.profile}">
 	</c:if>
 </div>
-<div style="float: left; padding-top: 77px; margin-left: 15px;">
+</div>
+<div style="text-align: center;">
+<h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
 	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 10px; margin-left: 10px">${memberInfo.mark}</p>
 	<p style="font-weight: 500; font-size: 25px; margin: 0;">(보유한 포인트: ${memberInfo.point} p)</p>
 </div>
-<div style="clear: both;">
-<h1 class="myPage-margin-size">${memberInfo.nickName}</h1>
 <hr>
 <h3 class="myPage-margin-size"><a href="changeInfo" class="a-tag">회원 정보 수정</a></h3>
 <hr>
@@ -82,6 +93,28 @@
 <h3 class="myPage-margin-size"><a href="deleteAccount" class="a-tag">회원 탈퇴</a></h3>
 <hr>
 <h3 class="myPage-margin-size"><a href="askQuestion" class="a-tag">FAQ</a></h3>
+</div>
+<div class="member-Info-container" style="top: 140px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">
+<div style="margin-top: 20px; padding-left: 10px; padding-right: auto;">
+<h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
+	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 10px; margin-left: 10px">${memberInfo.mark}</p>
+</div>
+</div>
+<div class="member-Info-container" style="top: 500px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">
+<div class="member-Info">
+<div class="img-box myPage-margin-size" style="background: #ffffff; margin-left: auto; margin-right: auto;">
+	<c:if test="${memberInfo.profile == null}">
+	<img class="profile" src="${pageContext.request.contextPath}/resources/images/basic.png">
+	</c:if>
+	<c:if test="${memberInfo.profile != null}">
+	<img class="profile" src="${pageContext.request.contextPath}/resources/images/${memberInfo.profile}">
+	</c:if>
+</div>
+</div>
+<div style="text-align: center;">
+<h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
+	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 10px; margin-left: 10px">${memberInfo.mark}</p>
+</div>
 </div>
 </body>
 </html>

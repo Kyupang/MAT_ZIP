@@ -61,7 +61,7 @@
       <input type="text" class="form-control pl-1r" id="pwCheck" value="${memberInfo.gender}" placeholder="비밀번호를 한번 더 입력해 주세요." name="pwCheck" onchange="pwCheckMethod()">
 
       <label for="name">출생일자</label>
-      <input type="text" class="form-control pl-1r" id="name" name = "name" value="${memberInfo.accountDate}" placeholder="이름을 입력하세요.">
+      <input type="text" class="form-control pl-1r" id="name" name = "name" value="${memberInfo.birthDate}" placeholder="">
     
       <label for="name">가입 일자</label>
       <input type="text" class="form-control pl-1r" id="name" name = "name" value="${memberInfo.accountDate}" placeholder="이름을 입력하세요.">
@@ -75,7 +75,7 @@
     
     <div class="member-container">
 			  <p style="text-align: center; font-size: small;">
-			     맛집 보러가기 <a href="/tastezip/totalUI.jsp" style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">맛.zip</a>
+			     맛집 보러가기 <a href="/zip/index.jsp" style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">맛.zip</a>
 			  </p>
 </div>
 </body>

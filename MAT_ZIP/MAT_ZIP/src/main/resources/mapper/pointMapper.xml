@@ -4,15 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="point">
-	<insert id="insert" parameterType="PointSaveHistoryVO">
-		insert into shop.pointhistory (user_id, type, point, createdate, expiredate)
-		values (#{user_id}, '적립', 300, now(), date_add(now(), interval 1 year));
-	</insert>
-	<insert id="detailinsert" parameterType="PointSaveHistoryVO">
-		INSERT INTO shop.pointdetailhistory (user_id, type, point, processingdate)
-		SELECT user_id, type, point, createdate
-		FROM shpo.pointhistory
-		WHERE user_id = #{user_id} and type = '적립'
-		ORDER BY createdate ASC;
-	</insert>
+	<update id="insert" parameterType="pointsavehistoryVO">
+		insert into multi.pointsavehistory (user_id, `point`, store, createdate, expiredate)
+		values (#{user_id}, 300, '김밥집', now(), date_add(now(), interval 1 year));
+	</update>
 </mapper>

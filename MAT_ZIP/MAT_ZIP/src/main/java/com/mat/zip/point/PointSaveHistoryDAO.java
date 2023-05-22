@@ -14,7 +14,4 @@ public class PointSaveHistoryDAO {
 		point.insert("point.insert", bag2);
 	}
 	
-	public void detailpointinsert(PointSaveHistoryVO bag2) {
-		point.insert("point.detailinsert", bag2);
-	}
 }

@@ -114,6 +114,7 @@ public class MZRegularExpression {
         }
 		if (phoneMatcher.find()) {
             phone = phoneMatcher.group();
+            phone = phone.replaceAll("[^0-9]","");
         } else {
         	phone = "Can not extract store phone number";
         }

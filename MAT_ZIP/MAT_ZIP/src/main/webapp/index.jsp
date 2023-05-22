@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -71,10 +72,6 @@
               </li>
             </ul>
             <div class="user_option">
-              <a href="" class="user_link">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-              <a class="cart_link" href="#">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
@@ -127,15 +124,44 @@
                   <g>
                   </g>
                 </svg>
-              </a>
-              <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
-              <a href="" class="order_online">
-                Order Online
-              </a>
+          <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
+           <div class="client_section">
+            <div class="box" style="margin: 10px;">
+              <div class="user-img-box">
+              	<c:if test="${memberInfo == null}">
+              	<a href="mz_member/signUp">
+                <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+              	</a>
+				</c:if>
+              	<c:if test="${memberInfo != null}">
+              	<a href="mz_member/myPage">
+                <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+              	</a>
+				</c:if>
+              </div>
+            </div>
+          </div>
+            <c:if test="${memberInfo == null}">
+	            <a href="mz_member/login" class="order_online">
+	              LOGIN
+	            </a>
+			</c:if>
+            <c:if test="${memberInfo != null}">
+	            <a href="mz_member/logout" class="order_online">
+	              LOGOUT
+	            </a>
+			</c:if>
+            	<span onclick="openNav()" class="user_link" style="margin-left: 15px;">
+              	</span>
+				<!-- Nav -->
+				<div id="myNav" class="overlay"style="width: 0%">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
+					<div class="overlay-content">
+						<a href="index.jsp">HOME</a>
+						<a href="mz_member/myPage">ABOUT ME</a>
+						<a href="book.jsp">BOOK TABLE</a>
+					</div>
+				</div>
             </div>
           </div>
         </nav>
@@ -552,7 +578,16 @@
   
   </script>
   <!-- End Google Map -->
-  
+  <!-- Nav Function -->
+  <script type="text/javascript">
+  	function openNav() {
+		document.getElementById("myNav").style.width = "40%";
+	}
+  	function closeNav() {
+		document.getElementById("myNav").style.width = "0%";
+	}
+  </script>
+  <!-- End Nav Function -->
   
   
 </body>

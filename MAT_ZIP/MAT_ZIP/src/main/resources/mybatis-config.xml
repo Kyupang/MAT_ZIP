@@ -23,6 +23,17 @@
 		<typeAlias type="com.mat.zip.point.model.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
       
+      
+      <typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.PostComVO"
+			alias="postComVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.PhotoVO" alias="photoVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.PhotoComVO"
+			alias="photoComVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.ReviewVO"
+			alias="reviewVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.ReviewComVO"
+			alias="reviewComVO"></typeAlias>
    </typeAliases>
    
    <mappers>
@@ -40,6 +51,14 @@
 		<mapper resource="mapper/PointExchangeHistoryMapper.xml" />
 		<mapper resource="mapper/pointMapper.xml" />
       <mapper resource="mapper/mzMemberMapper.xml" />
+      
+      
+      <mapper resource="mapper/PostMapper.xml" />
+		<mapper resource="mapper/PostComMapper.xml" />
+		<mapper resource="mapper/PhotoMapper.xml" />
+		<mapper resource="mapper/PhotoComMapper.xml" />
+		<mapper resource="mapper/ReviewMapper.xml" />
+		<mapper resource="mapper/ReviewComMapper.xml" />
    </mappers>
    
 </configuration>

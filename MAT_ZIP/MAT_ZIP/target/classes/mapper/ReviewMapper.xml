@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mat.zip.mapper.ReviewMapper">
+	
+	<!-- 리뷰글작성 -->
+	<insert id="create"
+			parameterType="reviewVO"
+			useGeneratedKeys="true" 
+			keyProperty="review_id">
+		INSERT INTO MAT_ZIP.cs_review (
+            user_id
+            , receipt_id
+            , store_id
+            , store_cg
+            , category
+            , review_title
+            , review_content
+            , review_file
+            , review_scope
+            , emotion
+            , created_date
+            , updated_date
+            , review_view_count
+        ) VALUES (
+            #{user_id}
+            , #{receipt_id}
+            , #{store_id}
+            , #{store_cg}
+            , #{category}
+            , #{review_title}
+            , #{review_content}
+            , #{review_file}
+            , #{review_scope}
+            , #{emotion}
+            , CURRENT_TIMESTAMP
+            , CURRENT_TIMESTAMP
+            , #{review_view_count}
+        )
+	</insert>
+	
+	<!-- 리뷰글 수정 -->
+	<update id="update"  parameterType="reviewVO">
+		UPDATE MAT_ZIP.cs_review SET 
+			review_title = #{review_title}, 
+			review_content = #{review_content}, 
+			review_file = #{review_file}, 
+			emotion = #{emotion},
+			updated_date = CURRENT_TIMESTAMP
+		WHERE review_id = #{review_id} AND user_id = #{user_id}
+	</update>
+	
+	<!-- 게시글 조회수 증가 -->
+    <update id="incrementReviewViewCount" parameterType="int">
+        UPDATE MAT_ZIP.cs_review SET 
+        review_view_count = review_view_count + 1
+        WHERE review_id = #{review_id}
+    </update>
+	
+	<!-- 리뷰글 삭제 -->
+	<delete id="delete"  parameterType="int">
+		DELETE FROM MAT_ZIP.cs_review 
+		WHERE review_id = #{review_id}
+	</delete>
+	
+	<!-- 리뷰글 상세정보 조회 -->
+	<select id="oneReviewId" parameterType="int" resultType="reviewVO">
+		SELECT * FROM MAT_ZIP.cs_review WHERE review_id = #{review_id}
+	</select>
+	
+	<!-- 리뷰게시판 전체 list -->
+	<select id="allReview"  resultType="reviewVO">
+		SELECT * FROM MAT_ZIP.cs_review
+	</select>	
+
+</mapper>

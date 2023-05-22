@@ -22,6 +22,7 @@
 		<typeAlias type="com.mat.zip.point.model.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.mzMember.model.MzMemberDTO" alias="memberDTO"></typeAlias>
       
       
       <typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>

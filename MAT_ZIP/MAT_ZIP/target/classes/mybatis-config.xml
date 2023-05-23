@@ -22,8 +22,9 @@
 		<typeAlias type="com.mat.zip.point.model.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
+      <typeAlias type="com.mat.zip.point.model.PointInquiryVO" alias="PointInquiryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.mzMember.model.MzMemberDTO" alias="memberDTO"></typeAlias>
-      
+
       
       <typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.PostComVO"
@@ -47,10 +48,14 @@
       <mapper resource="mapper/BossMapper.xml" />
       <mapper resource="mapper/PaymentMapper.xml" />
       <mapper resource="mapper/ChartMapper.xml" />
+      
+      <!-- HAM POINT mapper -->
 		<mapper resource="mapper/gifticonMapper.xml" />
 		<mapper resource="mapper/productPointMapper.xml" />
 		<mapper resource="mapper/PointExchangeHistoryMapper.xml" />
 		<mapper resource="mapper/pointMapper.xml" />
+		<mapper resource="mapper/PointInquiryMapper.xml" />
+		
       <mapper resource="mapper/mzMemberMapper.xml" />
       
       

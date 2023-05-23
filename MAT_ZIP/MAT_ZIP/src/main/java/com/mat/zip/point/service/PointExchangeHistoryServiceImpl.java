@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mat.zip.point.dao.PointExchangeHistoryDAO;
 import com.mat.zip.point.model.PointDetailHistoryVO;
@@ -23,6 +24,7 @@ public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryServ
 	SensAPI sensapi;
 
 	@Override
+	@Transactional
 	//적립 포인트 상품 교환 비즈니스 로직
 	public void exChange(String user_id, int id) {
 		
@@ -59,7 +61,7 @@ public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryServ
 		sms.setUser_id(userpoint.getUser_id());
 		sms.setImg(product.getImg());
 		// sms.setTel(tel);
-		//sensapi.sendSMS(sms);
+		sensapi.sendSMS(sms);
 	}
 
 	@Override

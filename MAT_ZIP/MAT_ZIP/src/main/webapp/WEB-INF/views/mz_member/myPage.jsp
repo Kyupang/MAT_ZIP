@@ -103,7 +103,26 @@ body{
 <h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
 	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 5px; margin-left: 10px">${memberInfo.mark}</p>
 	<p style="font-weight: 700; font-size: 1.5rem; margin: 0;">(보유한 포인트: ${memberInfo.point} p)</p>
+	<div>
+	<span>카테고리 1</span>
+	<span>카테고리 2</span>
+	<span>카테고리3</span>
+	</div>
 </div>
+<div style="margin-bottom: 20px; margin-top: 10px;">
+	  <label for="name">이름</label>
+      <input type="text" class="form-control pl-1r" id="name" value="${memberInfo.name}" name="name" disabled="disabled">
+	 
+      <label for="gender">성별</label>
+      <input type="text" class="form-control pl-1r" id="gender" value="${memberInfo.gender}" name="gender">
+
+      <label for="birthDate">출생일자</label>
+      <input type="date" class="form-control pl-1r" id="birthDate" name = "birthDate" value="${memberInfo.birthDate}">
+    
+      <label for="regDate">가입 일자</label>
+      <input type="text" class="form-control pl-1r" id="regDate" name = "regDate" value="${memberInfo.accountDate}" disabled="disabled">
+</div>
+      
 <!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
 <h3 class="myPage-margin-size" style="text-align: center;"><a href="" class="a-tag">포인트 사용</a></h3>
 <h3 class="myPage-margin-size" style="text-align: center;"><a href="deleteAccount" class="a-tag">회원 탈퇴</a>

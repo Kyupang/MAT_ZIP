@@ -65,7 +65,7 @@ body{
 
 .member-Info-container a{
 	display: inline-block;
-	padding: 10px 45px;
+	padding: 10px 20px;
 	background-color: #ffbe33;
 	color: white;
 	transition: 0.3s;
@@ -109,7 +109,12 @@ body{
 	<span>카테고리3</span>
 	</div>
 </div>
+
+<!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
+<h3 class="myPage-margin-size" style="text-align: center;"><a href="" class="a-tag">포인트 사용</a></h3>
+
 <div style="margin-bottom: 20px; margin-top: 10px;">
+<form action="">
 	  <label for="name">이름</label>
       <input type="text" class="form-control pl-1r" id="name" value="${memberInfo.name}" name="name" disabled="disabled">
 	 
@@ -121,12 +126,12 @@ body{
     
       <label for="regDate">가입 일자</label>
       <input type="text" class="form-control pl-1r" id="regDate" name = "regDate" value="${memberInfo.accountDate}" disabled="disabled">
+</form>
 </div>
       
-<!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
-<h3 class="myPage-margin-size" style="text-align: center;"><a href="" class="a-tag">포인트 사용</a></h3>
 <h3 class="myPage-margin-size" style="text-align: center;"><a href="deleteAccount" class="a-tag">회원 탈퇴</a>
-<a href="changeInfo" class="a-tag">정보 수정</a></h3>
+<a href="changeInfo" class="a-tag">정보 수정</a>
+<a href="changeInfo" class="a-tag">비밀번호 수정</a></h3>
 </div>
 
 <div class="member-Info-container" style="top: 140px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">

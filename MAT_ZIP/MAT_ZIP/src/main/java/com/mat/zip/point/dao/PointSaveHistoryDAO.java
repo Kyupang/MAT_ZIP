@@ -1,8 +1,10 @@
-package com.mat.zip.point;
+package com.mat.zip.point.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.mat.zip.point.model.PointSaveHistoryVO;
 
 @Component
 public class PointSaveHistoryDAO {

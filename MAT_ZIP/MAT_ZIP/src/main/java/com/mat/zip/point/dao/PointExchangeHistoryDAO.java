@@ -1,10 +1,15 @@
-package com.mat.zip.point;
+package com.mat.zip.point.dao;
 
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.mat.zip.point.model.PointDetailHistoryVO;
+import com.mat.zip.point.model.PointExchangeHistoryVO;
+import com.mat.zip.point.model.PointSaveHistoryVO;
+import com.mat.zip.point.model.ProductPointVO;
 
 
 

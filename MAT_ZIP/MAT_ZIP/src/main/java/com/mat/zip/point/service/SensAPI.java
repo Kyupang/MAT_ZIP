@@ -1,4 +1,4 @@
-package com.mat.zip.point;
+package com.mat.zip.point.service;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,6 +18,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+
+import com.mat.zip.point.model.SendSmsVO;
 
 @Component
 public class SensAPI {

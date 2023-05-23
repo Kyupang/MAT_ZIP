@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface ReviewService {
 	
-	void create(ReviewVO reviewVO) throws Exception;
+	public void create(ReviewVO reviewVO);
 	
-	ReviewVO oneReviewId(int review_id) throws Exception;
+	public ReviewVO oneReviewId(int review_id);
 	
-	void update(ReviewVO reviewVO) throws Exception;
+	public void update(ReviewVO reviewVO);
 	
-	void delete(int review_id) throws Exception;
+	public void delete(int review_id);
 	
-	List<ReviewVO> allReview() throws Exception;
+	public List<ReviewVO> allReview();
 	
 }

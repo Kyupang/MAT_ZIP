@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface ReviewDAO {
 	
-	void create(ReviewVO reviewVO) throws Exception;
+	public void create(ReviewVO reviewVO); // 리뷰글쓰기
 	
-	ReviewVO oneReviewId(int review_id) throws Exception;
+	public ReviewVO oneReviewId(int review_id); // 리뷰게시글 상세조회 
 	
-	void update(ReviewVO reviewVO) throws Exception;
+	public void update(ReviewVO reviewVO); // 리뷰게시글 수정 
 	
-	void delete(int review_id) throws Exception;
+	public void delete(int review_id); // 리뷰게시글 삭제
 	
-	List<ReviewVO> allReview() throws Exception;
+	public List<ReviewVO> allReview(); // 리뷰게시글 전체 list 조회 
 
 }

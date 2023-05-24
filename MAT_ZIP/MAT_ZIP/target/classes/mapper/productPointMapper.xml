@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="product">
 	<select id="one" resultType="productPointVO">
-		select * from test.product where id = #{id}
+		select * from multi.product where id = #{id}
 	</select>
 </mapper>

@@ -6,18 +6,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="usepoint">
 	<select id="one" resultType="PointSaveHistoryVO">
     	SELECT user_id, SUM(point) as sumpoint
-    	FROM shop.pointhistory
+    	FROM multi.pointhistory
     	WHERE user_id = #{user_id}
 	</select>
 	<select id="all" resultType="PointSaveHistoryVO">
-		SELECT * FROM shop.pointhistory WHERE user_id = #{user_id} and type = '적립' ORDER BY createdate ASC
+		SELECT * FROM multi.pointhistory WHERE user_id = #{user_id} and type = '적립' ORDER BY createdate ASC
 	</select>
 	<insert id="insert" parameterType="PointExchangeHistoryVO">
-		insert into shop.pointhistory (user_id, type, point, createdate)
+		insert into multi.pointhistory (user_id, type, point, createdate)
 		values (#{user_id}, '사용', -#{point}, now());
 	</insert>
 	<insert id="usedetailinsert">
-		insert into shop.pointdetailhistory (user_id, type, `point`, processingdate)
+		insert into multi.pointdetailhistory (user_id, type, `point`, processingdate)
 		values (#{user_id}, '사용', #{point}, now());
 	</insert>
 	

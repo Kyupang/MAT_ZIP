@@ -32,7 +32,11 @@
   <link href="resources/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="resources/css/responsive.css" rel="stylesheet" />
-
+  <!-- 자동완성 style -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- 등록 모달 style -->
+  <link rel="stylesheet" type="text/css" href="resources/css/modal-gyu.css">
+  
 </head>
 
 <body>
@@ -169,9 +173,40 @@
     </header>
     <!-- end header section -->
     <!-- slider section -->
+    <!-- 김규환 작업장  -->
 	  <section class="slider_section">
 	  <div class="container">
 	    <div class="row">
+	    	<!-- The Modal -->
+				<div id="myModal" class="modal">
+					<!-- Modal content -->
+					<div class="modal-content">
+						<span class="close" onclick="closeModal()">&times;</span>
+			
+						<h2>영수증 이미지나 결제내역을 주소가 잘 보이게 찍어 업로드</h2>
+			
+						<div id="root">
+							<div class="contents">
+								<div class="upload-box">
+									<div id="drop-file" class="drag-file">
+										<img src="https://img.icons8.com/pastel-glyph/2x/image-file.png"
+											alt="파일 아이콘" class="image">
+										<p class="message">Drag files to upload</p>
+										<img src="" alt="미리보기 이미지" class="preview" id="preview-image">
+									</div>
+									<!-- <label class="file-label" for="chooseFile">Choose File</label> -->
+										<!-- <input type="file" name="uploadFile" multiple> -->
+										<button onclick="dropFile.uploadFile()">Submit</button>
+								</div>
+							</div>
+						</div>
+			
+					</div>
+				</div>
+	         <!--the modal end  -->
+	    
+	    	
+	    
 	      <div class="detail-box" style="width: 100%; position: relative;">
 	        <!-- 지도 들어갈 위치 -->
 	        <div id="map" class="map-div" style="width: 100%; height: 450px;"></div>
@@ -181,17 +216,18 @@
 	          <nav class="navbar navbar-light">
 	            <div class="container-fluid">
 	              <form class="d-flex">
-	                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-	                <button class="btn btn-outline-warning" type="submit">Search</button>
-	              </form>
+	                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+	                <button id="getSearchResult" class="btn btn-warning" type="submit">Search</button>
+	              	<!-- -outline  -->
+	               </form> 
 	            </div>
 	          </nav>
 	        </div>
 	        
+	        <!-- 등록 버튼 -->
 	        <div class="btn-box" style="position: absolute; top: 90%; left: 12%; transform: translate(-50%, -50%); z-index: 1;">
-	          <a href="" class="btn1">
-	            Register "DDO"chelin
-	          </a>
+	          	<button  class="btn1" onclick="openModal()">맛집 등록</button>
+	        	<button id="b2">현위치 기반으로 맛집 표시</button>
 	        </div>
 	      </div>
 	    </div>
@@ -518,21 +554,15 @@
   <script src="resources/js/ranking.js"></script>
   <!-- custom js -->
   <script src="resources/js/custom.js"></script>
-  <!-- Kakao Map -->
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ab6186bb587538d75199b2dc9588259&libraries=services"></script>
-  <script type="text/javascript">
-	  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-	  mapOption = { 
-	      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-	      level: 3 // 지도의 확대 레벨
-	  };
-	
-		//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-		var map = new kakao.maps.Map(mapContainer, mapOption); 
   
-  </script>
-  <!-- End Google Map -->
-  <!-- Nav Function -->
+  <!--규환 script 관련 코드 -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ab6186bb587538d75199b2dc9588259&libraries=services"></script>
+ <!--  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+  <!-- search map is  -->
+  <script src="resources/js/searchmarker-gyu.js"></script>
+ 
   <script type="text/javascript">
   	function openNav() {
 		document.getElementById("myNav").style.width = "40%";
@@ -541,8 +571,7 @@
 		document.getElementById("myNav").style.width = "0%";
 	}
   </script>
-  <!-- End Nav Function -->
-  
+  <!--규환 script 관련 코드 end -->
   
 </body>
 

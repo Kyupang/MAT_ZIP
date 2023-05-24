@@ -1,169 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Mat.zip</title>
-<style>
-
-/* 드래그엔 드랍 스타일 */
-.upload-box {
-	width: 100%;
-	box-sizing: border-box;
-	margin-right: 30px;
-	margin-bottom: 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.upload-box .drag-file {
-	position: relative;
-	width: 100%;
-	height: 300px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	border: 3px dashed #dbdbdb;
-}
-
-.upload-box .drag-file.highlight {
-	border: 3px dashed red;
-}
-
-.upload-box .drag-file .image {
-	width: 40px;
-}
-
-.upload-box .drag-file .message {
-	margin-bottom: 0;
-}
-
-.upload-box .drag-file .preview {
-	display: none;
-	position: absolute;
-	left: 0;
-	height: 0;
-	width: 100%;
-	height: 100%;
-}
-
-/* 이미지 파일 선택 스타일 */
-.file-label {
-	margin-top: 30px;
-	background-color: #5b975b;
-	color: #fff;
-	text-align: center;
-	padding: 10px 0;
-	width: 65%;
-	border-radius: 6px;
-	cursor: pointer;
-}
-
-.file {
-	display: none;
-}
-
-/* Modal styles */
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1050;
-	padding-top: 100px;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-	max-width: 600px;
-}
-
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-</style>
-</head>
-
-
-<body>
-	<h1>Mat.zip</h1>
-	
-	<div>
-		<input id="searchInput" style="margin-left: 20px; width: 400px;">
-		<button id="getSearchResult">검색</button>
-	</div>
-	<hr>
-	<!-- <div id="map" style="width: 100%; height: 350px;"></div> -->
-	
-	
-	<button onclick="openModal()">맛집 등록</button>
-
-	<!-- The Modal -->
-	<div id="myModal" class="modal">
-		<!-- Modal content -->
-		<div class="modal-content">
-			<span class="close" onclick="closeModal()">&times;</span>
-
-			<h2>영수증 이미지나 결제내역을 주소가 잘 보이게 찍어 업로드</h2>
-
-			<div id="root">
-				<div class="contents">
-					<div class="upload-box">
-						<div id="drop-file" class="drag-file">
-							<img src="https://img.icons8.com/pastel-glyph/2x/image-file.png"
-								alt="파일 아이콘" class="image">
-							<p class="message">Drag files to upload</p>
-							<img src="" alt="미리보기 이미지" class="preview" id="preview-image">
-						</div>
-						<!-- <label class="file-label" for="chooseFile">Choose File</label> -->
-							<!-- <input type="file" name="uploadFile" multiple> -->
-							<button onclick="dropFile.uploadFile()">Submit</button>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-
-	<button id="b2">현위치 기반으로 맛집 표시</button>
-
-	<div id="map" style="width: 100%; height: 350px;"></div>
-
-	
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
-	<!-- 부르는 기술들은 밑에 포함하고   -->
-	<!--   -->
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<!-- <script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>-->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ab6186bb587538d75199b2dc9588259&libraries=services"></script>
-	<script type="text/javascript">
 	//현위치 가져오기. 좌표로
 	var lat;
 	var lon;
@@ -197,7 +31,7 @@
 	    $("#searchInput").autocomplete({ // 오토 컴플릿 시작
 	        source: function (request, response) {
 	            $.ajax({
-	                url: "controller/autoComplete.mz", 
+	                url: "registerAndSearch/controller/autoComplete.mz", 
 	                dataType: "json",
 	                data: {
 	                    term: request.term
@@ -240,19 +74,19 @@
 	            return false;
 	        },
 	        minLength: 1, // 최소 글자수
-	        delay: 50, // autocomplete 딜레이 시간(ms)
+	        delay: 100, // autocomplete 딜레이 시간(ms)
 	        // disabled: true, // 자동완성 기능 끄기
 	    });
 	
 		 //todo list 검색 버튼을 누르면 지도에 관련 벨류를 포함하는 값의 마커를 찍어준다.
 	    $("#getSearchResult").click(function() {
 	    	$.ajax({
-				url : "controller/searchResultMarker.mz",
+				url : "registerAndSearch/controller/searchResultMarker.mz",
 				dataType : "json",
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
 					var inputValue = $("#searchInput").val();
-					
+					console.log(inputValue);
 					
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 				    mapOption = { 
@@ -275,7 +109,7 @@
 	                      return item.name;
 	                    });
 	                var matchedAddresses = matchedItems.map(function(item) {
-	                	console.log(item.landNumAddress);
+	                	  console.log(item.landNumAddress);
 	                	  return item.landNumAddress;
 	                	});
 					
@@ -306,7 +140,7 @@
 						      
 						      // 인포윈도우로 장소에 대한 설명을 표시합니다
 						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+"<br>"+address+'</div>',
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+" "+address+'</div>',
 						          removable: true
 						      });
 						      infowindow.open(map, marker);
@@ -381,7 +215,7 @@
 		//현 위치기반 찍힌 마커 보여주기. 
 		$('#b2').click(function() {
 			$.ajax({
-				url : "controller/Remap.mz",
+				url : "registerAndSearch/controller/Remap.mz",
 				dataType : "json",
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
@@ -527,7 +361,7 @@
   		  formData.append('uploadFile', file_selected);
 
   		  $.ajax({
-  		    url: 'controller/register',
+  		    url: 'registerAndSearch/controller/register',
   		    type: 'POST',
   		    data: formData,
   		    processData: false,
@@ -668,6 +502,3 @@
 			modal.style.display = "none";
 		}
 	}
-	</script>
-</body>
-</html>

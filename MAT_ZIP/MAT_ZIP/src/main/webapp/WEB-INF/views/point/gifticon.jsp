@@ -15,7 +15,7 @@
 				type : 'post',
 				url : "exchange",
 				data : {
-					user_id : "home",
+					user_id : ${session.user_id},
 					id : 1
 				},
 				success : function(data) {
@@ -32,7 +32,7 @@
 				type : 'post',
 				url : "exchange",
 				data : {
-					user_id : "home",
+					user_id : ${session.user_id},
 					id : 2
 				},
 				success : function(data) {

@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="ranking">
 	<select id="findall" resultType="RankingVO">
-		select name, img, count(*) as total from matzip.ranking
-		group by name, img
+		select `no`, name, img, count(*) as total from multi.ranking
+		group by `no`, name, img
 		order by total desc;
 	</select>
 </mapper>

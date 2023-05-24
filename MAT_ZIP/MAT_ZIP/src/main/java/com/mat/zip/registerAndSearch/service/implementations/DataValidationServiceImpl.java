@@ -97,6 +97,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 			if(countInfoInRestaurant > 0) {
 				//그러면 mzRegister DB에 insert 
 				mzRegisterInfoDAO.insert(vo);
+				//point 적립 Service 위치
+				
 				
 				result.setLandNumAddress("k");
 				result.setCount(1);
@@ -129,6 +131,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 				}
 			}
 			mzRegisterInfoDAO.insert(vo);
+			//point 적립 Service 위치
+			
 			result = restaurantDAO.addressAndName(vo);
 			result.setCount(countInfoInMZ);
 			return result;

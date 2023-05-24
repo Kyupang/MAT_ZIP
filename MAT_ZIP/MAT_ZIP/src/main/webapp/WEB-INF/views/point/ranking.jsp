@@ -16,10 +16,10 @@
 						<div class="item">
 							<div class="box">
 								<div class="detail-box">
-									<img src="resources/images/food1.png" alt="" class="box-img">
-									<p>1</p>
+									<img src="resources/images/ranking/${bag.no}${bag.name}4.jpg" alt="" class="box-img">
+									<p>또슐랭</p>
 									<p>${bag.name}</p>
-									<h6>${bag.total}</h6>
+									<h6>또슐랭 포인트 : ${bag.total}</h6>
 								</div>
 							</div>
 						</div>

@@ -74,7 +74,7 @@
 	            return false;
 	        },
 	        minLength: 1, // 최소 글자수
-	        delay: 50, // autocomplete 딜레이 시간(ms)
+	        delay: 100, // autocomplete 딜레이 시간(ms)
 	        // disabled: true, // 자동완성 기능 끄기
 	    });
 	
@@ -86,7 +86,7 @@
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
 					var inputValue = $("#searchInput").val();
-					
+					console.log(inputValue);
 					
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 				    mapOption = { 
@@ -109,7 +109,7 @@
 	                      return item.name;
 	                    });
 	                var matchedAddresses = matchedItems.map(function(item) {
-	                	console.log(item.landNumAddress);
+	                	  console.log(item.landNumAddress);
 	                	  return item.landNumAddress;
 	                	});
 					
@@ -140,7 +140,7 @@
 						      
 						      // 인포윈도우로 장소에 대한 설명을 표시합니다
 						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+'</div>',
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+" "+address+'</div>',
 						          removable: true
 						      });
 						      infowindow.open(map, marker);

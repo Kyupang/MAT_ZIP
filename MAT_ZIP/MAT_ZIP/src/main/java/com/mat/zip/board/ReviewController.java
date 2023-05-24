@@ -1,15 +1,23 @@
 package com.mat.zip.board;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import javax.servlet.http.HttpSession;
+
+import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
 
 @Controller
 @RequestMapping("/board/*")
@@ -17,38 +25,51 @@ public class ReviewController {
 	
 	private static Logger logger = LoggerFactory.getLogger(ReviewController.class);
 	
-	@Inject
+	@Autowired
 	private ReviewService reviewService;
 	
-	@Inject
-	public ReviewController(ReviewService reviewService) {
-		this.reviewService = reviewService;
+	
+	// writeReview 페이지로 이동하는 메소드
+	@GetMapping("/writeReview")
+	public String writeReview(Model model, HttpSession session) {
+	    String user_id = (String) session.getAttribute("user_id");
+	    if (user_id == null) {
+	        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
+	        return "redirect:/login";
+	    }
+	    List<MZRegisterInfoVO> receiptList = reviewService.getReceipt(user_id);
+	    model.addAttribute("receiptList", receiptList);
+	    return "board/writeReview";
 	}
 	
 	
-	// 게시물 insert 페이지로 이동하기 
-	@RequestMapping(value = "/insertReview", method = RequestMethod.GET)
-	public String insertGet() {
-		
-		logger.info("insert GET...");
-		
-		return "/board/insertReview";
+	// insertReview 페이지로 이동하는 메소드
+	@PostMapping("/insertReview")
+	public String insertReview(ReviewVO vo, HttpSession session) {
+	    String user_id = (String) session.getAttribute("user_id");
+	    if (user_id == null) {
+	        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
+	        return "redirect:/login";
+	    }
+	    vo.setUser_id(user_id);
+	    reviewService.insertReview(vo);
+	    return "redirect:/boardReview";
 	}
 	
 	
-	// 게시물 insert 처리 
-	@RequestMapping(value = "/insertReview", method = RequestMethod.POST)
-	public String insert(ReviewVO reviewVO, RedirectAttributes redirectAttributes) {
-		
-		logger.info("insert Review...");
-		logger.info(reviewVO.toString());
-		reviewService.create(reviewVO);
-		redirectAttributes.addFlashAttribute("msg", "insertSuccess");
-		
-		return "redirect:/board/allReview";
-	}
+//	// 게시물 insert 처리 
+//	@RequestMapping(value = "/insertReview", method = RequestMethod.POST)
+//	public String insert(ReviewVO vo, RedirectAttributes redirectAttributes) {
+//		
+//		logger.info("insert Review...");
+//		logger.info(vo.toString());
+//		reviewService.insertReview(vo);
+//		redirectAttributes.addFlashAttribute("msg", "insertSuccess");
+//		
+//		return "redirect:/board/allReview";
+//	}
 	
-	
+
 	// 리뷰게시물 전체 게시글 list 
 	@RequestMapping(value = "/allReview", method = RequestMethod.GET)
 	public String allReview(Model model) {
@@ -66,10 +87,10 @@ public class ReviewController {
 		
 		logger.info("oneReviewId...");
 		
-		ReviewVO data = reviewService.oneReviewId(review_id); // review_id값을 넘김
+		ReviewVO vo = reviewService.oneReviewId(review_id); // review_id값을 넘김
 		
-		System.out.println(data);
-		model.addAttribute("data", data);
+		System.out.println(vo);
+		model.addAttribute("data", vo);
 		
 		return "/board/oneReviewId";
 	}
@@ -88,10 +109,10 @@ public class ReviewController {
 	
 	// 게시물 수정 처리 
 	@RequestMapping(value = "/updateReview", method = RequestMethod.POST)
-	public String update(ReviewVO reviewVO, RedirectAttributes redirectAttributes) {
+	public String update(ReviewVO vo, RedirectAttributes redirectAttributes) {
 		
 		logger.info("update Review...");
-		reviewService.update(reviewVO);
+		reviewService.update(vo);
 		redirectAttributes.addFlashAttribute("msg", "updateSuccess");
 		
 		return "redirect:/board/allReview";

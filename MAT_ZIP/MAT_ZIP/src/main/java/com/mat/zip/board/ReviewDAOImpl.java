@@ -2,57 +2,54 @@ package com.mat.zip.board;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
 
 @Repository
 public class ReviewDAOImpl implements ReviewDAO {
 	
-	private static String NAMESPACE = "com.mat.zip.mapper.ReviewMapper";
-	
-	@Inject
-	SqlSession sqlSession;
-	
-//	@Inject
-//	public ReviewDAOImpl(SqlSession sqlSession) {
-//		this.sqlSession = sqlSession;
-//	}
+	@Autowired
+	private SqlSession sqlSession;
 	
 	
-	// 리뷰 게시글 작성
+	
 	@Override
-	public void create(ReviewVO reviewVO) {
-		sqlSession.insert(NAMESPACE + ".create", reviewVO); 
+	public int insertReview(ReviewVO vo) {
+		return sqlSession.insert("com.mat.zip.mapper.ReviewMapper.insertReview", vo);
 	}
 
-	
-	// 리뷰게시글 상세조회
+	@Override
+	public List<MZRegisterInfoVO> getReceipt(String userId) {
+		return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.getReceipt", userId);
+	}
+
 	@Override
 	public ReviewVO oneReviewId(int review_id) {
-		return sqlSession.selectOne(NAMESPACE + ".oneReviewId", review_id);
+		return sqlSession.selectOne("com.mat.zip.mapper.ReviewMapper.oneReviewId", review_id);
 	}
-	
-	
-	// 리뷰게시글 수정 
+
 	@Override
-	public void update(ReviewVO reviewVO) {
-		sqlSession.update(NAMESPACE + ".update", reviewVO);
+	public int delete(int review_id) {
+		return sqlSession.delete("com.mat.zip.mapper.ReviewMapper.delete", review_id);
 	}
-	
-	
-	// 리뷰게시글 삭제
+
 	@Override
-	public void delete(int review_id) {
-		sqlSession.delete(NAMESPACE + ".delete", review_id);
+	public int update(ReviewVO vo) {
+		return sqlSession.update("com.mat.zip.mapper.ReviewMapper.update", vo);
 	}
-	
-	
-	// 리뷰게시글 전체 list 조회 
+
+	@Override
+	public void incrementReviewViewCount(int review_id) {
+		sqlSession.update("com.mat.zip.mapper.ReviewMapper.incrementReviewViewCount", review_id);
+	}
+
 	@Override
 	public List<ReviewVO> allReview() {
-		return sqlSession.selectList(NAMESPACE + ".allReview");
+		return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.allReview");
 	}
+	
 
 }

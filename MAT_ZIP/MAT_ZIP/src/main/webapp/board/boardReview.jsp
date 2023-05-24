@@ -32,7 +32,7 @@
 	${session.getAttribute("user_id")} 님이 로그인 중입니다.
 	<br>
 	<br>
-	<form action="insertReview" id="form" method="get">
+	<form action="writeReview" id="form" method="get">
 		<button type="submit" style="background: #c5ff9c;">리뷰 게시글 작성하기</button>
 	</form>
 	<!-- <a href="/WEB-INF/views/board/insertReview.jsp">

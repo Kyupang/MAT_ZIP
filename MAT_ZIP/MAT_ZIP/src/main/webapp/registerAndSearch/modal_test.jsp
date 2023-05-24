@@ -151,11 +151,8 @@
 
 	<div id="map" style="width: 100%; height: 350px;"></div>
 
-	
+
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
-	<!-- 부르는 기술들은 밑에 포함하고   -->
-	<!--   -->
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
@@ -302,11 +299,11 @@
 						          position: coords,
 						          clickable: true
 						      });
-						      no=8;
-						      // <a href="mainpage/mzone?landNumAddress=address"><button>+name+"상세페이지로 이동"+</button></a>
+						      
+						      
 						      // 인포윈도우로 장소에 대한 설명을 표시합니다
 						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+"<br>"+address+'</div>',
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+'</div>',
 						          removable: true
 						      });
 						      infowindow.open(map, marker);

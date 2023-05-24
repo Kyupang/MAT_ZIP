@@ -2,13 +2,9 @@ package com.mat.zip.registerAndSearch.service.implementations;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.catalina.tribes.membership.MemberImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mat.zip.mzMember.model.MzMemberDTO;
 import com.mat.zip.registerAndSearch.dao.MZRegisterInfoDAO;
 import com.mat.zip.registerAndSearch.dao.RestaurantDAO;
 import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
@@ -34,8 +30,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 		//OCR에서 나온 결과값 1,2,3,4,5를 처리.
 		//주소 1,2  결제일시 3,4  전화번호 5
 		
-		//HttpSession session 파라미터
-		//String userId = String.valueof(session.getAttribute("user_id"));
+		// String userId = session.getAttribute('id') 라고 하고
 		String userId = "admin";
 		String storeAddress = "";
 		if(extractedData.get(0).length() <= extractedData.get(1).length() ) {

@@ -2,15 +2,21 @@ package com.mat.zip.board;
 
 import java.util.List;
 
+import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
+
 public interface ReviewService {
 	
-	public void create(ReviewVO reviewVO);
+	public int insertReview(ReviewVO vo);
 	
+	public List<MZRegisterInfoVO> getReceipt(String userId);
+
 	public ReviewVO oneReviewId(int review_id);
 	
-	public void update(ReviewVO reviewVO);
+	public int delete(int review_id);
 	
-	public void delete(int review_id);
+	public int update(ReviewVO vo);
+	
+	public void incrementReviewViewCount(int review_id);
 	
 	public List<ReviewVO> allReview();
 	

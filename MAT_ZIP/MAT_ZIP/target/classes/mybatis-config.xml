@@ -17,15 +17,13 @@
       <typeAlias type="com.mat.zip.boss.return_CustomerCountVO" alias="return_CustomerCountVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.gifticonVO" alias="gifticonVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.ProductPointVO" alias="productPointVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
-      <typeAlias type="com.mat.zip.point.model.PointInquiryVO" alias="PointInquiryVO"></typeAlias>
-      <typeAlias type="com.mat.zip.point.model.RankingVO" alias="RankingVO"></typeAlias>
-		<typeAlias type="com.mat.zip.mzMember.model.MzMemberDTO" alias="memberDTO"></typeAlias>
-
+		<typeAlias type="com.mat.zip.point.gifticonVO" alias="gifticonVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.ProductPointVO" alias="productPointVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>
+      <typeAlias type="com.mat.zip.mzMember.model.MzMemberDTO" alias="memberDTO"></typeAlias>
+      
       
       <typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.PostComVO"
@@ -43,21 +41,18 @@
    <!-- SQL문 정의하는 파일들의 목록을 지정. -->
       <mapper resource="mapper/mzRegisterInfoMapper.xml" />      
       <mapper resource="mapper/restaurantMapper.xml" />
+      
       <mapper resource="mapper/BoardMapper.xml" />
       <mapper resource="mapper/ComMapper.xml" />
       <mapper resource="mapper/MemberMapper.xml" />
       <mapper resource="mapper/BossMapper.xml" />
       <mapper resource="mapper/PaymentMapper.xml" />
       <mapper resource="mapper/ChartMapper.xml" />
-      
-      <!-- HAM POINT mapper -->
+      <mapper resource="mapper/Chart_reviewMapper.xml" />
 		<mapper resource="mapper/gifticonMapper.xml" />
 		<mapper resource="mapper/productPointMapper.xml" />
 		<mapper resource="mapper/PointExchangeHistoryMapper.xml" />
 		<mapper resource="mapper/pointMapper.xml" />
-		<mapper resource="mapper/PointInquiryMapper.xml" />
-		<mapper resource="mapper/RankingMapper.xml" />
-		
       <mapper resource="mapper/mzMemberMapper.xml" />
       
       

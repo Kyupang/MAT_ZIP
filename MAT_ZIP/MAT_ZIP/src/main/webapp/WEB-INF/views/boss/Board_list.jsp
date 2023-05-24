@@ -56,28 +56,45 @@
 </style>
 <meta charset="UTF-8">
 <title>맛.zip</title>
+<script type="text/javascript">
+$(document).ready(function() {
+	  $(".boardDetailLink").click(function(event) {
+	    event.preventDefault(); // 기본 이벤트 동작 방지
+
+	    var boardId = $(this).data("board-id");
+
+	    $.ajax({
+	      url: "Board_detail", // Board_detail 페이지에 대한 URL 설정
+	      method: "GET",
+	      data: { board_id: boardId }, // 게시물 ID를 파라미터로 전달
+	      success: function(response) {
+	        $("#content").html(response);
+	      },
+	      error: function(xhr, status, error) {
+	        console.log("Error: " + error);
+	      }
+	    });
+	  });
+	});
+
+</script>
 </head>
 <body>
 
-	<h1 style="color: green;" id="main">
+	<!-- <h1 style="color: green;" id="main">
 	<a href ="board_index.jsp">
 		<button class="btn btn-outline-success"
 			style="width: 100px; border-bottom: 2px solid green;">
 			<em>맛.zip</em>
 		</button></a>
 	</h1>
-	<form action="Board_one" method="get" id="search">
-		<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
-		<button type="submit" class="btn btn-success">
-			검색<i class="bi bi-search"></i>
-		</button>
-	</form>
+	
 	<h3 style="color: gray;" id="main2">
 		<em><span style="border-bottom: 2px solid gray;">사장님</span></em>
-	</h3>
+	</h3> -->
 
 
-	<div class="container">
+	<%-- <div class="container">
 		<!--컨테이너  -->
 		<div class="row">
 			<%
@@ -110,49 +127,9 @@
 				}
 			%>
 		</div>
-	</div>
+	</div> --%>
 
 
-	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<table class="table"
-				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-success">
-					<div class="col-md-3">
-						<!-- 12개의 컬럼중에 3개씩 할당 -->
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>매출,마진계산기</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>맛 News</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="Board_list">
-								<button style="background-color: #fafafa;">
-									<h4>자유게시판</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>전문가QnA</h4>
-								</button>
-						</a></td>
-					</div>
-				</tr>
-			</table>
-		</div>
-	</div>
 	<div class="container">
 		<!--컨테이너  -->
 		<div class="row">
@@ -179,18 +156,29 @@
 				</tr>
 				<!-- 게시판 리스트 출력되는 부분 -->
 				<c:forEach items="${Board_list}" var="bag">
-					<tr>
-						<td><input type="hidden" ${bag.board_id}></td>
-						<td><a href="Board_detail?board_id=${bag.board_id}">${bag.title}</a></td>
-						<td>${bag.writer}</td>
-						<td><fmt:formatDate value="${bag.regdate}"
-								pattern="yyyy-MM-dd HH:mm" /></td>
-						<td>${bag.viewscount}</td>
-						<td>${bag.likecount}</td>
-
-					</tr>
+				  <tr>
+				    <td><input type="hidden" ${bag.board_id}></td>
+				    <td><a href="#" class="boardDetailLink" data-board-id="${bag.board_id}">${bag.title}</a></td>
+				    <td>${bag.writer}</td>
+				    <td><fmt:formatDate value="${bag.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+				    <td>${bag.viewscount}</td>
+				    <td>${bag.likecount}</td>
+				  </tr>
 				</c:forEach>
+
 			</table>
+		</div>
+	</div>
+	<div class="container">
+		<!--컨테이너  -->
+		<div class="row">
+			<!-- 로우설정  -->
+			<form action="Board_one" method="get" id="search">
+			<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
+			<button type="submit" class="btn btn-success">
+				검색<i class="bi bi-search"></i>
+			</button>
+	</form>
 		</div>
 	</div>
 	<!--글쓰기기능  -->

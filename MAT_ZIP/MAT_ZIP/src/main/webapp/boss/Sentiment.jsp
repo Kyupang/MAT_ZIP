@@ -5,101 +5,88 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
-        var sentimentResults = [];
-        var positiveCount = 0;
-        var negativeCount = 0;
-        var totalReviews = 0;
-
-        function fetchReview() {
+    $(document).ready(function() {
+        $("#SentimentButton").click(function() {
             var storeId = '<%= session.getAttribute("store_id") %>';
             var encodedStoreId = encodeURIComponent(storeId);
+
             $.ajax({
-                url: 'review/' + encodedStoreId,
+                url: 'analyze/' + encodedStoreId,
                 type: 'GET',
                 dataType: 'json',
-                success: function(response) {
-                    totalReviews = response.length;
-                    sentimentResults = [];
-                    console.log('받아온 리뷰데이터: ' + JSON.stringify(response));
-                    for (var i = 0; i < response.length; i++) {
-                        var reviewContent = response[i];
-                        analyzeSentiment(reviewContent);
-                        console.log("reviewContent: " + JSON.stringify(reviewContent));
-                    }
-                },
-                error: function(error) {
-                    alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
-                }
-            });
-        }
-
-        function decodeBase64Content(contentBase64) {
-            try {
-                return decodeURIComponent(escape(window.atob(contentBase64)));
-            } catch (e) {
-                console.error('Base64 decoding failed: ', e);
-                return contentBase64;
-            }
-        }
-
-        function analyzeSentiment(reviewContent) {
-            var data = { "content": reviewContent };
-            console.log("성공전 디코딩리뷰: "+ JSON.stringify(data));
-            $.ajax({
-                url: 'analyze',
-                type: 'POST',
-                data: JSON.stringify(data),
                 contentType: 'application/json; charset=UTF-8',
                 success: function(response) {
-                    var sentences = response.sentences;
-                    for (var i = 0; i < sentences.length; i++) {
-                        sentences[i].content = decodeBase64Content(sentences[i].content);
-                    }
-
                     console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2));
-                    var sentiment = response.document.sentiment;
-                    var confidence = response.document.confidence;
+                    // 필드들을 표시할 <div> 요소 가져오기
+                    var resultElement = $("#result");
 
-                    sentimentResults.push(sentiment);
+                    // 기존 결과 초기화
+                    resultElement.empty();
 
-                    $("body").append("<p>리뷰: " + sentences[0].content + ", 감정: " + sentiment + "</p>");
+                    // 통계 변수 초기화
+                    var totalCount = response.length;
+                    var positiveCount = 0;
+                    var negativeCount = 0;
+                    var neutralCount = 0;
 
-                    if (confidence.positive > confidence.negative) {
-                        positiveCount++;
-                    } else if (confidence.negative > confidence.positive) {
-                        negativeCount++;
+                    // response 객체를 순회하며 필드들을 <div>에 표시
+                    for (var i = 0; i < response.length; i++) {
+                        var review = response[i];
+                        /* resultElement.append("<p>리뷰 내용: " + review.sentences[0].content + ", 감정 분석 결과: " + review.document.sentiment); */
+
+                        // 통계 카운트 계산
+                        if (review.document.sentiment === "positive") {
+                            positiveCount++;
+                        } else if (review.document.sentiment === "negative") {
+                            negativeCount++;
+                        } else {
+                            neutralCount++;
+                        }
                     }
 
-                    if (sentimentResults.length === totalReviews) {
-                        calculateAndDisplayStatistics();
+                    var positivePercentage = (positiveCount / totalCount) * 100;
+                    var negativePercentage = (negativeCount / totalCount) * 100;
+                    var neutralPercentage = (neutralCount / totalCount) * 100;
+					/* 퍼센트 표시할시 사용 */
+                    /* resultElement.append("<p>긍정 리뷰: " + positivePercentage.toFixed(2) + "%</p>");
+                    resultElement.append("<p>부정 리뷰: " + negativePercentage.toFixed(2) + "%</p>");
+                    resultElement.append("<p>중립 리뷰: " + neutralPercentage.toFixed(2) + "%</p>"); */
+                    
+                    google.charts.load("current", {packages:["corechart"]});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                      var data = google.visualization.arrayToDataTable([
+                        ['Task', 'Hours per Day'],
+                        ['긍정', positivePercentage],
+                        ['부정', negativePercentage],
+                        ['중립', neutralPercentage]
+                      ]);
+
+                      var options = {
+                        title: '<%= session.getAttribute("store_id") %>'+ ' 리뷰 감정분석',
+                        is3D: true,
+                      };
+
+                      var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                      chart.draw(data, options);
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+
+                error: function(error) {
                     alert('감정 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
                 }
             });
-        }
-
-        function calculateAndDisplayStatistics() {
-            var totalCount = positiveCount + negativeCount;
-            var positivePercentage = (positiveCount / totalCount) * 100;
-            var negativePercentage = (negativeCount / totalCount) * 100;
-
-            $("body").append("<p>긍정 리뷰: " + positivePercentage.toFixed(2) + "%</p>");
-            $("body").append("<p>부정 리뷰: " + negativePercentage.toFixed(2) + "%</p>");
-        }
-
-        $(document).ready(function() {
-            $("#positiveReviewButton").click(function() {
-                fetchReview();
-            });
         });
-    </script>
+    });
+</script>
+
 </head>
 <body>
     긍정부정 리뷰 분석
+    <button id="SentimentButton">차트보기</button>
     <div id="result"></div>
-    <button id="positiveReviewButton">차트보기</button>
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
 </body>
 </html>

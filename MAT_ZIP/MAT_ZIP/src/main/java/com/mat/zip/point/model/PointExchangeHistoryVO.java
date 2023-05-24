@@ -1,19 +1,10 @@
-package com.mat.zip.point;
+package com.mat.zip.point.model;
 
-public class PointDetailHistoryVO {
+public class PointExchangeHistoryVO {
 
-	private int no;
 	private String user_id;
 	private String type;
 	private int point;
-
-	public int getNo() {
-		return no;
-	}
-
-	public void setNo(int no) {
-		this.no = no;
-	}
 
 	public String getUser_id() {
 		return user_id;
@@ -41,7 +32,7 @@ public class PointDetailHistoryVO {
 
 	@Override
 	public String toString() {
-		return "PointDetailHistoryVO [no=" + no + ", user_id=" + user_id + ", type=" + type + ", point=" + point + "]";
+		return "PointExchangeHistoryVO [user_id=" + user_id + ", type=" + type + ", point=" + point + "]";
 	}
 
 }

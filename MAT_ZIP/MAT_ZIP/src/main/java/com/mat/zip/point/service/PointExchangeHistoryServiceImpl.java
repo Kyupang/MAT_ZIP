@@ -1,4 +1,4 @@
-package com.mat.zip.point;
+package com.mat.zip.point.service;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,6 +6,14 @@ import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mat.zip.point.dao.PointExchangeHistoryDAO;
+import com.mat.zip.point.model.PointDetailHistoryVO;
+import com.mat.zip.point.model.PointExchangeHistoryVO;
+import com.mat.zip.point.model.PointSaveHistoryVO;
+import com.mat.zip.point.model.ProductPointVO;
+import com.mat.zip.point.model.SendSmsVO;
 
 @Service
 public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryService {
@@ -16,6 +24,7 @@ public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryServ
 	SensAPI sensapi;
 
 	@Override
+	@Transactional
 	//적립 포인트 상품 교환 비즈니스 로직
 	public void exChange(String user_id, int id) {
 		

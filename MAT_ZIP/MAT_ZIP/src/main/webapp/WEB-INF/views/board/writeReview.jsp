@@ -12,6 +12,7 @@
 <body>
 <h1>리뷰를 등록할 영수증을 먼저 선택해주세요!</h1>
 <hr color="green">
+${receiptList.user_id} 님의 영수증 등록 현황 입니다. <br>
 
 </body>
 </html>

@@ -27,23 +27,30 @@
 	<br>
 	<%
 		if (session.getAttribute("user_id") == null) {
+			// 아래 admin으로 세션 잡아버리는건 수정 필요함!!!
 			session.setAttribute("user_id", "admin");
-		
+			
+			// 이렇게 수정해야댐~ 
+			// 먼저 if문 안에 user_id == null 로 잡은걸 != null로 잡고, 
+			// ${session.getAttribute("user_id")} 님이 로그인 중입니다. 
+			// 추가해주자 그리고 중괄호 닫고  else문 시작, 아래 로그인 필요 else 부분 열고 login 페이지로 이동 
+		}
 	%>
 	
 	<hr color="green">
 	
 	${session.getAttribute("user_id")} 님이 로그인 중입니다.
 	
-	<% } else { %>
+		
+	<%-- <% } else { %>
 	
 	로그인이 필요합니다. 
 	
-	<a href="../mz_member/login.jsp">
+	<a href="login.jsp">
 		<button style="background: yellow;">로그인페이지로 이동하기</button>
 	</a>
 	
-	<% } %>
+	<% } %> --%>
 	
 	<br>
 	<br>

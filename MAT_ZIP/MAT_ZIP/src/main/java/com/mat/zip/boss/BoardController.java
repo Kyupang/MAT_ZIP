@@ -1,7 +1,9 @@
 package com.mat.zip.boss;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -79,20 +81,44 @@ public class BoardController {
 		BoardVO bag = dao.one(board_id);
 		dao.view(board_id);
 		List<ComVO> list = dao2.list(board_id);
-		List<BoardVO> list2 = dao.list(30);
+		List<BoardVO> list2 = dao.list(5,0);
+		//댓글개수가져오기 
+	    int commentCount = dao2.getCommentCount(board_id);
+	    
 		model.addAttribute("Com_list", list);
 		model.addAttribute("Board_list", list2);
+		model.addAttribute("commentCount", commentCount);
+		
 		System.out.println("댓글테이블요청됨");
 		model.addAttribute("bag", bag);
 
 	}
 
 	@RequestMapping("/boss/Board_list")
-	public void list(Model model) {
-		List<BoardVO> list = dao.list(30);
-		System.out.println(list.size()); // 사이즈를 찍어보세요.
-		model.addAttribute("Board_list", list);
+	public void list(Model model, @RequestParam(defaultValue = "1") int page) {
+	    int limit = 10;
+	    int offset = (page - 1) * limit;
+	    List<BoardVO> list = dao.list(limit, offset);
+	    
+	 // 댓글 개수 가져오기
+	    for (BoardVO board : list) {
+	        int commentCount = dao2.getCommentCount(board.getBoard_id());
+	        board.setCommentCount(commentCount);
+	    }
+	    
+	    int totalCount = dao.count();
+	    int totalPages = (int) Math.ceil((double) totalCount / limit);
+	    
+	    model.addAttribute("Board_list", list);
+	    model.addAttribute("totalCount", totalCount);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    
 	}
+
+
+
+
 
 	@PostMapping("/boss/like")
 	public ResponseEntity<?> like(HttpSession session, @RequestParam("board_id") int board_id) {

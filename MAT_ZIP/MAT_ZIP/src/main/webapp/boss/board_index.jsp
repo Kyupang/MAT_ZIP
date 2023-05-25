@@ -13,7 +13,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="../resources/css/boss.css" rel="stylesheet">
 <!-- boss.css 파일을 추가 -->
-<script src="../resources/js/boss_menu.js"></script>
+<script src="../resources/js/boss_menu.js?ver=1"></script>
 <!-- 커뮤니티메뉴 js 파일을 추가  -->
 
 <style>
@@ -49,6 +49,8 @@
 		<div class="row">
 		<!-- 음식결제하기 메뉴는 세션 잡지않은상태 아직 고민중  -->
 		<a href="paymentTest.jsp"> <button class="btn btn-success" style="z-index:200;">음식결제하러가기</button></a>
+		<br>
+		<a href="../index.jsp"> <button class="btn btn-warning" style="z-index:200;">메인페이지로가기</button></a>
 			<%
 				if (session.getAttribute("user_id") != null) {
 			%>

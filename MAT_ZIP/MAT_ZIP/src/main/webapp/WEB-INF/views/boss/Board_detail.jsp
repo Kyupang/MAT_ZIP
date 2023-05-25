@@ -19,48 +19,116 @@
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
 <script type="text/javascript">
-$(document).ready(function() {
-	$(document).on('click', '#cominsert', function() {
-		content = $('#com').val();
-		writer = "${user_id}";
-		$.ajax({
-			url: "Board_insertcom",
-			data: {
-				board_id: '${bag.board_id}',
-				content: content,
-				writer: writer
-			},
-			success: function(response) {
-				$('#result').html(response); // 업데이트된 댓글 목록을 #result 요소에 삽입
-			},
-			error: function() {
-				alert('댓글 요청 실패!');
-			}
-		});
-	});
+	$(function() {
+		$('#b1').click(function() {
+			content = $('#com').val()
+			writer = "${user_id}"
+			/* regdate = '${bag.regdate}' */
+			$.ajax({
+				url : "Board_insertcom",
+				data : {
+					board_id : '${bag.board_id}',
+					content : content,
+					writer : writer
+
+				},
+				success : function(x) {
+					$('#result').load(location.href + ' #result')
+				
+				},
+				error : function() {
+					alert('computer요청 실패!')
+				}//error
+			})//ajax
+		})//b1
+	})//$
+	
+</script>
+<script type="text/javascript">
+$(function() {
+    // 댓글 메뉴 열기/닫기
+    $(document).on('click', '.menu-icon', function() {
+        var menuOptions = $(this).closest('tr').find('.menu-options');
+        menuOptions.toggle();
+    });
+
+    // 수정 버튼 클릭 시
+    $(document).on('click', '.edit-option', function() {
+        var commentContent = $(this).closest('tr').find('.comment-content');
+        var editInput = $(this).closest('tr').find('.edit-comment');
+
+        commentContent.hide();
+        editInput.val(commentContent.text()).show().focus();
+    });
+
+    // 수정된 내용 저장 버튼 클릭 시
+    $(document).on('focusout', '.edit-comment', function() {
+        var commentContent = $(this).closest('tr').find('.comment-content');
+        var editInput = $(this).closest('tr').find('.edit-comment');
+        var commentId = $(this).closest('tr').data('comment-id');
+        var updatedContent = editInput.val();
+
+        // AJAX 요청을 보내서 수정된 내용 저장 및 적용
+        $.ajax({
+            url: 'Com_update',
+            method: 'POST',
+            data: {
+                reply_id: commentId,
+                content: updatedContent
+            },
+            success: function(response) {
+                commentContent.text(updatedContent).show();
+                editInput.hide();
+            },
+            error: function() {
+                alert('Failed to update comment!');
+            }
+        });
+    });
+
+    // 삭제 옵션 클릭 시
+    $(document).on('click', '.delete-option', function() {
+        var commentId = $(this).closest('tr').data('comment-id');
+
+        // AJAX 요청을 보내서 댓글 삭제
+        $.ajax({
+            url: 'Com_delete',
+            method: 'POST',
+            data: {
+                reply_id: commentId
+            },
+            success: function(response) {
+                // 삭제된 댓글 표시를 갱신하는 등의 작업 수행
+                location.reload();
+            },
+            error: function() {
+                alert('Failed to delete comment!');
+            }
+        });
+    });
 });
-			</script>
+</script>
 <script>
-		$(document).ready(function(){
-		    $('.like-form').on('submit', function(event){
-		        event.preventDefault();
-		        var form = $(this);
-		        var board_id = form.find('input[name="board_id"]').val();
-		        var likeButton = form.find('.like-button');
-		
-		        $.ajax({
-		            url: form.attr('action'),
-		            type: 'POST',
-		            data: {
-		                board_id: board_id
-		            },
-		            success: function(response) {
-		                // '좋아요' 카운트를 업데이트
-		                likeButton.text('좋아요 ' + response);
-		            }
-		        });
-		    });
-		});
+$(document).ready(function(){
+    $('.like-form').on('submit', function(event){
+        event.preventDefault();
+        var form = $(this);
+        var board_id = form.find('input[name="board_id"]').val();
+        var likeButton = form.find('.like-button');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: {
+                board_id: board_id
+            },
+            success: function(response) {
+                // '좋아요' 카운트를 업데이트
+                likeButton.text('좋아요 ' + response);
+            }
+        });
+    });
+});
 </script>
 <style>
 @import
@@ -107,11 +175,98 @@ $(document).ready(function() {
 </head>
 <body>
 
+	<h1 style="color: green;" id="main">
+	<a href ="board_index.jsp">
+		<button class="btn btn-outline-success"
+			style="width: 100px; border-bottom: 2px solid green;">
+			<em>맛.zip</em>
+		</button></a>
+	</h1>
+	<form action="Board_one" method="get" id="search">
+		<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
+		<button type="submit" class="btn btn-success">
+			검색<i class="bi bi-search"></i>
+		</button>
+	</form>
+	<h3 style="color: gray;" id="main2">
+		<em><span style="border-bottom: 2px solid gray;">사장님</span></em>
+	</h3>
+
+	<div class="container">
+		<!--컨테이너  -->
+		<div class="row">
+			<%
+				if (session.getAttribute("user_id") != null) {
+			%>
+			<h3 style="color: green;">
+				<em class="id"><span class="badge text-bg-warning">${nickName}님</span></em>
+			</h3>
+			<h3 style="color: green;">
+				<em class="logout"> <a href="logout"><button type="button"
+							class="btn btn-danger opacity-75 bi bi-box-arrow-right">로그아웃  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-box-arrow-right"
+						viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+							d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+  <path fill-rule="evenodd"
+							d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+</svg></button>
+				</a> </em>
+			</h3>
+
+			<%
+				} else {
+			%>
+			<a href="boss_member.jsp"> <span class="id2"><button
+						class="btn btn-warning">회원가입</button></span>
+			</a><a href="boss_login.jsp"> <span class="id"><button
+						class="btn btn-success">로그인</button></span>
+			</a>
+			<%
+				}
+			%>
+		</div>
+	</div>
+
+
 	<div class="container">
 		<!--컨테이너  -->
 		<div class="row">
 			<!-- 로우설정  -->
-			<!--메뉴있던곳  -->
+			<table class="table"
+				style="text-align: center; border: 1px solid #dddddd">
+				<tr class="table-success">
+					<div class="col-md-3">
+						<!-- 12개의 컬럼중에 3개씩 할당 -->
+						<td><a href="owner_login">
+								<button style="background-color: #fafafa;">
+									<h4>매출,마진계산기</h4>
+								</button>
+						</a></td>
+					</div>
+					<div class="col-md-3">
+						<td><a href="owner_login">
+								<button style="background-color: #fafafa;">
+									<h4>맛 News</h4>
+								</button>
+						</a></td>
+					</div>
+					<div class="col-md-3">
+						<td><a href="Board_list">
+								<button style="background-color: #fafafa;">
+									<h4>자유게시판</h4>
+								</button>
+						</a></td>
+					</div>
+					<div class="col-md-3">
+						<td><a href="owner_login">
+								<button style="background-color: #fafafa;">
+									<h4>전문가QnA</h4>
+								</button>
+						</a></td>
+					</div>
+				</tr>
+			</table>
 		</div>
 	</div>
 	<div class="container">
@@ -119,7 +274,8 @@ $(document).ready(function() {
 		<div class="row" class="col-md-9">
 			<!-- 로우설정  -->
 			<h3>
-				<strong><em><span class="badge rounded-pill text-bg-success">자유게시판</span></em></strong>
+				<strong><em><span
+						class="badge rounded-pill text-bg-success">자유게시판</span></em></strong>
 			</h3>
 		</div>
 		<br>
@@ -135,22 +291,29 @@ $(document).ready(function() {
 		<div class="row" class="col-md-9">
 			<h6>${bag.content}</h6>
 		</div>
-	</div>
-
-<form action="like" method="post" class="like-form">
+		<div class="row" class="col-md-2">
+			<form action="like" method="post" class="like-form">
     <input type="hidden" name="board_id" value="${bag.board_id}">
     <button type="submit" class="like-button">좋아요 ${bag.likecount}</button>
 </form>
-
-	<hr color="green">
+		</div>
+		<div class="row" class="col-md-2">
+			<h6><strong>댓글 개수: ${commentCount}</strong></h6>
+		</div>
+	</div>
 	
+
+
+
+
+	
+	<hr color="green">
+	<div id="result">
 		<div class="container">
 			<div class="row">
 				<h4>
-					<strong>댓글</strong>
+					<strong>댓글${commentCount}</strong>
 				</h4>
-				<div id="result">
-				<div id="result table">
 				<table>
 					<c:forEach items="${Com_list}" var="bag">
 						<tr>
@@ -160,8 +323,20 @@ $(document).ready(function() {
 						</tr>
 						<tr>
 							<fmt:formatDate value="${bag.regdate}" pattern="yyyy-MM-dd HH:mm" />
+					        <!-- 로그인 사용자와 댓글 작성자가 동일한 경우에만 수정 및 삭제 옵션을 렌더링합니다. -->
+						        <c:if test="${sessionScope.user_id == bag.writer}">
+						            <div class="comment-menu">
+						                <span class="menu-icon">&#9776;</span>
+						                <div class="menu-options" style="display: none;">
+						                    <span class="edit-option">수정</span>
+						                    <span class="delete-option">삭제</span>
+						                </div>
+						            </div>
+						        </c:if>
+
+						</tr>	
 							<hr>
-						</tr>
+						
 					</c:forEach>
 				</table>
 			</div>
@@ -175,8 +350,14 @@ $(document).ready(function() {
 		<h5 style="color: green;">회원:${nickName}</h5>
 
 		<input id="com">
-		<button id="cominsert" class="btn btn-outline-success">작성</button>
+		<button id="b1" class="btn btn-outline-success">작성</button>
 		<br>
+		<%-- 		<%  if(comid.equals(comwriter)){}%>
+	<h5 style="color: green;" class="id">회원:${id}</h5>
+
+			<input id="com">
+			<button id="b1">작성</button>
+			<br> --%>
 
 		<%
 			} else {

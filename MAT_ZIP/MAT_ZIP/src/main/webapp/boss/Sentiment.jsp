@@ -8,7 +8,6 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
     $(document).ready(function() {
-        $("#SentimentButton").click(function() {
             var storeId = '<%= session.getAttribute("store_id") %>';
             var encodedStoreId = encodeURIComponent(storeId);
 
@@ -79,7 +78,6 @@
                 }
             });
         });
-    });
 </script>
 
 </head>

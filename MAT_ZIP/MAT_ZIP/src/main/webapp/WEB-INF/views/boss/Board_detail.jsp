@@ -1,281 +1,215 @@
-<%@page import="com.mat.zip.boss.BoardVO"%>
-<%@page import="com.mat.zip.boss.ComVO"%>
-<%@page import="com.mat.zip.boss.Boss_memberVO"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="header.jsp"%>
-
+<%@page import="com.mat.zip.boss.BoardVO"%>
+<%@page import="com.mat.zip.boss.ComVO"%>
+<%@page import="com.mat.zip.boss.Boss_memberVO"%>
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="../resources/images/favicon.png" type="">
+
+  <title>Mat.zip </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.css" />
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="../resources/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../resources/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../resources/css/responsive.css" rel="stylesheet" />
+  <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
-<script type="text/javascript">
-	$(function() {
-		$('#b1').click(function() {
-			content = $('#com').val()
-			writer = "${user_id}"
-			/* regdate = '${bag.regdate}' */
-			$.ajax({
-				url : "Board_insertcom",
-				data : {
-					board_id : '${bag.board_id}',
-					content : content,
-					writer : writer
-
-				},
-				success : function(x) {
-					$('#result').load(location.href + ' #result')
-				
-				},
-				error : function() {
-					alert('computer요청 실패!')
-				}//error
-			})//ajax
-		})//b1
-	})//$
-	
-</script>
-<script type="text/javascript">
-$(function() {
-    // 댓글 메뉴 열기/닫기
-    $(document).on('click', '.menu-icon', function() {
-        var menuOptions = $(this).closest('tr').find('.menu-options');
-        menuOptions.toggle();
-    });
-
-    // 수정 버튼 클릭 시
-    $(document).on('click', '.edit-option', function() {
-        var commentContent = $(this).closest('tr').find('.comment-content');
-        var editInput = $(this).closest('tr').find('.edit-comment');
-
-        commentContent.hide();
-        editInput.val(commentContent.text()).show().focus();
-    });
-
-    // 수정된 내용 저장 버튼 클릭 시
-    $(document).on('focusout', '.edit-comment', function() {
-        var commentContent = $(this).closest('tr').find('.comment-content');
-        var editInput = $(this).closest('tr').find('.edit-comment');
-        var commentId = $(this).closest('tr').data('comment-id');
-        var updatedContent = editInput.val();
-
-        // AJAX 요청을 보내서 수정된 내용 저장 및 적용
-        $.ajax({
-            url: 'Com_update',
-            method: 'POST',
-            data: {
-                reply_id: commentId,
-                content: updatedContent
-            },
-            success: function(response) {
-                commentContent.text(updatedContent).show();
-                editInput.hide();
-            },
-            error: function() {
-                alert('Failed to update comment!');
-            }
-        });
-    });
-
-    // 삭제 옵션 클릭 시
-    $(document).on('click', '.delete-option', function() {
-        var commentId = $(this).closest('tr').data('comment-id');
-
-        // AJAX 요청을 보내서 댓글 삭제
-        $.ajax({
-            url: 'Com_delete',
-            method: 'POST',
-            data: {
-                reply_id: commentId
-            },
-            success: function(response) {
-                // 삭제된 댓글 표시를 갱신하는 등의 작업 수행
-                location.reload();
-            },
-            error: function() {
-                alert('Failed to delete comment!');
-            }
-        });
-    });
-});
-</script>
-<script>
-$(document).ready(function(){
-    $('.like-form').on('submit', function(event){
-        event.preventDefault();
-        var form = $(this);
-        var board_id = form.find('input[name="board_id"]').val();
-        var likeButton = form.find('.like-button');
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: {
-                board_id: board_id
-            },
-            success: function(response) {
-                // '좋아요' 카운트를 업데이트
-                likeButton.text('좋아요 ' + response);
-            }
-        });
-    });
-});
-</script>
-<style>
-@import
-	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap')
-	;
-
- body {
-	font-family: 'IBM Plex Sans KR', sans-serif;
-}
-
-.id {
-	text-align: center;
-	position: absolute;
-	right: 100px;
-	top: 50px;
-}
-.logout {
-	text-align: center;
-	position: absolute;
-	right: 100px;
-	top: 90px;
-	z-index: 100;
-}
-
-#search {
-	position: relative;
-	left: 430px;
-	bottom: 25px;
-}
-
-#main {
-	position: relative;
-	left: 300px;
-}
-
-#main2 {
-	position: relative;
-	left: 300px;
-	bottom: 47px;
-} 
-</style>
-<meta charset="UTF-8">
-<title>맛.zip</title>
+  <link href="../resources/css/boss.css?ver=1" rel="stylesheet">
+  <!-- boss.css 파일을 추가 -->
+  <style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap'); </style>
 </head>
-<body>
 
-	<h1 style="color: green;" id="main">
-	<a href ="board_index.jsp">
-		<button class="btn btn-outline-success"
-			style="width: 100px; border-bottom: 2px solid green;">
-			<em>맛.zip</em>
-		</button></a>
-	</h1>
-	<form action="Board_one" method="get" id="search">
-		<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
-		<button type="submit" class="btn btn-success">
-			검색<i class="bi bi-search"></i>
-		</button>
-	</form>
-	<h3 style="color: gray;" id="main2">
-		<em><span style="border-bottom: 2px solid gray;">사장님</span></em>
-	</h3>
+<body class="sub_page">
 
-	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<%
-				if (session.getAttribute("user_id") != null) {
-			%>
-			<h3 style="color: green;">
-				<em class="id"><span class="badge text-bg-warning">${nickName}님</span></em>
-			</h3>
-			<h3 style="color: green;">
-				<em class="logout"> <a href="logout"><button type="button"
-							class="btn btn-danger opacity-75 bi bi-box-arrow-right">로그아웃  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-						fill="currentColor" class="bi bi-box-arrow-right"
-						viewBox="0 0 16 16">
-  <path fill-rule="evenodd"
-							d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-  <path fill-rule="evenodd"
-							d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-</svg></button>
-				</a> </em>
-			</h3>
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="../resources/images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section" style="z-index: 100;">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="../index.jsp">
+            <span>
+              Mat.zip
+            </span>
+          </a>
 
-			<%
-				} else {
-			%>
-			<a href="boss_member.jsp"> <span class="id2"><button
-						class="btn btn-warning">회원가입</button></span>
-			</a><a href="boss_login.jsp"> <span class="id"><button
-						class="btn btn-success">로그인</button></span>
-			</a>
-			<%
-				}
-			%>
-		</div>
-	</div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
 
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mx-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.jsp">Home </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="menu.html">Menu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="book.html">Book Table <span class="sr-only">(current)</span> </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="book.html">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="book.html">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
+              </li>
+            </ul>
+            <div class="user_option">
+              <a href="" class="user_link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>
+              <a class="cart_link" href="#">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                  <g>
+                    <g>
+                      <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                    </g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                </svg>
+              </a>
+              <form class="form-inline">
+                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </form>
+              <a href="" class="order_online">
+                Order Online
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
 
-	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<table class="table"
-				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-success">
-					<div class="col-md-3">
-						<!-- 12개의 컬럼중에 3개씩 할당 -->
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>매출,마진계산기</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>맛 News</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="Board_list">
-								<button style="background-color: #fafafa;">
-									<h4>자유게시판</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>전문가QnA</h4>
-								</button>
-						</a></td>
-					</div>
-				</tr>
-			</table>
-		</div>
-	</div>
+  <!-- book section -->
+<header class="p-3 text-bg-dark">
+<div class="container">
+<div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
+<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+	<svg class="bi-me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+		<use xlink:href="#bootstrap"></use>
+	</svg>
+</a>
+<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+	<li>
+	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">매출차트</button></a>
+	</li>
+	<li>
+	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">또슐랭차트</button></a>
+	</li>
+	<li>
+	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">감정분석차트</button></a>
+	</li>
+	<li>
+	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">자유게시판</button></a>
+	</li>
+</ul>
+		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+        </form>
+        <% if (session.getAttribute("user_id") != null) { %>
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2">${nickName}님</button>
+         <a href="logout"><button type="button" class="btn btn-warning">Logout</button></a>
+        </div>
+        <% } else { %>
+        <div class="text-end" style="z-index: 200;">
+         <a href="boss_login.jsp"><button type="button" class="btn btn-warning">Login</button></a>
+        </div>
+        <% } %>
+</div>
+</div>
+
+</header>
+
+	<% if (session.getAttribute("boss_id") != null) { %>
+	<br>
 	<div class="container">
 		<!--컨테이너  -->
 		<div class="row" class="col-md-9">
 			<!-- 로우설정  -->
 			<h3>
 				<strong><em><span
-						class="badge rounded-pill text-bg-success">자유게시판</span></em></strong>
+						class="badge rounded-pill text-bg-warning">자유게시판</span></em></strong>
 			</h3>
 		</div>
 		<br>
@@ -291,28 +225,25 @@ $(document).ready(function(){
 		<div class="row" class="col-md-9">
 			<h6>${bag.content}</h6>
 		</div>
+		
 		<div class="row" class="col-md-2">
 			<form action="like" method="post" class="like-form">
     <input type="hidden" name="board_id" value="${bag.board_id}">
-    <button type="submit" class="like-button">좋아요 ${bag.likecount}</button>
+    <button type="submit" class="like-button" style="background:red; color: white" >좋아요 ${bag.likecount}</button>
 </form>
 		</div>
+		
 		<div class="row" class="col-md-2">
-			<h6><strong>댓글 개수: ${commentCount}</strong></h6>
+			<h6><button type="button" class="btn btn-outline-dark">댓글 개수: ${commentCount}</button></h6>
 		</div>
 	</div>
-	
-
-
-
-
 	
 	<hr color="green">
 	<div id="result">
 		<div class="container">
 			<div class="row">
 				<h4>
-					<strong>댓글${commentCount}</strong>
+					<strong>댓글 ${commentCount}</strong>
 				</h4>
 				<table>
 					<c:forEach items="${Com_list}" var="bag">
@@ -344,9 +275,7 @@ $(document).ready(function(){
 	</div>
 	<!-- 댓글 -->
 	<div class="container">
-		<%
-		if (session.getAttribute("boss_id") != null) {
-		%>
+		<% if (session.getAttribute("boss_id") != null) { %>
 		<h5 style="color: green;">회원:${nickName}</h5>
 
 		<input id="com">
@@ -359,11 +288,8 @@ $(document).ready(function(){
 			<button id="b1">작성</button>
 			<br> --%>
 
-		<%
-			} else {
-		%>로그인시 작성가능<%
-			}
-		%>
+		<% } else { %>로그인시 작성가능
+		<% } %>
 		<!--댓글끝 -->
 
 
@@ -439,5 +365,150 @@ $(document).ready(function(){
 	<!-- <form action="Board_like" method="get">
 	<button>좋아요</button>
 </form> -->
+	<div class="container">
+		<!--컨테이너  -->
+		<div class="row">
+			<!-- 로우설정  -->
+			
+		</div>
+	</div>
+	<!-- 여기까지가 사장세션 접속시 보이는 리얼값 -->
+	
+	<%
+		} else {
+	%>
+	<!-- 여기서부터 블러처리 구독결제 유도 -->
+	<div class="container blur parent">
+		<!-- 블러 클래스를 추가합니다 -->
+		<!--컨테이너  -->
+		<div class="row">
+			<!-- 로우설정  -->
+			<div id="content"></div>
+		</div>
+	</div>
+	<div id="payment-container"></div>
+	<div class="overlay" >
+		<!-- 오버레이를 추가합니다 -->
+		<a href="boss_member.jsp"><button class="subscribe-btn">구독 결제하기</button></a>
+	</div>
+	
+	<div class="container blur">
+		<!-- 블러 클래스를 추가합니다 -->
+		<!--컨테이너  -->
+		<div class="row">
+			
+		</div>
+	</div>
+	
+	<%
+		}
+	%>
+  <!-- end book section -->
+
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Contact Us
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +01 1234567890
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  demo@gmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_detail">
+            <a href="" class="footer-logo">
+              Feane
+            </a>
+            <p>
+              Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+            </p>
+            <div class="footer_social">
+              <a href="">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-pinterest" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>
+            Opening Hours
+          </h4>
+          <p>
+            Everyday
+          </p>
+          <p>
+            10.00 Am -10.00 Pm
+          </p>
+        </div>
+      </div>
+      <div class="footer-info">
+        <p>
+          &copy; <span id="displayYear"></span> All Rights Reserved By
+          <a href="https://html.design/">Free Html Templates</a><br><br>
+          &copy; <span id="displayYear"></span> Distributed By
+          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script src="../resources/js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- isotope js -->
+  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <!-- custom js -->
+  <script src="../resources/js/custom.js"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+ <!--  <script src="../resources/js/boss_menu.js?ver=3"></script>
+  커뮤니티메뉴 js 파일을 추가  -->
 </body>
+
 </html>

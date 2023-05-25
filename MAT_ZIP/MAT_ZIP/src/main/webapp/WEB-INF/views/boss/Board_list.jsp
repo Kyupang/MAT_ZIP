@@ -26,6 +26,7 @@
 </style>
 <meta charset="UTF-8">
 <title>맛.zip</title>
+<!--페이징처리 -->
 <script>
 $(document).ready(function() {
   // 페이지 버튼 클릭 시
@@ -62,7 +63,7 @@ $(document).ready(function() {
 			<!-- 로우설정  -->
 			<table class="table"
 				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-success">
+				<tr class="table-secondary">
 					<td><input type="hidden" id></td>
 					<div class="col-md-6">
 						<td>제목</td>
@@ -96,13 +97,21 @@ $(document).ready(function() {
 			</table>
 		</div>
 	</div>
+	<!--글쓰기기능  -->
+	<%
+		if (session.getAttribute("boss_id") != null) {
+	%>
+	<a href="boardInsert.jsp"><button type="button" class="btn btn-outline-dark" id="boardinsert">글쓰기</button></a>
+	<%
+		}
+	%>
 	<div class="container">
     <!-- 컨테이너  -->
     <div class="row">
         <!-- 페이지네이션 버튼 -->
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" >
             <ul class="pagination justify-content-center">
-                <c:forEach begin="1" end="${totalPages}" var="pageNumber">
+                <c:forEach begin="1" end="${totalPages}" var="pageNumber" >
                     <li class="page-item ${pageNumber == currentPage ? 'active' : ''}">
                         <a class="page-link" href="Board_list?page=${pageNumber}">${pageNumber}</a>
                     </li>
@@ -119,18 +128,11 @@ $(document).ready(function() {
 			<!-- 로우설정  -->
 			<form action="Board_one" method="get" id="search">
 			<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
-			<button type="submit" class="btn btn-success">
+			<button type="submit" class="btn btn-outline-dark">
 				검색<i class="bi bi-search"></i>
 			</button>
 	</form>
 		</div>
 	</div>
-	<!--글쓰기기능  -->
-	<%
-		if (session.getAttribute("boss_id") != null) {
-	%>
-	<a href="boardInsert.jsp"><button class="btn btn-success" id="boardinsert">글쓰기</button></a>
-	<%
-		}
-	%>
+	
 </body>

@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- 등록 모달 style -->
   <link rel="stylesheet" type="text/css" href="resources/css/modal-gyu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
   
 </head>
 
@@ -135,8 +136,10 @@
                   <g>
                   </g>
           <!--캘린더 들어갈 위치 -->
-          <div style="width: 50px; height: 50px;">
-          <img src="resources/images/calendar.png">
+          <div style="width: 50px; height: 50px; ">
+	          <a href="resources/images/c.png" data-title="오늘의 캘린더" data-lightbox="example-set" style="margin: 0px 0px;">
+	          	<img src="resources/images/cal.png" style="width: 50px">
+	          </a>
           </div>
           <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
            <div class="client_section">
@@ -573,6 +576,7 @@
 	
   <!-- search map is  -->
   <script src="resources/js/searchmarker-gyu.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
  
   <script type="text/javascript">
   	function openNav() {
@@ -581,6 +585,14 @@
   	function closeNav() {
 		document.getElementById("myNav").style.width = "0%";
 	}
+  	
+	lightbox.option({
+	    resizeDuration: 100,
+	    wrapAround: true,
+	    disableScrolling: false,
+	    fitImagesInViewport:false,
+	    maxWidth: 500
+	})
   </script>
   <!--규환 script 관련 코드 end -->
   

@@ -74,6 +74,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="book.jsp">Book Table</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="boss/board_index.jsp">사장님커뮤니티</a>
+              </li>
               
               <li class="nav-item">
                 <a class="nav-link" href="board/boardIndex.jsp">회원커뮤니티</a>

@@ -11,6 +11,22 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- 포인트 조회 AJAX -->
+<script type="text/javascript">
+	$(function() {
+		$('#result').empty()
+		$.ajax({
+			type : 'post',
+			url : "/point/pointinquiry",
+			success : function(data) {
+				$('#result').append(data)
+			},
+			error : function(error) {
+				console.error('Error:', error);
+			}
+		})//ajax
+	})//$
+</script>
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
   <!--owl slider stylesheet -->

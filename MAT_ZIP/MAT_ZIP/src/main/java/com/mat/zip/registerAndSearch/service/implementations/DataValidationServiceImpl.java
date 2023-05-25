@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mat.zip.mzMember.model.MzMemberDTO;
+import com.mat.zip.point.service.PointSaveHistoryServiceImpl;
 import com.mat.zip.registerAndSearch.dao.MZRegisterInfoDAO;
 import com.mat.zip.registerAndSearch.dao.RestaurantDAO;
 import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
@@ -22,6 +23,9 @@ public class DataValidationServiceImpl implements DataValidationService {
 	
 	@Autowired
 	RestaurantDAO restaurantDAO;
+	
+	@Autowired
+	PointSaveHistoryServiceImpl pointsavehistoryService;
 	
 	@Override
 	public RegistedAddressAndNameVO validateExtractedData(List<String> extractedData) {
@@ -93,6 +97,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 			if(countInfoInRestaurant > 0) {
 				//그러면 mzRegister DB에 insert 
 				mzRegisterInfoDAO.insert(vo);
+				//point 적립 Service 위치
+				
 				
 				result.setLandNumAddress("k");
 				result.setCount(1);
@@ -125,6 +131,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 				}
 			}
 			mzRegisterInfoDAO.insert(vo);
+			//point 적립 Service 위치
+			
 			result = restaurantDAO.addressAndName(vo);
 			result.setCount(countInfoInMZ);
 			return result;

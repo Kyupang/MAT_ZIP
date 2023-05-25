@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="pointinquiry">
 	<select id="find" resultType="PointInquiryVO">
-		select user_id, sum(point) as `point` from shop.pointhistory where user_id = #{user_id};
+		select user_id, sum(point) as `point` from multi.pointhistory where user_id = #{user_id};
 	</select>
 </mapper>

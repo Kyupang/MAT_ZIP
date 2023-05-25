@@ -50,7 +50,7 @@
 			<hr style="border: solid 2px;">
 
 			<div class="form-group">
-				<label for="email">이메일</label> <input type="email"
+				<label for="email">이메일</label> <input type="text"
 					class="form-control  pl-1r" id="user_id" placeholder="이메일을 입력하세요."
 					name="user_id">
 			</div>

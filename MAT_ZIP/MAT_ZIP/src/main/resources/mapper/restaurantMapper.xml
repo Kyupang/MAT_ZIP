@@ -19,12 +19,10 @@
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT DISTINCT
 		s.landNumAddress,
-		s.name,
+		s.name
 		FROM mzregisterinfo
-		LEFT JOIN restaurant s 
-		ON s.tel = #{storePhoneNumber}  
-		OR s.landNumAddress = #{storeAddress} 
-		OR s.roadNameAddress = #{storeAddress}   
+		JOIN restaurant s
+		ON s.tel = #{storePhoneNumber} 
 	</select> 
 	
 	

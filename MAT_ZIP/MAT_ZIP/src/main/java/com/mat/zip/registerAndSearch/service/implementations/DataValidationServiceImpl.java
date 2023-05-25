@@ -41,7 +41,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 		
 		//HttpSession session 파라미터
 		//String userId = String.valueof(session.getAttribute("user_id"));
-		String userId = "admin";
+		String userId = "admin2";
 		String storeAddress = "";
 		if(extractedData.get(0).length() <= extractedData.get(1).length() ) {
 			storeAddress = extractedData.get(1);
@@ -85,17 +85,18 @@ public class DataValidationServiceImpl implements DataValidationService {
 		vo.setStoreAddress(storeAddress);
 		vo.setStorePhoneNumber(storePhoneNumber);
 		vo.setBuyTime(buyTime);
-		
+		System.out.println(vo);
 		
 		
 		// 이 값들을 동시에 가진 DB row가 있는지 없는지를 판단하므로 
 		// 첫 등록인지 두 번째 등록인지 판단.
 		
 		int countInfoInMZ = mzRegisterInfoDAO.countInfoInMZ(vo);
+		System.out.println("countInfoInMZ : " + countInfoInMZ);
 		//처음 등록했다면 
 		if(countInfoInMZ == 0) {
 			int countInfoInRestaurant = restaurantDAO.countInfoInRestaurant(vo);
-			
+			System.out.println("countInfoInRestaurant :  "+countInfoInRestaurant);
 			//데이터 셋에 있는 정보라면
 			//countRestaurant값이 0보다 클것이다. 
 			if(countInfoInRestaurant > 0) {
@@ -126,6 +127,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 			//동일한 시간이 없다면 insert 후 주소 리턴 
 			Boolean isSameTime = true;
 			List<MZRegisterInfoVO> inDBResult = mzRegisterInfoDAO.idInfoList(userId);
+			System.out.println("두번 이상 등록 해당결과물 : " + inDBResult);
 			for(MZRegisterInfoVO inDBResultVO : inDBResult) {
 				if(!inDBResultVO.getBuyTime().equals(vo.getBuyTime())){
 					isSameTime = false;
@@ -140,7 +142,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 			pointsavehistoryService.addPoint(pointVO);
 			
 			result = restaurantDAO.addressAndName(vo);
-			result.setCount(countInfoInMZ);
+			result.setCount(countInfoInMZ+1);
 			return result;
 		}
 		

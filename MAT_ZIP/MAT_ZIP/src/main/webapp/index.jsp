@@ -66,20 +66,11 @@
                 <a class="nav-link" href="index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="menu.html">Menu</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="book.jsp">Book Table</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="boss/board_index.jsp">사장님커뮤니티</a>
+                <a class="nav-link" href="boss/board_index.jsp">사장님 커뮤니티</a>
               </li>
               
               <li class="nav-item">
-                <a class="nav-link" href="board/boardIndex.jsp">회원커뮤니티</a>
+                <a class="nav-link" href="board/boardIndex.jsp">회원 커뮤니티</a>
               </li>
               
             </ul>
@@ -192,7 +183,7 @@
 					<div class="modal-content">
 						<span class="close" onclick="closeModal()">&times;</span>
 			
-						<h2>영수증 이미지나 결제내역을 주소가 잘 보이게 찍어 업로드</h2>
+						<h3>영수증 이미지나 카드 결제내역을 세부 정보가 잘 보이게 찍어 업로드</h3>
 			
 						<div id="root">
 							<div class="contents">
@@ -222,21 +213,22 @@
 	        
 	        <!-- 검색창 -->
 	        <div id="search-container" style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
+	          <button id="b2" style="margin-left: 20px; width: 400px; display: inline-block;">현위치 기반으로 맛집 표시</button>
 	          <nav class="navbar navbar-light">
 	            <div class="container-fluid">
-	              <form class="d-flex">
-	                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-	                <button id="getSearchResult" class="btn btn-warning" type="submit">Search</button>
-	              	<!-- -outline  -->
-	               </form> 
+	             <div>
+					 <input class="form-control me-2" id="searchInput" style="margin-left: 20px; width: 400px; display: inline-block;">
+					 <button class="btn btn-warning" id="getSearchResult">검색</button>
+			     </div>
 	            </div>
+	            
 	          </nav>
+	          
 	        </div>
-	        
+       		     	
 	        <!-- 등록 버튼 -->
 	        <div class="btn-box" style="position: absolute; top: 90%; left: 12%; transform: translate(-50%, -50%); z-index: 1;">
-	          	<button  class="btn1" onclick="openModal()">맛집 등록</button>
-	        	<button id="b2">현위치 기반으로 맛집 표시</button>
+	          	<button class="btn btn-warning"  onclick="openModal()">맛집 등록</button>
 	        </div>
 	      </div>
 	    </div>

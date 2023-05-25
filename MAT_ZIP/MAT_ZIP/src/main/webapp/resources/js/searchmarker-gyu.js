@@ -28,58 +28,29 @@
 	
 	
 	$(function () { // 화면 로딩 후 시작
-	    $("#searchInput").autocomplete({ // 오토 컴플릿 시작
-	        source: function (request, response) {
-	            $.ajax({
-	                url: "registerAndSearch/controller/autoComplete.mz", 
-	                dataType: "json",
-	                data: {
-	                    term: request.term
-	                },
-	                success: function(data) {
-	                	
-	                    var searchTerm = request.term;
-	                   	
-	                    var matchedItems = data.filter(function(item) {
-                    	  return item.name.includes(searchTerm);
-	                    });
-
-                    	var matchedNames = matchedItems.map(function(item) {
-                    	  return item.name;
-                    	});
-
-                    	var matchedFoodItems = data.filter(function(item) {
-                    	  return item.food.includes(searchTerm);
-                    	});
-
-                    	var matchedFoodTypes = matchedFoodItems
-                    	  .map(function(item) {
-                    	    return item.food;
-                    	  })
-                    	  .filter(function(value, index, self) {
-                    	    return self.indexOf(value) === index;
-                    	});
-	                    
-                    	if (matchedNames.length > 0) {
-                            response(matchedNames);
-                        } else if (matchedFoodTypes.length > 0) {
-                            response(matchedFoodTypes);
-                        } else {
-                            response([]); // No suggestions found
-                        }
-	                  }
-	            });
-	        },
-	        focus: function (event, ui) { // 방향키로 자동완성 단어 선택 가능하게 만들어줌	
-	            return false;
-	        },
-	        minLength: 1, // 최소 글자수
-	        delay: 100, // autocomplete 딜레이 시간(ms)
-	        // disabled: true, // 자동완성 기능 끄기
-	    });
+	    $("#searchInput").autocomplete({
+		        source: function (request, response) {
+		        	$.ajax({
+		                url: "registerAndSearch/controller/autoComplete2.mz",
+		                dataType: "json",
+		                data: {
+		                    term: request.term
+		                },
+		                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		                success: function(data) {
+		                	console.log(data);
+		                    response(data);
+		                }
+		            });
+		        },
+		        focus: function (event, ui) {
+		            return false;
+		        },
+		        minLength: 1,
+		        delay: 50
+		    });
 	
-		 //todo list 검색 버튼을 누르면 지도에 관련 벨류를 포함하는 값의 마커를 찍어준다.
-	    $("#getSearchResult").click(function() {
+		$("#getSearchResult").click(function() {
 	    	$.ajax({
 				url : "registerAndSearch/controller/searchResultMarker.mz",
 				dataType : "json",
@@ -109,7 +80,7 @@
 	                      return item.name;
 	                    });
 	                var matchedAddresses = matchedItems.map(function(item) {
-	                	  console.log(item.landNumAddress);
+	                	console.log(item.landNumAddress);
 	                	  return item.landNumAddress;
 	                	});
 					
@@ -136,12 +107,13 @@
 						          position: coords,
 						          clickable: true
 						      });
-						      
-						      
+						      no=8;
+						      // <a href="mainpage/mzone?landNumAddress=address"><button>+name+"상세페이지로 이동"+</button></a>
 						      // 인포윈도우로 장소에 대한 설명을 표시합니다
 						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+" "+address+'</div>',
-						          removable: true
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+name+'</span><br>'+
+						          	'<a href="/zip/mainpage/mzone?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
+					              removable: true
 						      });
 						      infowindow.open(map, marker);
 						      
@@ -368,6 +340,7 @@
   		    contentType: false,
   		    success: function(json) {
   		    	// 닫히게끔 처리 
+  		    	console.log(json)
   		    	modal.style.display = "none";
   		    	
   		    	document.getElementById("map").innerHTML = "";
@@ -388,6 +361,7 @@
 				// 주소-좌표 변환 객체를 생성합니다
 				var geocoder = new kakao.maps.services.Geocoder();
 				
+				console.log(landNumAddress);
 				//주소가 "b" 이거나 "a" 라면 alert 하고 
 				if(landNumAddress === "k"){
 					alert("등록 되셨습니다!!!!! 지도에 표시되려면 다음번에 한번 더 등록해주세요~");
@@ -416,14 +390,16 @@
 					        var marker = new kakao.maps.Marker({
 					            map: map,
 					            position: coords,
-					            clickable:ture
+					            clickable: true
 					        });
 
 					        // 인포윈도우로 장소에 대한 설명을 표시합니다
 					        var infowindow = new kakao.maps.InfoWindow({
-					            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+'</div>',
-					        	removable: true
+					            content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+json.name+'</span><br>'+
+						          '<a href="/zip/mainpage/mzone?landNumAddress='+landNumAddress+'">가게 정보 보러가기</a></div>',
+					            removable: true
 					        });
+					        console.log(name);
 					        infowindow.open(map, marker);
 					        
 					        // 마커에 클릭이벤트를 등록합니다

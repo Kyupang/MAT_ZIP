@@ -158,7 +158,7 @@
 
 
 					<td><div class="col-md-3">
-							<a href="Board_list">
+							<a href="Sentiment.jsp">
 								<button style="background-color: #fafafa;">
 									<h4>긍정부정리뷰분석</h4>
 								</button>

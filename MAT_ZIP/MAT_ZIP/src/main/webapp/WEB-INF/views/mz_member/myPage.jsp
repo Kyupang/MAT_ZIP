@@ -11,6 +11,22 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- 포인트 조회 AJAX -->
+<script type="text/javascript">
+	$(function() {
+		$('#result').empty()
+		$.ajax({
+			type : 'post',
+			url : "/point/pointinquiry",
+			success : function(data) {
+				$('#result').append(data)
+			},
+			error : function(error) {
+				console.error('Error:', error);
+			}
+		})//ajax
+	})//$
+</script>
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
   <!--owl slider stylesheet -->
@@ -70,7 +86,7 @@
 </div>
 <div style="float: left; padding-top: 77px; margin-left: 15px;">
 	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 10px; margin-left: 10px">${memberInfo.mark}</p>
-	<p style="font-weight: 500; font-size: 25px; margin: 0;">(보유한 포인트: ${memberInfo.point} p)</p>
+	<p style="font-weight: 500; font-size: 25px; margin: 0;"> (보유한 포인트: <span id="result"></span> p)</p>
 </div>
 <div style="clear: both;">
 <h1 class="myPage-margin-size">${memberInfo.nickName}</h1>
@@ -82,6 +98,8 @@
 <h3 class="myPage-margin-size"><a href="deleteAccount" class="a-tag">회원 탈퇴</a></h3>
 <hr>
 <h3 class="myPage-margin-size"><a href="askQuestion" class="a-tag">FAQ</a></h3>
+<hr>
+<h3 class="myPage-margin-size"><a href="/point/gifticon" class="a-tag">포인트 교환</a></h3>
 </div>
 </body>
 </html>

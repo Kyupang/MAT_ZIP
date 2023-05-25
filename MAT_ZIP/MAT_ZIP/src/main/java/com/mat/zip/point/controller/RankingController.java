@@ -19,12 +19,11 @@ public class RankingController {
 	RankingDAO dao;
 
 	@RequestMapping(value = "ranking", method = RequestMethod.GET)
-	public String ranking(Model model) {
+	public void ranking(Model model) {
 		List<RankingVO> list = dao.findall();
 		System.out.println(list);
 		model.addAttribute("list", list);
-		
-		return "/point/ranking";
+
 	}
 
 }

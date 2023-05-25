@@ -16,9 +16,9 @@
 						<div class="item">
 							<div class="box">
 								<div class="detail-box">
-									<img src="resources/images/ranking/${bag.no}${bag.name}4.jpg" alt="" class="box-img">
-									<p>또슐랭</p>
-									<p>${bag.name}</p>
+									<img src="resources/images/ranking/${bag.no}${bag.name}4.jpg" alt="" class="box-img" style="width: 320px; height: 200px; position: relative">
+									<p><img src="resources/images/rank.png"></p>
+									<p style="font-size: 25px; font-weight: bold; color: yellow;">${bag.name}</p>
 									<h6>또슐랭 포인트 : ${bag.total}</h6>
 								</div>
 							</div>

@@ -46,5 +46,10 @@ public class ComDAO {
 		return list;
 
 	} // list
+	//댓글개수세기
+	public int getCommentCount(int boardId) {
+	    return my.selectOne("com.count", boardId);
+	}
+
 
 }

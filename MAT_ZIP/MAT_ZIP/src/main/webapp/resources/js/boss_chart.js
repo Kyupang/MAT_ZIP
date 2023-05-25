@@ -1,30 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-	crossorigin="anonymous">
-	<style>
-  @import
-	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap')
-	; 
-</style>
-<meta charset="UTF-8">
-
-<title>Chart.js Test</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
-	<!-- <script src="../resources/js/boss_chart.js"></script>boss_chart.js파일을 추가 -->
-	<link href="../resources/css/boss.css" rel="stylesheet"><!-- boss.css 파일을 추가 -->
-	
-<script type="text/javascript">
 google.charts.load('current', {'packages':['line']});
 google.charts.setOnLoadCallback(drawChart);
 
@@ -134,10 +107,8 @@ function drawChart() {
     });
 }
 
-</script>
-<!-- 재방문율 차트 -->
-	 <!-- 이번달,지난달 재방문율 차트 조회 -->
-	<script type="text/javascript">
+	//재방문율 차트
+	//이번달,지난달 재방문율 차트 조회
 	google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawChart);
 
@@ -204,10 +175,8 @@ function drawChart() {
             }
         });
     }
-</script>
-<!-- 재방문율 -->
-	 <!-- 2~5번 방문한 단골고객의 수 차트 -->
-	<script type="text/javascript">
+//재방문율
+	 //2~5번 방문한 단골고객의 수 차트 
 	 google.charts.load("current", {packages:['corechart']});
 	    google.charts.setOnLoadCallback(drawChart);
 	    function drawChart() {
@@ -255,10 +224,8 @@ function drawChart() {
 		            }
 		        });
 		    }
-</script>
-<!-- 재방문율 차트 -->
-	 <!-- 이번달,저번달 신규고객, 재주문 고객 총액  -->
- <script type="text/javascript">
+//재방문율 차트
+	 //이번달,저번달 신규고객, 재주문 고객 총액 
       google.charts.load('current', {'packages':['bar']});
       google.charts.setOnLoadCallback(drawOrderTotalChart);
 
@@ -307,10 +274,8 @@ function drawChart() {
             }
         });
       }
-    </script>
-    <!-- 재방문율 차트 -->
-	 <!-- 이번달, 저번달 재주문 회원 주문건수, 총액 -->
- <script type="text/javascript">
+   //재방문율 차트 
+	 //이번달, 저번달 재주문 회원 주문건수, 총액
       google.charts.load('current', {'packages':['bar']});
       google.charts.setOnLoadCallback(drawOrderCountChart);
 
@@ -358,9 +323,7 @@ function drawChart() {
             }
         });
       }
-    </script>
     
-    <script type="text/javascript">
 
     $(document).ready(function() {
         var storeId = '<%= session.getAttribute("store_id") %>';
@@ -422,9 +385,8 @@ function drawChart() {
             }
         });
     });
-</script>
-<!-- 감성분석 차트 -->
-    <script>
+    
+// 감성분석 차트
     $(document).ready(function() {
             var storeId = '<%= session.getAttribute("store_id") %>';
             var encodedStoreId = encodeURIComponent(storeId);
@@ -476,9 +438,9 @@ function drawChart() {
                     function drawChart() {
                       var data = google.visualization.arrayToDataTable([
                         ['Task', 'Hours per Day'],
-                        ['좋아요', positivePercentage],
-                        ['아쉬워요', negativePercentage],
-                        ['나쁘지않아요', neutralPercentage]
+                        ['긍정', positivePercentage],
+                        ['부정', negativePercentage],
+                        ['중립', neutralPercentage]
                       ]);
 
                       var options = {
@@ -496,79 +458,3 @@ function drawChart() {
                 }
             });
         });
-</script>
-	
-
-
-
-</head>
-<body>
-	<div class="container">
-	<div id="linechart_material" style="width: 600px; height: 500px"></div>
-	<table>
-	<tr>
-	<td>
-	<div class="text-bg-primary p-3">
-	<div id="thisMonthDays">같은기간 이번달 매출</div>
-	<div id="thisMonthTotal">이번달 총 매출</div>
-	</div>
-	</td>
-	<td>
-	<div class="text-bg-warning p-3">
-	<div id="lastMonthDays">같은기간 저번달 매출</div>
-	<div id="lastMonthTotal">저번달 총 매출</div>
-	</div></td></tr>
-	</table>
-	</div>
-	
-	<div class="container">
-	<div class="row">
-	<table>
-	<tr>
-	<td>
-	<div id="donutchart" style="width: 800px; height: 500px;"></div>
-	</td>
-	<td>
-	<div id="여러번주문차트" style="width: 600px; height: 400px;"></div>
-	</td>
-	</tr>
-	</table>
-	</div>
-	</div>
-	
-	<div class="container">
-	<div class="row">
-	<table>
-	<tr>
-	<td><div class="text-bg-primary p-3">
-	<div id="returningCustomerGrowth"></div></div></td>
-	<td>
-	<div class="text-bg-warning p-3">
-	<div id="newCustomerGrowth"></div></div>
-	</td>
-	</tr>
-	</table>
-	</div>
-	</div>
-	
-	<div class="container">
-	<div id="MonthTotal" style="width: 900px; height: 500px;"></div>
-	</div>
-	
-	<div class="container">
-	<div id="MonthOrder" style="width: 900px; height: 500px;"></div>
-	</div>
-	
-	<div class="container">
-	<div id="newOrderTotalGrowth"></div>
-	<div id="newOrderCountGrowth"></div>
-	<div id="returnOrderTotalGrowth"></div>
-	<div id="returnOrderCountGrowth"></div>
-	</div>
-	
-	<div class="container">
-	<div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
-	</div>
-</body>
-
-</html>

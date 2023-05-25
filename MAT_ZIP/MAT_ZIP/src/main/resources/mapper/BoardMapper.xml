@@ -64,10 +64,16 @@
 		select * from
 		board where board_id = #{board_id}
 	</select>
-	<select id="list" resultType="BoardVO">
-		SELECT * FROM board ORDER BY
-		board_id DESC LIMIT #{limit}
-	</select>
+	
+	<!--게시판 페이징  -->
+    <select id="list" resultType="BoardVO">
+        SELECT * FROM board ORDER BY board_id DESC LIMIT #{limit} OFFSET #{offset}
+    </select>
+	<!-- 전체 게시물 수 조회 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM board
+    </select>
+
 
 </mapper>
 

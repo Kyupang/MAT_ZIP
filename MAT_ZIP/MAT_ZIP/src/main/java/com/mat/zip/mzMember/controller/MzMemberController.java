@@ -80,10 +80,10 @@ public class MzMemberController {
 			 return "redirect:/mz_member/login";
 		} else {
 			logger.info("로그인 성공");
-			MzMemberDTO memberInfo = service.getMemberInfo(dto);
+			MzMemberDTO memberInfo = service.getMemberInfo(dto.getUser_id());
 			
 			logger.info("회원 정보 가져옴");
-			session.setAttribute("memberInfo", memberInfo);
+			session.setAttribute("user_id", memberInfo);
 			
 			return "redirect:/index.jsp";
 		}
@@ -119,7 +119,12 @@ public class MzMemberController {
 	
 	/** 마이페이지 맵핑 */
 	@RequestMapping(value = "myPage", method = RequestMethod.GET)
-	public void memberInfo() {
+	public String memberInfo(MzMemberDTO dto, HttpSession session, Model model) throws Exception {
+		String id = String.valueOf(session.getAttribute("user_id"));
+		MzMemberDTO memberInfo = service.getMemberInfo(id);
+		model.addAttribute("memberInfo", memberInfo);
+		
+		return "/mz_member/myPage";
 	}
 	
 	/** 회원 정보 수정 맵핑 */

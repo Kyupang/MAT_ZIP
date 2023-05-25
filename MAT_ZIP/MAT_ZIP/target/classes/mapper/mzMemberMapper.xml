@@ -16,10 +16,9 @@
 </select>
 
 <!-- 로그인 / 회원 정보 전달 -->
-<select id="getInfo" parameterType="memberDTO" resultType="memberDTO">
+<select id="getInfo" parameterType="memberDTO" resultType="String">
 	select * from matzip.mz_member 
 	where user_id = #{user_id} 
-	and password = #{password}
 </select>
 
 <update id="mzUpdate" parameterType="memberDTO">

@@ -25,8 +25,8 @@ public class MzMemberDAOImpl implements MzMemberDAO {
 	}
 	
 	@Override
-	public MzMemberDTO getMemberInfo(MzMemberDTO vo) {
-		MzMemberDTO dto = my.selectOne(namespace + "getInfo", vo);
+	public MzMemberDTO getMemberInfo(String id) {
+		MzMemberDTO dto = my.selectOne(namespace + "getInfo", id);
 		return dto;
 	}
 }

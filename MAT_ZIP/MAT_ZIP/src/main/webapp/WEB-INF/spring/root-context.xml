@@ -74,6 +74,7 @@
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="exChange" rollback-for="Exception" />
+			<tx:method name="registerAndPay" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
 	<!-- 트랜잭션 -->

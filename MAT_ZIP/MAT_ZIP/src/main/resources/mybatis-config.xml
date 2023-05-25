@@ -51,6 +51,7 @@
       <mapper resource="mapper/BossMapper.xml" />
       <mapper resource="mapper/PaymentMapper.xml" />
       <mapper resource="mapper/ChartMapper.xml" />
+      <mapper resource="mapper/Chart_reviewMapper.xml" />
       
       <!-- HAM POINT mapper -->
 		<mapper resource="mapper/gifticonMapper.xml" />

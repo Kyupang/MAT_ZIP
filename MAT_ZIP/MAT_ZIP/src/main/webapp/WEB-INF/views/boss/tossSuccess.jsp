@@ -43,17 +43,24 @@
             }
         });
     });
-</script>
+    
+    $(document).ready(function() {
+        // 결제 성공 후 AJAX 요청
+        if (sessionStorage.getItem("storeId")) {
+            $.ajax({
+                url: "innerJoinAndInsert",
+                method: "POST",
+                data: { store_id: sessionStorage.getItem("storeId") }  // 세션에서 storeId 값을 읽어서 AJAX 요청에 포함
+            }).done(function() {
+                console.log("innerJoinAndInsert 성공");
+                sessionStorage.removeItem("storeId");  // 요청이 완료된 후 storeId 값을 세션에서 제거
+            }).fail(function() {
+                console.log("innerJoinAndInsert 실패");
+            });
+        }
+    });
 
-    
-    
-    <!-- 필요한 정보를 추가로 출력할 수 있습니다. -->
-    <form action="innerJoinAndInsert" method="post">
-        <h2>Store ID를 입력하세요.</h2>
-        <input type="text" name="store_id">
-        <input type="submit" value="사장회원등록">
-    </form>
-    
+</script>    
    
 </body>
 </html>

@@ -22,7 +22,9 @@
 	<select id="list" resultType="ComVO">
 		select * from com where board_id = #{board_id}
 	</select>
-
+	<select id="count" resultType="int">
+        SELECT COUNT(*) FROM com where board_id = #{board_id}
+    </select>
 
 </mapper>
 

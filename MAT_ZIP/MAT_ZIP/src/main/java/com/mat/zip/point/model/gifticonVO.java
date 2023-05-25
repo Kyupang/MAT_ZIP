@@ -1,4 +1,4 @@
-package com.mat.zip.point;
+package com.mat.zip.point.model;
 
 public class gifticonVO {
 

@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-        http://www.springframework.org/schema/beans 
-        https://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/aop 
-        https://www.springframework.org/schema/aop/spring-aop.xsd
-        http://www.springframework.org/schema/tx 
-        https://www.springframework.org/schema/tx/spring-tx.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
-	
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    	<property name="maxUploadSize" value="10485760" />
-	</bean>
-	
+	<context:property-placeholder
+		location="classpath:db.properties" />
+
 	<!-- 싱글톤 만들거 있으면 여기에 설정해주세요. @Component과 같은 역할 어노테이션으로 싱글톤 생성하는 것이 불가능할 
 		때 보통 사용함. 1) mybatis 2) dbcp: mybatis에 dbcp를 껴야함. 3) mybtis config: mybatis설정 
 		담당 -->
@@ -30,14 +26,10 @@
 		dbcp.setPassword = "1234"; jdbc의 1,2단계를 담당해주는 클래스! -->
 	<!-- 2) dbcp -->
 	<bean id="dbcp" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName"
-			value="com.mysql.cj.jdbc.Driver"></property>
-		<property name="url"
-			value="jdbc:mysql://localhost:3306/multi?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8"></property>
-		<property name="username" value="root"></property>
-		<property name="password" value="1234"></property>
-		<property name="defaultAutoCommit" value="false"/>
-		
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
 	</bean>
 
 	<!-- 3) mybatis config 경로쓸 때 classpath는 src/main/resources를 지정함.! -->
@@ -45,6 +37,11 @@
 		<property name="dataSource" ref="dbcp"></property>
 		<property name="configLocation"
 			value="classpath:mybatis-config.xml"></property>
+	</bean>
+	
+	<!-- 사진 등록 multipart 관련 빈 등록 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="maxUploadSize" value="10485760" />
 	</bean>
 	
 	<!-- gamil 인증 관련 빈 등록 -->	

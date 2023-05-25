@@ -46,7 +46,7 @@
 	
 	<div class="member-container">
 
-  <h1 style="text-align: center">${memberInfo.nickName} 님의 정보</h1>
+  <h1 style="text-align: center; margin-top: 20px;">${memberInfo.nickName} 님의 정보</h1>
   <hr style="border: solid 2px;">
 
     <div class="form-group">

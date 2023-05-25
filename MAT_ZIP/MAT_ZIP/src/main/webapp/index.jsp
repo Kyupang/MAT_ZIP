@@ -248,7 +248,7 @@
           <div class="box">
           <div class="detail-box" style="position: relative;">
           <div class="img-box">
-	          <a href="#" id="b1">
+	          <a href="#" id="r1">
 	          	<img alt="랭킹 이미지" src="resources/images/o1.jpg" style="width: 100%; position: relative">
 	          </a>
        		<div class="ranking-text" style="position: absolute;">
@@ -314,7 +314,7 @@
             <div class="box ">
               <div class="detail-box" style="position: relative;">
               <div class="img-box">
-              	<a>
+              	<a href="#" id="r2">
                 <img src="resources/images/o2.jpg" alt="랭킹 이미지" style="width: 100%; position: relative;'">
               	</a>
               	<div class="ranking-text" style="position: absolute;">
@@ -379,7 +379,7 @@
             <div class="box ">
               <div class="detail-box" style="position: relative;">
               <div class="img-box">
-              	<a>
+              	<a href="#" id="r3">
                 <img src="resources/images/f2.png" alt="랭킹 이미지" style="width: 100%; position: relative;'">
               	</a>
               	<div class="ranking-text" style="position: absolute;">
@@ -460,7 +460,7 @@
 
   <!-- client section -->
 
-      <div id="result"></div>
+  <div id="result"></div>
 
   <!-- end client section -->
 

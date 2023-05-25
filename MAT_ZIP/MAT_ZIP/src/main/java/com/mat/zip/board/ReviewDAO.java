@@ -8,7 +8,7 @@ public interface ReviewDAO {
 
 	public int insertReview(ReviewVO vo);
 
-	public List<MZRegisterInfoVO> getReceipt(String user_id);
+	List<MZRegisterReceiptDTO> getReceiptWithRestaurant(String user_id);
 
 	public ReviewVO oneReviewId(int review_id);
 

@@ -23,8 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<MZRegisterInfoVO> getReceipt(String userId) {
-		return reviewDao.getReceipt(userId);
+	public List<MZRegisterReceiptDTO> getReceiptWithRestaurant(String user_id) {
+	    return reviewDao.getReceiptWithRestaurant(user_id);
 	}
 
 	@Override

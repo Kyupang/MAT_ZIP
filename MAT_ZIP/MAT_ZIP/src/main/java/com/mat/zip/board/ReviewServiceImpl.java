@@ -4,43 +4,53 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 	
-	private final ReviewDAO reviewDAO;
+	@Autowired
+	private ReviewDAO reviewDao;
 	
-	@Inject
-	public ReviewServiceImpl(ReviewDAO reviewDAO) {
-		this.reviewDAO = reviewDAO;
-	}
 	
 	
 	@Override
-	public void create(ReviewVO reviewVO) throws Exception {
-		reviewDAO.create(reviewVO);
-		
+	public int insertReview(ReviewVO vo) {
+		return reviewDao.insertReview(vo);
 	}
 
 	@Override
-	public ReviewVO oneReviewId(int review_id) throws Exception {
-		return reviewDAO.oneReviewId(review_id);
+	public List<MZRegisterReceiptDTO> getReceiptWithRestaurant(String user_id) {
+	    return reviewDao.getReceiptWithRestaurant(user_id);
 	}
 
 	@Override
-	public void update(ReviewVO reviewVO) throws Exception {
-		reviewDAO.update(reviewVO);
+	public ReviewVO oneReviewId(int review_id) {
+		return reviewDao.oneReviewId(review_id);
 	}
 
 	@Override
-	public void delete(int review_id) throws Exception {
-		reviewDAO.delete(review_id);
+	public int delete(int review_id) {
+		return reviewDao.delete(review_id);
 	}
 
 	@Override
-	public List<ReviewVO> allReview() throws Exception {
-		return reviewDAO.allReview();
+	public int update(ReviewVO vo) {
+		return reviewDao.update(vo);
 	}
 
+	@Override
+	public void incrementReviewViewCount(int review_id) {
+		reviewDao.incrementReviewViewCount(review_id);
+	}
+
+	@Override
+	public List<ReviewVO> allReview() {
+		return reviewDao.allReview();
+	}
+	
+	
 }

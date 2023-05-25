@@ -2,47 +2,54 @@ package com.mat.zip.board;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
 
 @Repository
 public class ReviewDAOImpl implements ReviewDAO {
 	
-	private static final String NAMESPACE = "com.mat.zip.mapper.ReviewMapper";
+	@Autowired
+	private SqlSession sqlSession;
 	
-	private final SqlSession sqlSession;
 	
-	@Inject
-	public ReviewDAOImpl(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
+	
+	@Override
+	public int insertReview(ReviewVO vo) {
+		return sqlSession.insert("com.mat.zip.mapper.ReviewMapper.insertReview", vo);
+	}
+
+	@Override
+	public List<MZRegisterReceiptDTO> getReceiptWithRestaurant(String user_id) {
+	    return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.getReceiptWithRestaurant", user_id);
+	}
+
+	@Override
+	public ReviewVO oneReviewId(int review_id) {
+		return sqlSession.selectOne("com.mat.zip.mapper.ReviewMapper.oneReviewId", review_id);
+	}
+
+	@Override
+	public int delete(int review_id) {
+		return sqlSession.delete("com.mat.zip.mapper.ReviewMapper.delete", review_id);
+	}
+
+	@Override
+	public int update(ReviewVO vo) {
+		return sqlSession.update("com.mat.zip.mapper.ReviewMapper.update", vo);
+	}
+
+	@Override
+	public void incrementReviewViewCount(int review_id) {
+		sqlSession.update("com.mat.zip.mapper.ReviewMapper.incrementReviewViewCount", review_id);
+	}
+
+	@Override
+	public List<ReviewVO> allReview() {
+		return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.allReview");
 	}
 	
-
-	@Override
-	public void create(ReviewVO reviewVO) throws Exception {
-		sqlSession.insert(NAMESPACE + ".create", reviewVO); 
-	}
-
-	@Override
-	public ReviewVO oneReviewId(int review_id) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".oneReviewId", review_id);
-	}
-
-	@Override
-	public void update(ReviewVO reviewVO) throws Exception {
-		sqlSession.update(NAMESPACE + ".update", reviewVO);
-	}
-
-	@Override
-	public void delete(int review_id) throws Exception {
-		sqlSession.delete(NAMESPACE + ".delete", review_id);
-	}
-
-	@Override
-	public List<ReviewVO> allReview() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".allReview");
-	}
 
 }

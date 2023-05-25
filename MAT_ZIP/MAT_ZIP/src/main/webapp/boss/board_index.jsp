@@ -13,7 +13,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="../resources/css/boss.css" rel="stylesheet">
 <!-- boss.css 파일을 추가 -->
-<script src="../resources/js/boss_menu.js?ver=1"></script>
+<script src="../resources/js/boss_menu.js?ver=2"></script>
 <!-- 커뮤니티메뉴 js 파일을 추가  -->
 
 <style>

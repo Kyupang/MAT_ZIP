@@ -28,7 +28,8 @@
 	<context:component-scan base-package="com.mat.zip" />
 	
 	<!-- 카카오 BO 클래스에 대한 bean 설정 추가 -->
-	<beans:bean id="kakaoLogin" class="com.mat.zip.mzMember.model.KakaoLoginBO" />
+	<beans:bean id="kakaoLoginBO" class="com.mat.zip.mzMember.model.KakaoLoginBO" />
+	<beans:bean id="naverLoginBO" class="com.mat.zip.mzMember.model.NaverLoginBO" />
 	
 	<!-- 트랜잭션 tx 추가 root-context 외의 의존성(annotation) 경로 인식 -->
 	<tx:annotation-driven proxy-target-class="true"/>

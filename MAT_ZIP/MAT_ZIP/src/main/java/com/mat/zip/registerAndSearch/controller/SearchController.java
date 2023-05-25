@@ -1,10 +1,13 @@
 package com.mat.zip.registerAndSearch.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mat.zip.registerAndSearch.dao.RestaurantDAO;
@@ -26,4 +29,41 @@ public class SearchController {
 		List<RegistedAddressAndNameVO> result = restaurantDAO.addressesAndNames();
 		return result;
 	}
+	
+
+	
+	
+	
+	
+	//cashing
+	private List<RegistedAddressAndNameVO> itemListCache;
+
+	// Method to retrieve the itemList from the cache or the database if not available
+	private List<RegistedAddressAndNameVO> getItemList() {
+	    if (itemListCache == null) {
+	        // Fetch the itemList from the database
+	        itemListCache = restaurantDAO.addressesAndNames();
+	    }
+	    return itemListCache;
+	}
+
+	
+	@GetMapping("/registerAndSearch/controller/autoComplete2.mz")
+	@ResponseBody
+	public List<String> autoComplete(@RequestParam("term") String searchTerm) {
+	    System.out.println(searchTerm);
+	    List<RegistedAddressAndNameVO> itemList = getItemList();
+	    System.out.println(itemList);
+	    List<String> suggestions = itemList.stream()
+	            .filter(item -> item.getName().contains(searchTerm) || item.getFood().contains(searchTerm))
+	            .map(RegistedAddressAndNameVO::getName)
+	            .distinct()
+	            .collect(Collectors.toList());
+	    System.out.println(suggestions);
+	    return suggestions;
+	}
+	
+	
+	
+	
 }

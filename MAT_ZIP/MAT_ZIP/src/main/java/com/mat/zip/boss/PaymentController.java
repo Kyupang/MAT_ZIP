@@ -19,7 +19,43 @@ public class PaymentController {
     PaymentService paymentService;
     @Autowired
     PaymentDAO dao;
+    @Autowired
+    Boss_memberDAO bossdao;
+    @Autowired
+    MemberAndPaymentService memberAndPaymentService; //회원등록과 결제하기 트랜잭션
 
+    @PostMapping("/innerJoinAndInsert")
+    public String innerJoinAndInsert(@RequestParam String store_id, HttpSession session, Model model) {
+        String user_id = (String) session.getAttribute("user_id");
+        System.out.println(user_id);
+        Boss_memberVO member = new Boss_memberVO();
+        member.setUser_id(user_id);
+        member.setStore_id(store_id);
+        System.out.println(member);
+
+        int count = bossdao.checkStoreId(store_id);
+        if (count > 0) {
+            model.addAttribute("error", "중복된 상점 ID입니다.");
+            return "1";  
+        }
+
+        memberAndPaymentService.registerAndPay(member);
+
+        return "/boss/tossSuccess";
+    }
+
+    @PostMapping("/checkStoreId")
+    @ResponseBody
+    public String checkStoreId(@RequestParam String storeId) {
+        int count = bossdao.checkStoreId(storeId);
+        if (count > 0) {
+            return "1";  // "중복"
+        } else {
+            return "0";  // "사용 가능"
+        }
+    }
+
+    
     @GetMapping("/tossSuccess")
     public String processPayment(@RequestParam("paymentKey") String paymentKey, @RequestParam("amount") int amount, @RequestParam("orderId") String orderId, Model model) {
         // 결제를 처리하고 그 결과를 받습니다.
@@ -64,7 +100,7 @@ public class PaymentController {
         dao.insert(bag);
         return ResponseEntity.ok().body("결제 정보가 성공적으로 전송되었습니다.");
     }
-    
+}
     
 //    @PostMapping("/paymentSave")
 //    public ResponseEntity<String> savePayment(
@@ -86,7 +122,7 @@ public class PaymentController {
 //        return ResponseEntity.ok("Payment saved successfully");
 //    }
 
-}
+
  
 
     

@@ -40,25 +40,71 @@
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
 <style type="text/css">
+body{
+	background-color: #343a40;
+}
+
 .img-box{
-	width: 200px;
-	height: 200px;
+	width: 180px;
+	height: 180px;
 	border-radius: 50%;
+	border: 5px solid #ffbe33;
 	overflow: hidden;
 	padding-bottom: 0px;
 	padding-top: 0px;
+	margin-bottom: 20px;
+	margin-top: 20px;
 }
+
 .profile{
 	width: 100%;
 	height: 100%;
 	object-fit:cover;
 }
+
 .myPage-margin-size{
 	margin-left: 30px;
+	margin-right: 30px;
 }
+
 .a-tag{
 	font-size: 1.1em;
 	padding: 0;
+}
+
+.member-Info-container{
+	min-width: 550px;
+	width: 550px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.member-Info-container a{
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #ffbe33;
+	color: white;
+	transition: 0.3s;
+	margin-top: 10px;
+	border-radius: 30px;
+}
+
+.memberInfo1{
+	width: 90%;
+	margin-bottom: 20px;
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.memberInfo1 input{
+	padding-left: 1rem;
+    padding-right: 2.75rem;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.memberInfo1 label{
+	font-size: 13px;
 }
 </style>
 </head>
@@ -67,7 +113,7 @@
     <header class="header_section" style="background-color: #343a40;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.jsp">
+          <a class="navbar-brand" href="/zip/index.jsp">
             <span>
               Mat.zip
             </span>
@@ -76,7 +122,9 @@
       </div>
     </header>
     
-<div class="img-box myPage-margin-size" style="background: #ffffff; float: left">
+<div class="member-Info-container" style="top: 140px; left: 20%; position: absolute; height: 700px; background-color: white; border-radius: 20px;">
+<div class="member-Info">
+<div class="img-box myPage-margin-size" style="background: #ffffff; margin-left: auto; margin-right: auto;">
 	<c:if test="${memberInfo.profile == null}">
 	<img class="profile" src="${pageContext.request.contextPath}/resources/images/basic.png">
 	</c:if>
@@ -84,12 +132,50 @@
 	<img class="profile" src="${pageContext.request.contextPath}/resources/images/${memberInfo.profile}">
 	</c:if>
 </div>
+</div>
 <div style="float: left; padding-top: 77px; margin-left: 15px;">
+
+</div>
+<div style="text-align: center;">
+<h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
 	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 10px; margin-left: 10px">${memberInfo.mark}</p>
 	<p style="font-weight: 500; font-size: 25px; margin: 0;"> (보유한 포인트: <span id="result"></span> p)</p>
+	<div>
+	<span>카테고리 1</span>
+	<span>카테고리 2</span>
+	<span>카테고리3</span>
+	</div>
 </div>
-<div style="clear: both;">
-<h1 class="myPage-margin-size">${memberInfo.nickName}</h1>
+
+<!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
+<h3 class="myPage-margin-size" style="text-align: center;"><a href="/point/gifticon" class="a-tag">포인트 사용</a></h3>
+
+<div class="memberInfo1">
+	  <label for="name">이름</label>
+      <input type="text" class="form-control pl-1r" id="name" value="${memberInfo.name}" name="name" disabled="disabled">
+	 
+      <label for="birthDate">출생일자</label>
+      <input type="date" class="form-control pl-1r" id="birthDate" name = "birthDate" value="${memberInfo.birthDate}">
+    
+      <label for="regDate">가입 일자</label>
+      <input type="text" class="form-control pl-1r" id="regDate" name = "regDate" value="${memberInfo.accountDate}" disabled="disabled">
+</div>
+      
+<h3 class="myPage-margin-size" style="text-align: center;"><a href="deleteAccount" class="a-tag">회원 탈퇴</a>
+<a href="changeInfo" class="a-tag">정보 수정</a>
+<a href="changeInfo" class="a-tag">비밀번호 수정</a></h3>
+</div>
+
+<div class="member-Info-container" style="top: 140px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">
+<div style="margin-top: 20px;">
+<h1 class="myPage-margin-size" style="font-size: 40px;">DDO chelin of ${memberInfo.nickName}</h1>
+<hr style="">
+</div>
+</div>
+
+<div class="member-Info-container" style="top: 500px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">
+<div style="margin-top: 20px;">
+<h1 class="myPage-margin-size" style="font-size: 40px;">leaved ${memberInfo.nickName}'s feedback</h1>
 <hr>
 <h3 class="myPage-margin-size"><a href="changeInfo" class="a-tag">회원 정보 수정</a></h3>
 <hr>
@@ -100,6 +186,7 @@
 <h3 class="myPage-margin-size"><a href="askQuestion" class="a-tag">FAQ</a></h3>
 <hr>
 <h3 class="myPage-margin-size"><a href="/point/gifticon" class="a-tag">포인트 교환</a></h3>
+</div>
 </div>
 </body>
 </html>

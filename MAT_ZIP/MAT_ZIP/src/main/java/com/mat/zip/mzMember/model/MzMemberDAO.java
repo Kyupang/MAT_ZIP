@@ -5,5 +5,5 @@ public interface MzMemberDAO {
 
 	int memberLogin(MzMemberDTO vo) throws Exception;
 
-	MzMemberDTO getMemberInfo(MzMemberDTO vo) throws Exception;
+	MzMemberDTO getMemberInfo(String id) throws Exception;
 }

@@ -11,6 +11,15 @@ public class BoardVO {
 	private int viewscount;
 	private int likecount;
 	private boolean liked;
+	private int commentCount;
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
 
 	public boolean isLiked() {
 		return liked;

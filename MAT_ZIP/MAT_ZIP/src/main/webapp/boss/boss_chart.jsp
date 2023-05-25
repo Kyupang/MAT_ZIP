@@ -21,6 +21,9 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
+	<!-- <script src="../resources/js/boss_chart.js"></script>boss_chart.js파일을 추가 -->
+	<link href="../resources/css/boss.css" rel="stylesheet"><!-- boss.css 파일을 추가 -->
+	
 <script type="text/javascript">
 google.charts.load('current', {'packages':['line']});
 google.charts.setOnLoadCallback(drawChart);
@@ -113,7 +116,7 @@ function drawChart() {
                    
                 },
                 vAxis: {
-                    format: '#,###'  // Y축 단위변경 
+                    format: '#,###원'  // Y축 단위변경 
                 },
                 series: {
                     0: { color: '#0064FF' }, // 이번달 선 색상
@@ -253,6 +256,247 @@ function drawChart() {
 		        });
 		    }
 </script>
+<!-- 재방문율 차트 -->
+	 <!-- 이번달,저번달 신규고객, 재주문 고객 총액  -->
+ <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawOrderTotalChart);
+
+      function drawOrderTotalChart() {
+        var storeId = '<%= session.getAttribute("store_id") %>';
+        var encodedStoreId = encodeURIComponent(storeId);
+        $.ajax({
+            url: 'orderTotal/' + encodedStoreId,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                /* 신규고객 */
+                var thisMonthNewTotal = response.thisMonthNewTotal.newOrderTotalThisMonth; //이번달 신규고객 결제금액
+                var lastMonthNewTotal = response.lastMonthNewTotal.newOrdersTotalLastMonth; //저번달 신규고객 결제금액 
+                /* 재주문고객  */
+                var thisMonthReturnTotal = response.thisMonthReturnTotal.returningOrderTotalThisMonth; //이번달 재주문 고객 결제금액
+                var lastMonthReturnTotal = response.lastMonthReturnTotal.returningOrderTotalLastMonth; //저번달 재주문 고객 결제금액
+
+                var dataOrderTotal = google.visualization.arrayToDataTable([
+                	  ['고객 타입', '지난 달', '이번 달'],
+                	  ['신규고객 주문금액', lastMonthNewTotal, thisMonthNewTotal],
+                	  ['재주문고객 주문금액', lastMonthReturnTotal, thisMonthReturnTotal]
+                	]);
+                
+                var formatter = new google.visualization.NumberFormat( //단위지정
+                        {pattern: '#,###원'}
+                    );
+                    formatter.format(dataOrderTotal, 1); // Apply formatter to second column.
+                    formatter.format(dataOrderTotal, 2); // Apply formatter to third column.
+
+                var options = {
+                  chart: {
+                    title: '<%= session.getAttribute("store_id") %>',
+                    subtitle: '신규고객, 재주문고객 금액비교',
+                  },
+                  bars: 'horizontal',
+                  colors: ['#76A7FA', '#703593'] // 색지정
+                };
+
+                var chart = new google.charts.Bar(document.getElementById('MonthTotal'));
+
+                chart.draw(dataOrderTotal, google.charts.Bar.convertOptions(options));
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+      }
+    </script>
+    <!-- 재방문율 차트 -->
+	 <!-- 이번달, 저번달 재주문 회원 주문건수, 총액 -->
+ <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawOrderCountChart);
+
+      function drawOrderCountChart() {
+        var storeId = '<%= session.getAttribute("store_id") %>';
+        var encodedStoreId = encodeURIComponent(storeId);
+        $.ajax({
+            url: 'orderTotal/' + encodedStoreId,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                /* 신규고객 */
+                var thisMonthNewOrder = response.thisMonthNewTotal.newOrdersThisMonth; //이번달 신규고객 주문수
+                var lastMonthNewOrder = response.lastMonthNewTotal.newOrdersLastMonth; //저번달 신규고객 주문 수
+                /* 재주문고객  */
+                var thisMonthReturnOrder = response.thisMonthReturnTotal.returningOrdersThisMonth;//이번달 재주문 고객 주문수
+                var lastMonthReturnOrder = response.lastMonthReturnTotal.returningOrdersLastMonth; //저번달 재주문 고객 주문수
+
+                var dataOrderCount = google.visualization.arrayToDataTable([
+                	  ['고객 타입', '지난 달', '이번 달'],
+                	  ['신규고객 주문 수', lastMonthNewOrder, thisMonthNewOrder],
+                	  ['재방문고객 주문 수', lastMonthReturnOrder, thisMonthReturnOrder]
+                	]);
+                var formatter = new google.visualization.NumberFormat( //단위지정
+                        {pattern: '#명'}
+                    );
+                    formatter.format(dataOrderCount, 1); // Apply formatter to second column.
+                    formatter.format(dataOrderCount, 2); // Apply formatter to third column.
+
+                var options = {
+                  chart: {
+                    title: '<%= session.getAttribute("store_id") %>',
+                    subtitle: '신규고객, 재주문고객 주문 수 비교',
+                  },
+                  bars: 'horizontal',
+                  colors: ['#c2a91f', '#092073'] // 여기서 색상을 지정합니다
+                };
+
+                var chart = new google.charts.Bar(document.getElementById('MonthOrder'));
+
+                chart.draw(dataOrderCount, google.charts.Bar.convertOptions(options));
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+      }
+    </script>
+    
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        var storeId = '<%= session.getAttribute("store_id") %>';
+        var encodedStoreId = encodeURIComponent(storeId);
+        $.ajax({
+            url: 'orderTotal/' + encodedStoreId,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+            	console.log(response);
+            	/* 여기서부터 로직 짜야댐 */
+            	/* 신규 고객 결제금액 증가율 */
+				var newOrderTotalGrowth; 
+				if (lastMonthNewTotal === 0) {
+				    newOrderTotalGrowth = thisMonthNewTotal > 0 ? 100 : 0;
+				} else {
+				    newOrderTotalGrowth = (thisMonthNewTotal - lastMonthNewTotal) / lastMonthNewTotal * 100; 
+				}
+				
+				/* 신규 고객 주문건 증가율 */
+				var newOrderCountGrowth; 
+				if (lastMonthNewOrder === 0) {
+				    newOrderCountGrowth = thisMonthNewOrder > 0 ? 100 : 0;
+				} else {
+				    newOrderCountGrowth = (thisMonthNewOrder - lastMonthNewOrder) / lastMonthNewOrder * 100; 
+				}
+				
+				/* 재주문 고객 결제 금액증가율 */
+				var returnOrderTotalGrowth; 
+				if (lastMonthReturnTotal === 0) {
+				    returnOrderTotalGrowth = thisMonthReturnTotal > 0 ? 100 : 0;
+				} else {
+				    returnOrderTotalGrowth = (thisMonthReturnTotal - lastMonthReturnTotal) / lastMonthReturnTotal * 100;
+				}
+				console.log(returnOrderTotalGrowth);
+				
+				/* 재주문 고객 주문건 증가율 */
+				var returnOrderCountGrowth; 
+				if (lastMonthReturnOrder === 0) {
+				    returnOrderCountGrowth = thisMonthReturnOrder > 0 ? 100 : 0;
+				} else {
+				    returnOrderCountGrowth = (thisMonthReturnOrder - lastMonthReturnOrder) / lastMonthReturnOrder * 100;
+				}
+				console.log(returnOrderCountGrowth);
+
+
+
+                /* HTML 태그에 데이터 설정 */
+
+				/* 증가율을 HTML에 출력 */
+				document.getElementById('newOrderTotalGrowth').textContent = '신규 고객 결제금액 증가율: ' + newOrderTotalGrowth.toFixed(2) + '%';
+				document.getElementById('newOrderCountGrowth').textContent = '신규 고객 주문건 증가율: ' + newOrderCountGrowth.toFixed(2) + '%';
+				document.getElementById('returnOrderTotalGrowth').textContent = '재주문 고객 결제 금액증가율: ' + returnOrderTotalGrowth.toFixed(2) + '%';
+				document.getElementById('returnOrderCountGrowth').textContent = '재주문 고객 주문건 증가율: ' + returnOrderCountGrowth.toFixed(2) + '%';
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+<!-- 감성분석 차트 -->
+    <script>
+    $(document).ready(function() {
+            var storeId = '<%= session.getAttribute("store_id") %>';
+            var encodedStoreId = encodeURIComponent(storeId);
+
+            $.ajax({
+                url: 'analyze/' + encodedStoreId,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=UTF-8',
+                success: function(response) {
+                    console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2));
+                    // 필드들을 표시할 <div> 요소 가져오기
+                    var resultElement = $("#result");
+
+                    // 기존 결과 초기화
+                    resultElement.empty();
+
+                    // 통계 변수 초기화
+                    var totalCount = response.length;
+                    var positiveCount = 0;
+                    var negativeCount = 0;
+                    var neutralCount = 0;
+
+                    // response 객체를 순회하며 필드들을 <div>에 표시
+                    for (var i = 0; i < response.length; i++) {
+                        var review = response[i];
+                        /* resultElement.append("<p>리뷰 내용: " + review.sentences[0].content + ", 감정 분석 결과: " + review.document.sentiment); */
+
+                        // 통계 카운트 계산
+                        if (review.document.sentiment === "positive") {
+                            positiveCount++;
+                        } else if (review.document.sentiment === "negative") {
+                            negativeCount++;
+                        } else {
+                            neutralCount++;
+                        }
+                    }
+
+                    var positivePercentage = (positiveCount / totalCount) * 100;
+                    var negativePercentage = (negativeCount / totalCount) * 100;
+                    var neutralPercentage = (neutralCount / totalCount) * 100;
+					/* 퍼센트 표시할시 사용 */
+                    /* resultElement.append("<p>긍정 리뷰: " + positivePercentage.toFixed(2) + "%</p>");
+                    resultElement.append("<p>부정 리뷰: " + negativePercentage.toFixed(2) + "%</p>");
+                    resultElement.append("<p>중립 리뷰: " + neutralPercentage.toFixed(2) + "%</p>"); */
+                    
+                    google.charts.load("current", {packages:["corechart"]});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                      var data = google.visualization.arrayToDataTable([
+                        ['Task', 'Hours per Day'],
+                        ['좋아요', positivePercentage],
+                        ['아쉬워요', negativePercentage],
+                        ['나쁘지않아요', neutralPercentage]
+                      ]);
+
+                      var options = {
+                        title: '<%= session.getAttribute("store_id") %>'+ ' 리뷰 감정분석',
+                        is3D: true,
+                      };
+
+                      var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                      chart.draw(data, options);
+                    }
+                },
+
+                error: function(error) {
+                    alert('감정 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+                }
+            });
+        });
+</script>
 	
 
 
@@ -260,8 +504,7 @@ function drawChart() {
 </head>
 <body>
 	<div class="container">
-	<div id="linechart_material" style="width: 1200px; height: 400px"></div>
-	<div class="row">
+	<div id="linechart_material" style="width: 600px; height: 500px"></div>
 	<table>
 	<tr>
 	<td>
@@ -277,23 +520,54 @@ function drawChart() {
 	</div></td></tr>
 	</table>
 	</div>
-	</div>
+	
 	<div class="container">
+	<div class="row">
 	<table>
 	<tr>
-	<td><div class="col-md-6"><div id="donutchart" style="width: 500px; height: 300px;"></div></div></td>
-	<td><div class="col-md-6"><div id="여러번주문차트" style="width: 500px; height: 300px;"></div></div></td>
+	<td>
+	<div id="donutchart" style="width: 800px; height: 500px;"></div>
+	</td>
+	<td>
+	<div id="여러번주문차트" style="width: 600px; height: 400px;"></div>
+	</td>
 	</tr>
-	<tr class="col-md-6">
+	</table>
+	</div>
+	</div>
+	
+	<div class="container">
+	<div class="row">
+	<table>
+	<tr>
+	<td><div class="text-bg-primary p-3">
+	<div id="returningCustomerGrowth"></div></div></td>
 	<td>
 	<div class="text-bg-warning p-3">
-	<div id="returningCustomerGrowth"></div></div></td></tr>
-	<tr><td>
-	<div class="text-bg-primary p-3">
 	<div id="newCustomerGrowth"></div></div>
-	</td></tr>
-	
+	</td>
+	</tr>
 	</table>
+	</div>
+	</div>
+	
+	<div class="container">
+	<div id="MonthTotal" style="width: 900px; height: 500px;"></div>
+	</div>
+	
+	<div class="container">
+	<div id="MonthOrder" style="width: 900px; height: 500px;"></div>
+	</div>
+	
+	<div class="container">
+	<div id="newOrderTotalGrowth"></div>
+	<div id="newOrderCountGrowth"></div>
+	<div id="returnOrderTotalGrowth"></div>
+	<div id="returnOrderCountGrowth"></div>
+	</div>
+	
+	<div class="container">
+	<div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
 	</div>
 </body>
 

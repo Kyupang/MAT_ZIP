@@ -19,37 +19,16 @@ public class Boss_memberDAO { // CRUD
 
 	public void innerJoinAndInsert(Boss_memberVO bag) {
         my.insert("boss.insertJoinedData", bag);
+        System.out.println("사장회원등록실행");
     }
 
 	public Boss_memberVO login(Boss_memberVO bag) {
 		return my.selectOne("boss.boss_login", bag);
 		
 	}
-//	public int update(Boss_memberVO bag) {
-//		int result = my.update("boss.up", bag);
-//		return result;
-//	}
-//
-//	public int delete(String id) {
-//
-//		int result = my.delete("boss.del", id);
-//
-//		return result;
-//
-//	}
-//
-//	public Boss_memberVO one(String id) {
-//		Boss_memberVO bag = my.selectOne("boss.one", id);
-//
-//		return bag;
-//
-//	}// one
-//
-//	public List<Boss_memberVO> list() {
-//		List<Boss_memberVO> list = my.selectList("boss.list");
-//		System.out.println(list.size());
-//		return list;
-//
-//	}
+	public int checkStoreId(String storeId) {
+        return my.selectOne("boss.checkStoreId", storeId);
+    }
+
 
 }

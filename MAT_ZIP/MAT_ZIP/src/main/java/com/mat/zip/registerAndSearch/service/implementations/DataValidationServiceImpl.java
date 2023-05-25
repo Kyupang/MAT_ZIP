@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mat.zip.mzMember.model.MzMemberDTO;
+import com.mat.zip.point.model.PointSaveHistoryVO;
 import com.mat.zip.point.service.PointSaveHistoryServiceImpl;
 import com.mat.zip.registerAndSearch.dao.MZRegisterInfoDAO;
 import com.mat.zip.registerAndSearch.dao.RestaurantDAO;
@@ -53,6 +54,9 @@ public class DataValidationServiceImpl implements DataValidationService {
 		//DB에 저장을 하기위한 VO 전처리 후 로직시작 
 		MZRegisterInfoVO vo = new MZRegisterInfoVO();
 		vo.setUserId(userId);
+		//point 저장 객체
+		PointSaveHistoryVO bag2 = new PointSaveHistoryVO();
+		bag2.setUser_id(userId);
 		
 		
 		//먼저 하루 등록 횟수 제한 5번을 통해 무자비한 등록을 차단한다. 
@@ -98,6 +102,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 				//그러면 mzRegister DB에 insert 
 				mzRegisterInfoDAO.insert(vo);
 				//point 적립 Service 위치
+				pointsavehistoryService.addPoint(bag2);
 				
 				
 				result.setLandNumAddress("k");
@@ -132,6 +137,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 			}
 			mzRegisterInfoDAO.insert(vo);
 			//point 적립 Service 위치
+			pointsavehistoryService.addPoint(bag2);
 			
 			result = restaurantDAO.addressAndName(vo);
 			result.setCount(countInfoInMZ);

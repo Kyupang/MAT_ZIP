@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.mat.zip.mzMember.model.KakaoLoginBO;
 import com.mat.zip.mzMember.model.MzMemberDTO;
+import com.mat.zip.mzMember.model.NaverLoginBO;
+import com.mat.zip.mzMember.service.JsonParser;
 import com.mat.zip.mzMember.service.MzMemberserviceImpl;
 
 @Controller
@@ -26,9 +28,15 @@ public class MzMemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MzMemberController.class);
 	private KakaoLoginBO kakaoLoginBO;
+	private NaverLoginBO naverLoginBO;
 	
 	@Inject
 	MzMemberserviceImpl service;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
 	
 	/* 카카오 의존성 주입 */
 	@Autowired
@@ -50,9 +58,9 @@ public class MzMemberController {
 	public String loginPage(HttpSession session, Model model, String url) {
 		
 		/* naverLogin 클래스의 네아로 인증 url 생성하는 메서드 호출 */
-		//String naverAuthUrl = naverLogin.getAuthorizationURL(session);
-//		model.addAttribute("naverUrl", naverAuthUrl);
-//		logger.info("naver url: " + naverAuthUrl);
+		String naverAuthUrl = naverLoginBO.getAuthorizationURL(session);
+		model.addAttribute("naverUrl", naverAuthUrl);
+		logger.info("naver url: " + naverAuthUrl);
 		
 		/* kakaoLoginBO 클래스의 카카오 로그인 인증 url 생성하는 메서드 호출 */
 		String kakaoAuthUrl = kakaoLoginBO.getAuthorizationURL(session);
@@ -87,6 +95,33 @@ public class MzMemberController {
 			
 			return "redirect:/index.jsp";
 		}
+	}
+	
+	/* 네이버 로그인 성공 시 호출하는 callback 메서드 */
+	@RequestMapping(value = "callbackNaver", method = {RequestMethod.GET, RequestMethod.POST})
+	public String loginPostNaver(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, MzMemberDTO dto) throws Exception{
+		logger.info("callback controller 실행");
+		JsonParser json = new JsonParser();
+		
+		OAuth2AccessToken oauthToken;
+		oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		String apiResult = naverLoginBO.getUserProfile(oauthToken);
+		dto = json.changeJson(apiResult);
+		
+		System.out.println(dto.getUser_id());
+//		int loginResult = service.memberLogin(dto);
+//		if (loginResult == 0) {
+//			logger.info("간편 로그인 유저 회원가입");
+//			 
+//			 return "/mz_member/callbackNaver";
+//		}
+		
+		//윗부분에 if문 써서 db에 count해서 정보가 없다면 위에 껄 실행해서 추가하고, 아니면 그냥 냅두는 형식
+		//if()
+		
+		session.setAttribute("user_id", dto.getUser_id());
+		System.out.println(model);
+		return "/mz_member/callbackNaver";
 	}
 	
 	/* 카카오 로그인 성공 시 콜백 메서드 */

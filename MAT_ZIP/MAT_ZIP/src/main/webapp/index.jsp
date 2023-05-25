@@ -217,8 +217,8 @@
 	        <div id="map" class="map-div" style="width: 100%; height: 450px;"></div>
 	        
 	        <!-- 검색창 -->
+	        <button id="b2" class="btn btn-outline-warning" style="position: absolute; top: 80%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">현 위치에서 검색</button>
 	        <div id="search-container" style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
-	          <button id="b2" style="margin-left: 20px; width: 400px; display: inline-block;">현위치 기반으로 맛집 표시</button>
 	          <nav class="navbar navbar-light">
 	            <div class="container-fluid">
 	             <div>
@@ -232,7 +232,7 @@
 	        </div>
        		     	
 	        <!-- 등록 버튼 -->
-	        <div class="btn-box" style="position: absolute; top: 90%; left: 12%; transform: translate(-50%, -50%); z-index: 1;">
+	        <div class="btn-box" style="position: absolute; top: 90%; left: 9%; transform: translate(-50%, -50%); z-index: 1;">
 	          	<button class="btn btn-warning"  onclick="openModal()">맛집 등록</button>
 	        </div>
 	      </div>

@@ -3,30 +3,53 @@
 <mapper namespace="com.mat.zip.mapper.ReviewMapper">
 
 	<!-- 리뷰글 작성 -->
-	<insert id="insertReview" parameterType="com.mat.zip.board.ReviewVO">
+	<insert id="insertReview" parameterType="reviewVO">
 	    INSERT INTO MAT_ZIP.cs_review 
-	    (user_id, receipt_id, store_id, store_cg, category, review_title, review_content, review_file, review_scope, emotion, created_date, updated_date, review_view_count)
+	    (user_id, receipt_id, store_id, store_cg, category, review_title, review_content, review_file, review_scope, emoticon, created_date, updated_date, review_view_count)
 	    VALUES 
-	    (#{user_id}, #{receipt_id}, #{store_id}, #{store_cg}, #{category}, #{review_title}, #{review_content}, #{review_file}, #{review_scope}, #{emotion}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)
+	    (#{user_id}, #{receipt_id}, #{store_id}, #{store_cg}, #{category}, #{review_title}, #{review_content}, #{review_file}, #{review_scope}, #{emoticon}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)
 	</insert>
 	
 	<!-- 영수증 등록 정보를 가져오자 -->
-	<select id="getReceipt" parameterType="String" resultType="com.mat.zip.registerAndSearch.model.MZRegisterInfoVO">
-	    SELECT MAT_ZIP.mzregisterinfo.*, MAT_ZIP.restaurant.name
-    	FROM MAT_ZIP.mzregisterinfo
-    	JOIN MAT_ZIP.restaurant ON MAT_ZIP.mzregisterinfo.storePhoneNumber = MAT_ZIP.restaurant.tel
-    	WHERE MAT_ZIP.mzregisterinfo.userID = #{user_id} 
-    	AND MAT_ZIP.mzregisterinfo.no NOT IN 
-    	(SELECT receipt_id FROM MAT_ZIP.cs_review)
+	<resultMap id="MZRegisterReceiptDTOMap" type="com.mat.zip.board.MZRegisterReceiptDTO">
+    <association property="mzRegisterInfoVO" javaType="com.mat.zip.registerAndSearch.model.MZRegisterInfoVO">
+        <result property="no" column="m_no" />
+        <result property="userId" column="m_userId" />
+        <result property="storeAddress" column="m_storeAddress" />
+        <result property="storePhoneNumber" column="m_storePhoneNumber" />
+        <result property="buyTime" column="m_buyTime" />
+    </association>
+    <association property="restaurantVO" javaType="com.mat.zip.registerAndSearch.model.RestaurantVO">
+        <result property="no" column="r_no" />
+        <result property="landNumAddress" column="r_landNumAddress" />
+        <result property="roadNameAddress" column="r_roadNameAddress" />
+        <result property="name" column="r_name" />
+        <result property="status" column="r_status" />
+        <result property="tel" column="r_tel" />
+        <result property="food" column="r_food" />
+    </association>
+	</resultMap>
+	
+	<select id="getReceiptWithRestaurant" parameterType="String" resultMap="MZRegisterReceiptDTOMap">
+	    SELECT r.no as r_no, r.landNumAddress as r_landNumAddress, r.roadNameAddress as r_roadNameAddress,
+	           r.name as r_name, r.status as r_status, r.tel as r_tel, r.food as r_food,
+	           m.no as m_no, m.userId as m_userId, m.storeAddress as m_storeAddress,
+	           m.storePhoneNumber as m_storePhoneNumber, m.buyTime as m_buyTime
+	    FROM MAT_ZIP.mzregisterinfo m 
+	    JOIN MAT_ZIP.restaurant r ON m.storePhoneNumber = r.tel 
+	    WHERE m.userID = #{user_id} 
+	    AND m.no NOT IN 
+	    (SELECT receipt_id FROM MAT_ZIP.cs_review)
 	</select>
 	
+
 	<!-- 리뷰글 수정 -->
 	<update id="update" parameterType="reviewVO">
 		UPDATE MAT_ZIP.cs_review SET
 		review_title = #{review_title},
 		review_content = #{review_content},
 		review_file = #{review_file},
-		emotion = #{emotion},
+		emoticon = #{emoticon},
 		updated_date = CURRENT_TIMESTAMP
 		WHERE review_id = #{review_id} AND user_id = #{user_id}
 	</update>

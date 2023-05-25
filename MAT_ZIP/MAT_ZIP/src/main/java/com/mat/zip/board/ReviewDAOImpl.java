@@ -22,8 +22,8 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 
 	@Override
-	public List<MZRegisterInfoVO> getReceipt(String userId) {
-		return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.getReceipt", userId);
+	public List<MZRegisterReceiptDTO> getReceiptWithRestaurant(String user_id) {
+	    return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.getReceiptWithRestaurant", user_id);
 	}
 
 	@Override

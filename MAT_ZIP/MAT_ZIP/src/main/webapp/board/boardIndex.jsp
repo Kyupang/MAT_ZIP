@@ -95,5 +95,8 @@
 	-->
 	<hr color=green>
 	<div id="result" style="background: #ffd9f7"></div>
+	<a href="../index.jsp">
+		<button style="background: grey;">index로 돌아가기</button>
+	</a>
 </body>
 </html>

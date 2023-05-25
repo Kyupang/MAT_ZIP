@@ -83,7 +83,7 @@ public class MzMemberController {
 			MzMemberDTO memberInfo = service.getMemberInfo(dto.getUser_id());
 			
 			logger.info("회원 정보 가져옴");
-			session.setAttribute("user_id", memberInfo);
+			session.setAttribute("user_id", memberInfo.getUser_id());
 			
 			return "redirect:/index.jsp";
 		}
@@ -121,6 +121,7 @@ public class MzMemberController {
 	@RequestMapping(value = "myPage", method = RequestMethod.GET)
 	public String memberInfo(MzMemberDTO dto, HttpSession session, Model model) throws Exception {
 		String id = String.valueOf(session.getAttribute("user_id"));
+		
 		MzMemberDTO memberInfo = service.getMemberInfo(id);
 		model.addAttribute("memberInfo", memberInfo);
 		

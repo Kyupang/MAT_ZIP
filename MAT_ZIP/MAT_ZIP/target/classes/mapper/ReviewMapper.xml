@@ -4,7 +4,7 @@
 
 	<!-- 리뷰글 작성 -->
 	<insert id="insertReview" parameterType="reviewVO">
-	    INSERT INTO MAT_ZIP.cs_review 
+	    INSERT INTO cs_review 
 	    (user_id, receipt_id, store_id, store_cg, category, review_title, review_content, review_file, review_scope, emoticon, created_date, updated_date, review_view_count)
 	    VALUES 
 	    (#{user_id}, #{receipt_id}, #{store_id}, #{store_cg}, #{category}, #{review_title}, #{review_content}, #{review_file}, #{review_scope}, #{emoticon}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)
@@ -35,17 +35,17 @@
 	           r.name as r_name, r.status as r_status, r.tel as r_tel, r.food as r_food,
 	           m.no as m_no, m.userId as m_userId, m.storeAddress as m_storeAddress,
 	           m.storePhoneNumber as m_storePhoneNumber, m.buyTime as m_buyTime
-	    FROM MAT_ZIP.mzregisterinfo m 
-	    JOIN MAT_ZIP.restaurant r ON m.storePhoneNumber = r.tel 
+	    FROM  mzregisterinfo m 
+	    JOIN  restaurant r ON m.storePhoneNumber = r.tel 
 	    WHERE m.userID = #{user_id} 
 	    AND m.no NOT IN 
-	    (SELECT receipt_id FROM MAT_ZIP.cs_review)
+	    (SELECT receipt_id FROM  cs_review)
 	</select>
 	
 
 	<!-- 리뷰글 수정 -->
 	<update id="update" parameterType="reviewVO">
-		UPDATE MAT_ZIP.cs_review SET
+		UPDATE  cs_review SET
 		review_title = #{review_title},
 		review_content = #{review_content},
 		review_file = #{review_file},
@@ -56,28 +56,28 @@
 
 	<!-- 게시글 조회수 증가 -->
 	<update id="incrementReviewViewCount" parameterType="int">
-		UPDATE MAT_ZIP.cs_review SET
+		UPDATE  cs_review SET
 		review_view_count = review_view_count + 1
 		WHERE review_id = #{review_id}
 	</update>
 
 	<!-- 리뷰글 삭제 -->
 	<delete id="delete" parameterType="int">
-		DELETE FROM MAT_ZIP.cs_review
+		DELETE FROM  cs_review
 		WHERE review_id = #{review_id}
 	</delete>
 
 	<!-- 리뷰글 상세정보 조회 -->
 	<select id="oneReviewId" parameterType="int"
 		resultType="reviewVO">
-		SELECT * FROM MAT_ZIP.cs_review WHERE review_id =
+		SELECT * FROM  cs_review WHERE review_id =
 		#{review_id}
 	</select>
 
 	<!-- 리뷰게시판 전체 list -->
 	<select id="allReview" resultType="reviewVO">
 		SELECT * FROM
-		MAT_ZIP.cs_review
+		 cs_review
 	</select>
 
 </mapper>

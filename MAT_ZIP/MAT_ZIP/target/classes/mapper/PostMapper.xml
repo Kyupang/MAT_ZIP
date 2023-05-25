@@ -8,13 +8,13 @@
 			useGeneratedKeys="true" 
 			keyProperty="post_id"
 			>
-		insert into MAT_ZIP.cs_post (user_id, food_cg, category, post_title, post_content, post_file, created_date, updated_date, post_view_count)
+		insert into cs_post (user_id, food_cg, category, post_title, post_content, post_file, created_date, updated_date, post_view_count)
 		values (#{user_id}, #{food_cg}, #{category}, #{post_title}, #{post_content}, #{post_file}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{post_view_count})
 	</insert>
 	
 	<!-- 글 수정 -->
 	<update id="updatePost"  parameterType="postVO">
-		update MAT_ZIP.cs_post set 
+		update cs_post set 
 			food_cg = #{food_cg}, 
 			category = #{category},
 			post_title = #{post_title}, 
@@ -26,36 +26,36 @@
 	
 	<!-- 게시글 조회수 증가 -->
     <update id="incrementPostViewCount" parameterType="int">
-        UPDATE MAT_ZIP.cs_post set 
+        UPDATE cs_post set 
         post_view_count = post_view_count + 1
         WHERE post_id = #{post_id}
     </update>
 	
 	<!-- 글 삭제 -->
 	<delete id="deletePost"  parameterType="postVO">
-		delete from MAT_ZIP.cs_post 
+		delete from cs_post 
 		where post_id = #{post_id} and user_id = #{user_id}
 	</delete>
 	
 	<!-- 조건별 검색 : post_id로 검색하기-->
 	<select id="onePostId" parameterType="int" resultType="postVO">
-		select * from MAT_ZIP.cs_post where post_id = #{post_id}
+		select * from cs_post where post_id = #{post_id}
 	</select>
 	
 	<!-- 조건별 검색 : user_id로 검색하기-->
 	<select id="onePostUserid" parameterType="String" resultType="postVO">
-		select * from MAT_ZIP.cs_post where user_id = #{user_id}
+		select * from cs_post where user_id = #{user_id}
 	</select>
 	
 	<!-- 조건별 검색 : food_cg로 검색하기-->
 	<select id="onePostFoodcg" parameterType="String" resultType="postVO">
-		select * from MAT_ZIP.cs_post where food_cg = #{food_cg}
+		select * from cs_post where food_cg = #{food_cg}
 	</select>
 	
 	
 	<!-- 자유게시판 전체 검색 -->
 	<select id="allPost"  resultType="postVO">
-		select * from MAT_ZIP.cs_post
+		select * from cs_post
 	</select>	
 
 </mapper>

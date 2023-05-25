@@ -96,7 +96,7 @@ public class BoardController {
 
 	@RequestMapping("/boss/Board_list")
 	public void list(Model model, @RequestParam(defaultValue = "1") int page) {
-	    int limit = 10;
+	    int limit = 15;
 	    int offset = (page - 1) * limit;
 	    List<BoardVO> list = dao.list(limit, offset);
 	    
@@ -115,10 +115,6 @@ public class BoardController {
 	    model.addAttribute("currentPage", page);
 	    
 	}
-
-
-
-
 
 	@PostMapping("/boss/like")
 	public ResponseEntity<?> like(HttpSession session, @RequestParam("board_id") int board_id) {

@@ -9,6 +9,7 @@
 	rel="stylesheet"
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 	<style>
   @import
 	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap')
@@ -23,7 +24,7 @@
 	src="https://www.gstatic.com/charts/loader.js"></script>
 	<!-- <script src="../resources/js/boss_chart.js"></script>boss_chart.js파일을 추가 -->
 	<link href="../resources/css/boss.css" rel="stylesheet"><!-- boss.css 파일을 추가 -->
-	
+<!-- 매출 차트  -->	
 <script type="text/javascript">
 google.charts.load('current', {'packages':['line']});
 google.charts.setOnLoadCallback(drawChart);
@@ -359,7 +360,7 @@ function drawChart() {
         });
       }
     </script>
-    
+    <!-- 신규고객,재방문고객 결제금액 증가율  -->
     <script type="text/javascript">
 
     $(document).ready(function() {
@@ -370,7 +371,16 @@ function drawChart() {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-            	console.log(response);
+            	/* 신규고객 */
+            	var thisMonthNewOrder = response.thisMonthNewTotal.newOrdersThisMonth;  /* 이번달 신규 고객 주문수 */
+            	var thisMonthNewTotal = response.thisMonthNewTotal.newOrderTotalThisMonth;  /* 이번달 신규 고객 총 결제금액 */
+            	var lastMonthNewOrder = response.lastMonthNewTotal.newOrdersLastMonth; /* 지난달 신규 고객 주문수 */
+            	var lastMonthNewTotal = response.lastMonthNewTotal.newOrdersTotalLastMonth; /* 지난달 신규 고객 총 결제금액 */
+				/* 재주문고객  */
+            	var thisMonthReturnOrder = response.thisMonthReturnTotal.returningOrdersThisMonth; /* 이번달 재주문 고객 주문수 */
+            	var thisMonthReturnTotal = response.thisMonthReturnTotal.returningOrderTotalThisMonth; /* 이번달 재주문 고객 총 결제금액 */
+            	var lastMonthReturnOrder = response.lastMonthReturnTotal.returningOrdersLastMonth; /* 저번달 재주문 고객 주문수 */
+            	var lastMonthReturnTotal = response.lastMonthReturnTotal.returningOrderTotalLastMonth; /* 저번달 재주문 고객 총 결제금액 */
             	/* 여기서부터 로직 짜야댐 */
             	/* 신규 고객 결제금액 증가율 */
 				var newOrderTotalGrowth; 
@@ -405,23 +415,48 @@ function drawChart() {
 				    returnOrderCountGrowth = (thisMonthReturnOrder - lastMonthReturnOrder) / lastMonthReturnOrder * 100;
 				}
 				console.log(returnOrderCountGrowth);
+				
+				// 신규 고객 결제금액 증가율, 소수점 이하 잘라내기
+	            var newOrderTotalGrowth = calculateGrowth(thisMonthNewTotal, lastMonthNewTotal);
+	            // 신규 고객 주문건 증가율, 소수점 이하 잘라내기
+	            var newOrderCountGrowth = calculateGrowth(thisMonthNewOrder, lastMonthNewOrder);
+	            // 재주문 고객 결제 금액증가율, 소수점 이하 잘라내기
+	            var returnOrderTotalGrowth = calculateGrowth(thisMonthReturnTotal, lastMonthReturnTotal);
+	            // 재주문 고객 주문건 증가율, 소수점 이하 잘라내기
+	            var returnOrderCountGrowth = calculateGrowth(thisMonthReturnOrder, lastMonthReturnOrder);
 
+	            /* HTML 태그에 데이터 설정 */
+	            formatGrowth(newOrderTotalGrowth, 'newOrderTotalGrowth');
+	            formatGrowth(newOrderCountGrowth, 'newOrderCountGrowth');
+	            formatGrowth(returnOrderTotalGrowth, 'returnOrderTotalGrowth');
+	            formatGrowth(returnOrderCountGrowth, 'returnOrderCountGrowth');
 
+	        },
+	        error: function (error) {
+	            console.log(error);
+	        }
+	    });
+	});
+//소수점 자르고, 양수면 ↑ , 음수면 ↓ 표시
+	function calculateGrowth(thisMonth, lastMonth) {
+	    var growth;
+	    if (lastMonth === 0) {
+	        growth = thisMonth > 0 ? 100 : 0;
+	    } else {
+	        growth = (thisMonth - lastMonth) / lastMonth * 100; 
+	    }
+	    return Math.floor(growth); // 소수점 이하를 잘라냅니다.
+	}
 
-                /* HTML 태그에 데이터 설정 */
+	function formatGrowth(growth, elementId) {
+	    var element = document.getElementById(elementId);
+	    if(growth >= 0) {
+	        element.innerHTML = '↑<span style="color:green; font:bold;">' + growth + '%</span>';
+	    } else {
+	        element.innerHTML = '↓<span style="color:red; font:bold;">' + Math.abs(growth) + '%</span>';
+	    }
+	}
 
-				/* 증가율을 HTML에 출력 */
-				document.getElementById('newOrderTotalGrowth').textContent = '신규 고객 결제금액 증가율: ' + newOrderTotalGrowth.toFixed(2) + '%';
-				document.getElementById('newOrderCountGrowth').textContent = '신규 고객 주문건 증가율: ' + newOrderCountGrowth.toFixed(2) + '%';
-				document.getElementById('returnOrderTotalGrowth').textContent = '재주문 고객 결제 금액증가율: ' + returnOrderTotalGrowth.toFixed(2) + '%';
-				document.getElementById('returnOrderCountGrowth').textContent = '재주문 고객 주문건 증가율: ' + returnOrderCountGrowth.toFixed(2) + '%';
-
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    });
 </script>
 <!-- 감성분석 차트 -->
     <script>
@@ -504,25 +539,23 @@ function drawChart() {
 </head>
 <body>
 	<div class="container">
+	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 매출 차트</i></h1></div>
 	<div id="linechart_material" style="width: 600px; height: 500px"></div>
-	<table>
-	<tr>
-	<td>
-	<div class="text-bg-primary p-3">
-	<div id="thisMonthDays">같은기간 이번달 매출</div>
-	<div id="thisMonthTotal">이번달 총 매출</div>
-	</div>
-	</td>
-	<td>
-	<div class="text-bg-warning p-3">
+	<ul>
+	<li><div class="text-bg-primary p-3">
+	<div id="thisMonthDays">같은기간 이번달 매출</div><div id="thisMonthTotal">이번달 총 매출</div></li>
+	<li><div class="text-bg-warning p-3">
 	<div id="lastMonthDays">같은기간 저번달 매출</div>
-	<div id="lastMonthTotal">저번달 총 매출</div>
-	</div></td></tr>
-	</table>
+	<div id="lastMonthTotal">저번달 총 매출</div></li>
+	</ul>	
 	</div>
+	<hr style="border: dashed 10px #121d40;" align="center">
 	
+	
+	<br>
 	<div class="container">
 	<div class="row">
+	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 재주문율 차트</i></h1></div>
 	<table>
 	<tr>
 	<td>
@@ -551,7 +584,10 @@ function drawChart() {
 	</div>
 	</div>
 	
+	<hr style="border: dashed 10px #121d40;" align="center">
+	<br>
 	<div class="container">
+	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 신규고객,재주문고객 금액 비교</i></h1></div>
 	<div id="MonthTotal" style="width: 900px; height: 500px;"></div>
 	</div>
 	
@@ -559,14 +595,24 @@ function drawChart() {
 	<div id="MonthOrder" style="width: 900px; height: 500px;"></div>
 	</div>
 	
+	<hr style="border: dashed 10px #121d40;" align="center">
+	<br>
 	<div class="container">
-	<div id="newOrderTotalGrowth"></div>
-	<div id="newOrderCountGrowth"></div>
-	<div id="returnOrderTotalGrowth"></div>
-	<div id="returnOrderCountGrowth"></div>
+	<div class="row">
+	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 총 결제금액, 주문수 비교</i></h1></div>
+	<ul>
+	<li>신규고객 결제금액 증가율<div id="newOrderTotalGrowth" class="text-bg-warning p-3"></div></li>
+	<li>재주문 고객 결제금액 증가율<div id="returnOrderTotalGrowth" class="text-bg-light p-3"></div></li>
+	<li>신규 고객 주문 건 증가율<div id="newOrderCountGrowth" class="text-bg-warning p-3"></div></li>
+	<li>재주문 고객 주문 건 증가율<div id="returnOrderCountGrowth" class="text-bg-light p-3"></div></li>
+	</ul>
+	</div>
 	</div>
 	
+	<hr style="border: dashed 10px #121d40;" align="center">
+	<br>
 	<div class="container">
+	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 리뷰 감정분석 차트</i></h1></div>
 	<div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
 	</div>
 </body>

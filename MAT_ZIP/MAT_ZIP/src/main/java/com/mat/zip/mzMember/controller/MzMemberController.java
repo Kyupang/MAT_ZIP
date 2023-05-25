@@ -84,8 +84,6 @@ public class MzMemberController {
 			
 			logger.info("회원 정보 가져옴");
 			session.setAttribute("user_id", memberInfo.getUser_id());
-			session.setAttribute("nickName", memberInfo.getNickName());
-			session.setAttribute("phNum", memberInfo.getPhNum());
 			
 			return "redirect:/index.jsp";
 		}

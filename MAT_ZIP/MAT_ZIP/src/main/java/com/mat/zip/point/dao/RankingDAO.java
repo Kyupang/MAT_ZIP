@@ -17,5 +17,13 @@ public class RankingDAO {
 	public List<RankingVO> findall() {
 		return my.selectList("ranking.findall");
 	}
+	
+	public List<RankingVO> findgenderman() {
+		return my.selectList("ranking.findgenderman");
+	}
+	
+	public List<RankingVO> findgenderwoman() {
+		return my.selectList("ranking.findgenderwoman");
+	}
 
 }

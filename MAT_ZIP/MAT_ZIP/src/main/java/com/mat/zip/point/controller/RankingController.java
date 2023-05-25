@@ -19,12 +19,27 @@ public class RankingController {
 	RankingDAO dao;
 
 	@RequestMapping(value = "ranking", method = RequestMethod.GET)
-	public String ranking(Model model) {
+	public void ranking(Model model) {
 		List<RankingVO> list = dao.findall();
-		System.out.println(list);
+		System.out.println(list + "지역");
 		model.addAttribute("list", list);
-		
-		return "/point/ranking";
+
+	}
+	
+	@RequestMapping(value = "rankingman", method = RequestMethod.GET)
+	public void rankingman(Model model) {
+		List<RankingVO> list = dao.findgenderman();
+		System.out.println(list + "남");
+		model.addAttribute("list", list);
+
+	}
+	
+	@RequestMapping(value = "rankingwoman", method = RequestMethod.GET)
+	public void rankingwoman(Model model) {
+		List<RankingVO> list = dao.findgenderwoman();
+		System.out.println(list + "여");
+		model.addAttribute("list", list);
+
 	}
 
 }

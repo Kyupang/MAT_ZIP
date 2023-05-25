@@ -2,9 +2,18 @@ package com.mat.zip.point.model;
 
 public class RankingVO {
 
+	private int no;
 	private String name;
 	private String img;
 	private int total;
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
 
 	public String getName() {
 		return name;
@@ -32,7 +41,7 @@ public class RankingVO {
 
 	@Override
 	public String toString() {
-		return "RankingVO [name=" + name + ", img=" + img + ", total=" + total + "]";
+		return "RankingVO [no=" + no + ", name=" + name + ", img=" + img + ", total=" + total + "]";
 	}
 
 }

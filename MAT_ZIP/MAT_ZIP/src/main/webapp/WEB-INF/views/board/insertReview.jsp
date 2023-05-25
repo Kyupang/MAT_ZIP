@@ -14,7 +14,7 @@
         <input type="hidden" name="selectedReceipt" value="${selectedReceipt}" />
 
         <label for="store_id">상호명: </label>
-        <input type="text" id="store_id" name="store_id" required><br/>
+        <input type="text" id="store_id" name="store_id" value="${receipt.restaurantVO.name}" required><br/>
 
         <label for="store_cg">판매 음식 종류: </label>
         <input type="text" id="store_cg" name="store_cg" required><br/>

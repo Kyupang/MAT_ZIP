@@ -24,7 +24,7 @@
 	${session.getAttribute("user_id")} 님이 로그인 중입니다.
 	<br>
 	
-	<form action="insertReview" id="form" method="post">
+	<form action="beforeInsertReview" id="form" method="get">
 	    <h2>영수증 선택:</h2>
 	    <c:forEach items="${receiptList}" var="receipt">
     		<input type="radio" id="${receipt.mzRegisterInfoVO.no}" name="receipt_id" value="${receipt.mzRegisterInfoVO.no}">
@@ -44,7 +44,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 		    $('#form').on('change', function(e) {
-		        if (e.target.name === 'receipt_id') {
+		        if (e.target.name == 'receipt_id') {
 		            $('#selectedReceipt').val(e.target.value);
 		        }
 		    });

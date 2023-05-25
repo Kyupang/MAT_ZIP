@@ -55,13 +55,13 @@ html, body {
 }
 
 #loginBoxTitle {
-	color: #198754;
+	/* color: #198754; */
 	font-weight: bold;
 	font-size: 42px;
 	text-transform: uppercase;
 	padding: 5px;
 	margin-bottom: 20px;
-	background: linear-gradient(to right, #198754, #8ca6ce);
+	background: linear-gradient(to right, #1a1a1c, #ceced9);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -89,20 +89,24 @@ function goBack() {
 	<div id="container">
 		<div id="loginBox">
 
-			<div id="loginBoxTitle">맛.Zip로그인</div>
+			<div id="loginBoxTitle" style="font-family: 'Dancing Script', cursive;">
+			<span class="nav-link px-2 text-white">Mat.zip</span>
+			</div>
 
 			<div id="inputBox">
 				<form action="member_login" method="post">
-    <div class="input-form-box">
-        <input name="user_id" placeholder="아이디" style="width: 100%; height: 50px;">
+    <div class="form-floating mb-3">
+        <input name="user_id" class="form-control" id="floatingInput" placeholder="아이디" style="width: 100%; height: 50px;">
+        <label for="floatingInput">ID를 입력해주세요</label>
     </div>
 
-    <div class="input-form-box">
-        <input name="password" placeholder="비밀번호" style="width: 100%; height: 50px;">
+    <div class="form-floating mb-3">
+        <input name="password" class="form-control" id="floatingInput" placeholder="비밀번호" style="width: 100%; height: 50px;">
+        <label for="floatingInput">PW를 입력해주세요</label>
     </div>
 
     <div class="button-login-box">
-        <button type="submit" class="btn btn-success" style="width: 100%; height: 50px;" id="b1">로그인</button>
+        <button type="submit" class="btn btn-outline-dark" style="width: 100%; height: 50px;" id="b1">로그인</button>
     </div>
     <div class="button-back-box">
         <button type="button" class="btn btn-secondary" onclick="goBack()" style="width: 100%; height: 50px;">이전 페이지로</button>
@@ -113,10 +117,11 @@ function goBack() {
                 
 			</div>
 			
-			<hr color="green">
-			<!-- 네이버 로그인 버튼 노출 영역 -->
+			
+			<!-- <hr color="green">
+			네이버 로그인 버튼 노출 영역
 			<div id="naver_id_login"></div>
-			<!-- //네이버 로그인 버튼 노출 영역 -->
+			//네이버 로그인 버튼 노출 영역
 			<script type="text/javascript">
 				var naver_id_login = new naver_id_login("W4mJUHq9ag5OTJvCCgzU",
 						"http://localhost:8887/mvc200/callback.jsp");
@@ -127,14 +132,8 @@ function goBack() {
 				//naver_id_login.setPopup();
 				naver_id_login.init_naver_id_login();
 				
-			</script>
+			</script> -->
 			
-			<%-- <hr color ="green">
-	<h1 style= "color:green;">${id}님이 로그인 중입니다 ~!</h1>
-	
-	<a href="board2.jsp">
-	<button style="background: grey ">게시판 화면으로 go</button>
-	</a> --%>
 		</div>
 	</div>
 

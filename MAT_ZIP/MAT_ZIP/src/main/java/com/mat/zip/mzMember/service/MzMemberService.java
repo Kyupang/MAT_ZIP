@@ -10,7 +10,7 @@ public interface MzMemberService {
 	
 	public String authEmail(String email) throws Exception;
 	
-	public MzMemberDTO getMemberInfo(MzMemberDTO dto) throws Exception;
+	public MzMemberDTO getMemberInfo(String id) throws Exception;
 	
 	public void mailSend(String setFrom, String toMail, String title, String content) throws Exception;
 	

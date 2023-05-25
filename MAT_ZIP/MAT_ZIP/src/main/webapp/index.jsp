@@ -137,12 +137,12 @@
            <div class="client_section">
             <div class="box" style="margin: 10px;">
               <div class="user-img-box">
-              	<c:if test="${memberInfo == null}">
+              	<c:if test="${user_id == null}">
               	<a href="mz_member/signUp">
                 <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
 				</c:if>
-              	<c:if test="${memberInfo != null}">
+              	<c:if test="${user_id != null}">
               	<a href="mz_member/myPage">
                 <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
@@ -150,12 +150,12 @@
               </div>
             </div>
           </div>
-            <c:if test="${memberInfo == null}">
+            <c:if test="${user_id == null}">
 	            <a href="mz_member/login" class="order_online">
 	              LOGIN
 	            </a>
 			</c:if>
-            <c:if test="${memberInfo != null}">
+            <c:if test="${user_id != null}">
 	            <a href="mz_member/logout" class="order_online">
 	              LOGOUT
 	            </a>

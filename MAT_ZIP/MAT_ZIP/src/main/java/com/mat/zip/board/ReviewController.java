@@ -46,14 +46,32 @@ public class ReviewController {
 		} else {
 			System.out.println("receiptList is not empty, size: " + receiptList.size());
 			// If you want to print every element in the list
-			for (MZRegisterReceiptDTO receipt : receiptList) {
-				System.out.println(receipt);
-			}
+//			for (MZRegisterReceiptDTO receipt : receiptList) {
+//				System.out.println(receipt);
+//			}
 		}
 		
 		model.addAttribute("receiptList", receiptList);
 		
 		return "board/writeReview";
+	}
+	
+	// insertReview.jsp로 이동 
+	@GetMapping("/beforeInsertReview")
+	public String beforeInsertReview(Model model, HttpSession session) {
+		
+		String user_id = (String) session.getAttribute("user_id");
+		if (user_id == null) {
+			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
+			return "redirect:/login";
+		}
+		
+		List<MZRegisterReceiptDTO> receiptList = reviewService.getReceiptWithRestaurant(user_id);
+		
+		model.addAttribute("receiptList", receiptList);
+		
+		return "board/insertReview";
+		
 	}
 	
 	// 게시물 insert 처리 

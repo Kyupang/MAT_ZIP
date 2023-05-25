@@ -17,8 +17,9 @@
 		$('#result').empty()
 		$.ajax({
 			type : 'post',
-			url : "/point/pointinquiry",
+			url : "${pageContext.request.contextPath}/point/pointinquiry",
 			success : function(data) {
+				alert(data)
 				$('#result').append(data)
 			},
 			error : function(error) {
@@ -136,11 +137,13 @@ body{
 <div style="text-align: center;">
 <h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
 	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 5px; margin-left: 10px">${memberInfo.mark}</p>
-	<p style="font-weight: 700; font-size: 1.5rem; margin: 0;">(보유한 포인트: ${memberInfo.point} p)</p>
+	<div>
+	<span style="font-weight: 700; font-size: 1.5rem; margin: 0;">(보유한 포인트: &nbsp;</span><span style="font-weight: 700; font-size: 1.5rem; margin: 0;" id="result"></span><span style="font-weight: 700; font-size: 1.5rem; margin: 0;">p)</span>
+	</div>
 	<div>
 	<span>카테고리 1</span>
 	<span>카테고리 2</span>
-	<span>카테고리3</span>
+	<span>카테고리 3</span>
 	</div>
 </div>
 

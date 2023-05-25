@@ -27,15 +27,12 @@ public class PointInquiryController {
 		HttpSession session = request.getSession();
 		//user_id로 세션에 저장한 값을 id로 저장
         String user_id = (String) session.getAttribute("user_id");
-        System.out.println("아이디: " + user_id);
 
         //vo에 결과값을 넣고 
         //그 vo에 있는 포인트 데이터를 가지고 와서 정수로 넘기기
         //그 값을 리턴해서 mypage로 가져감
 		PointInquiryVO inquirypoint = dao.pointinquiryFind(user_id);
-		System.out.println(inquirypoint);
 		int data = inquirypoint.getPoint();
-		System.out.println(data);
 		
 		return data;
 

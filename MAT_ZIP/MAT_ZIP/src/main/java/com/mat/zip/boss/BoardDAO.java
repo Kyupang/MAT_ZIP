@@ -39,23 +39,36 @@ public class BoardDAO {
 		
 	}
 	
+	//게시판 검색 게시글숫자
 	public BoardVO one(int board_id) {
 		BoardVO bag = my.selectOne("board.one", board_id);
 		return bag;
 	}// one
+	//게시판 상세페이지
 	public BoardVO detail(int board_id) {
 		BoardVO bag = my.selectOne("board.detail", board_id);
 		return bag;
 	}// one
-
-	public List<BoardVO> list(int limit) {
-		return my.selectList("board.list",limit);
-
+	
+	// 게시판과 게시판페이징처리 
+	public List<BoardVO> list(int limit, int offset) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("limit", limit);
+	    params.put("offset", offset);
+	    return my.selectList("board.list", params);
 	} //list
+	public int count() {
+        return my.selectOne("board.count");
+    }
+
+	
+	//조회수
 	public int view(int board_id) {
 		int result = my.update("board.view",board_id);
 		return result;
 	}
+	
+	//좋아요버튼 관련 아래로 6개
 	public void increaseLikeCount(int board_id) {
 	    my.update("board.increaseLikeCount", board_id);
 	}

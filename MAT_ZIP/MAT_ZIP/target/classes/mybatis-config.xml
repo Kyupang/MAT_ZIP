@@ -37,6 +37,12 @@
 			alias="reviewVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.ReviewComVO"
 			alias="reviewComVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.MZRegisterReceiptDTO"
+			alias="MZRegisterReceiptDTO"></typeAlias>
+		 
+		 <typeAlias type="com.mat.zip.mainpage.MzlistVO" 
+			 alias="mzlistVO"></typeAlias>	
+			
    </typeAliases>
    
    <mappers>
@@ -49,6 +55,7 @@
       <mapper resource="mapper/BossMapper.xml" />
       <mapper resource="mapper/PaymentMapper.xml" />
       <mapper resource="mapper/ChartMapper.xml" />
+      <mapper resource="mapper/Chart_reviewMapper.xml" />
       
       <!-- HAM POINT mapper -->
 		<mapper resource="mapper/gifticonMapper.xml" />
@@ -67,6 +74,8 @@
 		<mapper resource="mapper/PhotoComMapper.xml" />
 		<mapper resource="mapper/ReviewMapper.xml" />
 		<mapper resource="mapper/ReviewComMapper.xml" />
+		
+		<mapper resource="mapper/MzlistMapper.xml" />
    </mappers>
    
 </configuration>

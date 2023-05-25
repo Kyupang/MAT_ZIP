@@ -74,6 +74,14 @@
               <li class="nav-item">
                 <a class="nav-link" href="book.jsp">Book Table</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="boss/board_index.jsp">사장님커뮤니티</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="board/boardIndex.jsp">회원커뮤니티</a>
+              </li>
+              
             </ul>
             <div class="user_option">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
@@ -132,12 +140,12 @@
            <div class="client_section">
             <div class="box" style="margin: 10px;">
               <div class="user-img-box">
-              	<c:if test="${memberInfo == null}">
+              	<c:if test="${user_id == null}">
               	<a href="mz_member/signUp">
                 <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
 				</c:if>
-              	<c:if test="${memberInfo != null}">
+              	<c:if test="${user_id != null}">
               	<a href="mz_member/myPage">
                 <img src="resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
@@ -145,12 +153,12 @@
               </div>
             </div>
           </div>
-            <c:if test="${memberInfo == null}">
+            <c:if test="${user_id == null}">
 	            <a href="mz_member/login" class="order_online">
 	              LOGIN
 	            </a>
 			</c:if>
-            <c:if test="${memberInfo != null}">
+            <c:if test="${user_id != null}">
 	            <a href="mz_member/logout" class="order_online">
 	              LOGOUT
 	            </a>
@@ -174,6 +182,7 @@
     <!-- end header section -->
     <!-- slider section -->
     <!-- 김규환 작업장  -->
+     
 	  <section class="slider_section">
 	  <div class="container">
 	    <div class="row">

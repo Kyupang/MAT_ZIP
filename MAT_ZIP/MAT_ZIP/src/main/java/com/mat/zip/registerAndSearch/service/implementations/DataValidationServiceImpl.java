@@ -58,6 +58,9 @@ public class DataValidationServiceImpl implements DataValidationService {
 		PointSaveHistoryVO bag2 = new PointSaveHistoryVO();
 		bag2.setUser_id(userId);
 		
+		//포인트 등록을 위한 정보 VO 
+		PointSaveHistoryVO pointVO = new PointSaveHistoryVO();
+		pointVO.setUser_id(userId);
 		
 		//먼저 하루 등록 횟수 제한 5번을 통해 무자비한 등록을 차단한다. 
 		//등록 해도 되니? 체크
@@ -102,7 +105,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 				//그러면 mzRegister DB에 insert 
 				mzRegisterInfoDAO.insert(vo);
 				//point 적립 Service 위치
-				pointsavehistoryService.addPoint(bag2);
+				pointsavehistoryService.addPoint(pointVO);
+
 				
 				
 				result.setLandNumAddress("k");
@@ -137,7 +141,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 			}
 			mzRegisterInfoDAO.insert(vo);
 			//point 적립 Service 위치
-			pointsavehistoryService.addPoint(bag2);
+			pointsavehistoryService.addPoint(pointVO);
+
 			
 			result = restaurantDAO.addressAndName(vo);
 			result.setCount(countInfoInMZ);

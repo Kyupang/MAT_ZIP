@@ -306,7 +306,8 @@
 						      // <a href="mainpage/mzone?landNumAddress=address"><button>+name+"상세페이지로 이동"+</button></a>
 						      // 인포윈도우로 장소에 대한 설명을 표시합니다
 						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+"<br>"+address+'</div>',
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+"<br>"+address+'</div>'+
+						          '<a href="mainpage/mzone?landNumAddress='+address+'">상세페이지</a></div>',
 						          removable: true
 						      });
 						      infowindow.open(map, marker);

@@ -139,8 +139,8 @@ public class MzMemberserviceImpl implements MzMemberService {
 	
 	/** 로그인 시 회원 정보 가져옴 */
 	@Override
-	public MzMemberDTO getMemberInfo(MzMemberDTO dto) throws Exception {
-		return dao.getMemberInfo(dto);
+	public MzMemberDTO getMemberInfo(String id) throws Exception {
+		return dao.getMemberInfo(id);
 	}
 	
 }

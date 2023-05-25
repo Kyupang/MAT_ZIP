@@ -13,7 +13,7 @@ public class ReviewVO {
 	private String review_content; // 리뷰게시글 본문 
 	private String review_file; // 리뷰게시글 이미지파일명 
 	private int review_scope; // 리뷰 점수 
-	private String emotion; // 감정  
+	private String emoticon; // 감정  
 	private Date created_date; // 최초작성일자 
 	private Date updated_date; // 최종 수정일자 
 	private int review_view_count; // 조회수 
@@ -79,10 +79,10 @@ public class ReviewVO {
 		this.review_scope = review_scope;
 	}
 	public String getEmotion() {
-		return emotion;
+		return emoticon;
 	}
 	public void setEmotion(String emotion) {
-		this.emotion = emotion;
+		this.emoticon = emotion;
 	}
 	public Date getCreated_date() {
 		return created_date;
@@ -108,7 +108,7 @@ public class ReviewVO {
 		return "ReviewVO [review_id=" + review_id + ", user_id=" + user_id + ", receipt_id=" + receipt_id
 				+ ", store_id=" + store_id + ", store_cg=" + store_cg + ", category=" + category + ", review_title="
 				+ review_title + ", review_content=" + review_content + ", review_file=" + review_file
-				+ ", review_scope=" + review_scope + ", emotion=" + emotion + ", created_date=" + created_date
+				+ ", review_scope=" + review_scope + ", emoticon=" + emoticon + ", created_date=" + created_date
 				+ ", updated_date=" + updated_date + ", review_view_count=" + review_view_count + "]";
 	}
 }

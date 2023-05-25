@@ -37,6 +37,8 @@
 			alias="reviewVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.ReviewComVO"
 			alias="reviewComVO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.MZRegisterReceiptDTO"
+			alias="MZRegisterReceiptDTO"></typeAlias>
    </typeAliases>
    
    <mappers>

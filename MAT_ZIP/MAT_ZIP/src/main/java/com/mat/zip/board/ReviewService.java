@@ -2,16 +2,22 @@ package com.mat.zip.board;
 
 import java.util.List;
 
+import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
+
 public interface ReviewService {
 	
-	void create(ReviewVO reviewVO) throws Exception;
+	public int insertReview(ReviewVO vo);
 	
-	ReviewVO oneReviewId(int review_id) throws Exception;
+	public List<MZRegisterReceiptDTO> getReceiptWithRestaurant(String user_id);
+
+	public ReviewVO oneReviewId(int review_id);
 	
-	void update(ReviewVO reviewVO) throws Exception;
+	public int delete(int review_id);
 	
-	void delete(int review_id) throws Exception;
+	public int update(ReviewVO vo);
 	
-	List<ReviewVO> allReview() throws Exception;
+	public void incrementReviewViewCount(int review_id);
+	
+	public List<ReviewVO> allReview();
 	
 }

@@ -34,11 +34,7 @@
 				},
 				success : function(x) {
 					$('#result').load(location.href + ' #result')
-					/* $('#result').empty();
-					$('#result').append(x); */
-					/* location.reload(); */
-					/* $('#result').append(
-						"- " + content + ", " + writer + "<br>") */
+				
 				},
 				error : function() {
 					alert('computer요청 실패!')
@@ -46,6 +42,93 @@
 			})//ajax
 		})//b1
 	})//$
+	
+</script>
+<script type="text/javascript">
+$(function() {
+    // 댓글 메뉴 열기/닫기
+    $(document).on('click', '.menu-icon', function() {
+        var menuOptions = $(this).closest('tr').find('.menu-options');
+        menuOptions.toggle();
+    });
+
+    // 수정 버튼 클릭 시
+    $(document).on('click', '.edit-option', function() {
+        var commentContent = $(this).closest('tr').find('.comment-content');
+        var editInput = $(this).closest('tr').find('.edit-comment');
+
+        commentContent.hide();
+        editInput.val(commentContent.text()).show().focus();
+    });
+
+    // 수정된 내용 저장 버튼 클릭 시
+    $(document).on('focusout', '.edit-comment', function() {
+        var commentContent = $(this).closest('tr').find('.comment-content');
+        var editInput = $(this).closest('tr').find('.edit-comment');
+        var commentId = $(this).closest('tr').data('comment-id');
+        var updatedContent = editInput.val();
+
+        // AJAX 요청을 보내서 수정된 내용 저장 및 적용
+        $.ajax({
+            url: 'Com_update',
+            method: 'POST',
+            data: {
+                reply_id: commentId,
+                content: updatedContent
+            },
+            success: function(response) {
+                commentContent.text(updatedContent).show();
+                editInput.hide();
+            },
+            error: function() {
+                alert('Failed to update comment!');
+            }
+        });
+    });
+
+    // 삭제 옵션 클릭 시
+    $(document).on('click', '.delete-option', function() {
+        var commentId = $(this).closest('tr').data('comment-id');
+
+        // AJAX 요청을 보내서 댓글 삭제
+        $.ajax({
+            url: 'Com_delete',
+            method: 'POST',
+            data: {
+                reply_id: commentId
+            },
+            success: function(response) {
+                // 삭제된 댓글 표시를 갱신하는 등의 작업 수행
+                location.reload();
+            },
+            error: function() {
+                alert('Failed to delete comment!');
+            }
+        });
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    $('.like-form').on('submit', function(event){
+        event.preventDefault();
+        var form = $(this);
+        var board_id = form.find('input[name="board_id"]').val();
+        var likeButton = form.find('.like-button');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: {
+                board_id: board_id
+            },
+            success: function(response) {
+                // '좋아요' 카운트를 업데이트
+                likeButton.text('좋아요 ' + response);
+            }
+        });
+    });
+});
 </script>
 <style>
 @import
@@ -208,34 +291,19 @@
 		<div class="row" class="col-md-9">
 			<h6>${bag.content}</h6>
 		</div>
-	</div>
-	<script>
-$(document).ready(function(){
-    $('.like-form').on('submit', function(event){
-        event.preventDefault();
-        var form = $(this);
-        var board_id = form.find('input[name="board_id"]').val();
-        var likeButton = form.find('.like-button');
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: {
-                board_id: board_id
-            },
-            success: function(response) {
-                // '좋아요' 카운트를 업데이트
-                likeButton.text('좋아요 ' + response);
-            }
-        });
-    });
-});
-</script>
-
-<form action="like" method="post" class="like-form">
+		<div class="row" class="col-md-2">
+			<form action="like" method="post" class="like-form">
     <input type="hidden" name="board_id" value="${bag.board_id}">
     <button type="submit" class="like-button">좋아요 ${bag.likecount}</button>
 </form>
+		</div>
+		<div class="row" class="col-md-2">
+			<h6><strong>댓글 개수: ${commentCount}</strong></h6>
+		</div>
+	</div>
+	
+
+
 
 
 	
@@ -244,7 +312,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<h4>
-					<strong>댓글</strong>
+					<strong>댓글${commentCount}</strong>
 				</h4>
 				<table>
 					<c:forEach items="${Com_list}" var="bag">
@@ -255,8 +323,20 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<fmt:formatDate value="${bag.regdate}" pattern="yyyy-MM-dd HH:mm" />
+					        <!-- 로그인 사용자와 댓글 작성자가 동일한 경우에만 수정 및 삭제 옵션을 렌더링합니다. -->
+						        <c:if test="${sessionScope.user_id == bag.writer}">
+						            <div class="comment-menu">
+						                <span class="menu-icon">&#9776;</span>
+						                <div class="menu-options" style="display: none;">
+						                    <span class="edit-option">수정</span>
+						                    <span class="delete-option">삭제</span>
+						                </div>
+						            </div>
+						        </c:if>
+
+						</tr>	
 							<hr>
-						</tr>
+						
 					</c:forEach>
 				</table>
 			</div>
@@ -265,9 +345,6 @@ $(document).ready(function(){
 	<!-- 댓글 -->
 	<div class="container">
 		<%
-			/* String comid = (String) session.getAttribute("id");
-		ComVO combag = (ComVO)request.getAttribute("bag");
-		String comwriter = combag.getWriter(); */
 		if (session.getAttribute("boss_id") != null) {
 		%>
 		<h5 style="color: green;">회원:${nickName}</h5>

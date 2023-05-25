@@ -19,7 +19,6 @@
 			type : 'post',
 			url : "${pageContext.request.contextPath}/point/pointinquiry",
 			success : function(data) {
-				alert(data)
 				$('#result').append(data)
 			},
 			error : function(error) {
@@ -148,7 +147,7 @@ body{
 </div>
 
 <!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
-<h3 class="myPage-margin-size" style="text-align: center;"><a href="/point/gifticon" class="a-tag">포인트 사용</a></h3>
+<h3 class="myPage-margin-size" style="text-align: center;"><a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a></h3>
 
 <div class="memberInfo1">
 	  <label for="name">이름</label>

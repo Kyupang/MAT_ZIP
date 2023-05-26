@@ -37,11 +37,10 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
-	
 	// writeReview 페이지로 이동하는 메소드
 	@GetMapping("/writeReview")
 	public String writeReview(Model model, HttpSession session) {
-			
+
 		String user_id = (String) session.getAttribute("user_id");
 		if (user_id == null) {
 			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
@@ -49,7 +48,7 @@ public class ReviewController {
 		}
 
 		List<MZRegisterReceiptDTO> receiptList = reviewService.getReceiptWithRestaurant(user_id);
-		
+
 		if (receiptList.isEmpty()) {
 			System.out.println("receiptList is empty");
 			model.addAttribute("noReceipt", "리뷰를 작성할 영수증이 없습니다.");
@@ -60,70 +59,91 @@ public class ReviewController {
 //				System.out.println(receipt);
 //			}
 		}
-		
+
 		model.addAttribute("receiptList", receiptList);
-		
+
 		return "board/writeReview";
 	}
-	
+
 	// insertReview 페이지로 이동하는 메소드
-    @GetMapping("/beforeInsertReview")
-    public String beforeInsertReview(@RequestParam("receipt_id") int receipt_id, Model model, HttpSession session) {
+	@GetMapping("/beforeInsertReview")
+	public String beforeInsertReview(@RequestParam("receipt_id") int receipt_id, Model model, HttpSession session) {
 
-    	String user_id = (String) session.getAttribute("user_id");
-        if (user_id == null) {
-            // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
-            return "redirect:/login";
-        }
+		String user_id = (String) session.getAttribute("user_id");
+		if (user_id == null) {
+			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
+			return "redirect:/login";
+		}
 
-        // String user_id = member.getUser_id();
+		// String user_id = member.getUser_id();
 
-        List<MZRegisterReceiptDTO> receiptList = reviewService.getReceiptWithRestaurant(user_id);
-        MZRegisterReceiptDTO selectedReceiptDTO = null;
-        for(MZRegisterReceiptDTO receipt : receiptList) {
-            if(receipt.getMzRegisterInfoVO().getNo() == receipt_id) {
-                selectedReceiptDTO = receipt;
-                break;
-            }
-        }
+		List<MZRegisterReceiptDTO> receiptList = reviewService.getReceiptWithRestaurant(user_id);
+		MZRegisterReceiptDTO selectedReceiptDTO = null;
+		for (MZRegisterReceiptDTO receipt : receiptList) {
+			if (receipt.getMzRegisterInfoVO().getNo() == receipt_id) {
+				selectedReceiptDTO = receipt;
+				break;
+			}
+		}
 
-        model.addAttribute("receiptList", receiptList);
-        model.addAttribute("receipt", selectedReceiptDTO); // 선택된 영수증 정보를 추가
+		model.addAttribute("receiptList", receiptList);
+		model.addAttribute("receipt", selectedReceiptDTO); // 선택된 영수증 정보를 추가
 
-        return "board/insertReview";
-    }
-	
-    // 게시물 insert 처리 
-    @PostMapping("/insertReview")
-    public String insertReview(@ModelAttribute("review") ReviewVO vo,
-            @RequestParam("receipt_id") int receipt_id,
-            HttpServletRequest request,
-            HttpServletResponse response,
-            HttpSession session) throws Exception {
+		return "board/insertReview";
+	}
 
-    	String user_id = (String) session.getAttribute("user_id");
-        if (user_id == null) {
-            // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
-            return "redirect:/login";
-        }
-        vo.setUser_id(user_id);
-        
-        vo.setReceipt_id(receipt_id); // 변환한 영수증 ID를 vo에 설정
-        
-        reviewService.insertReview(vo);
-        return "board/insertReviewSuccess";
-    }
-    
-    // 리뷰게시물 조회수 증가 
-    @RequestMapping("incrementReviewViewCount")
-    @ResponseBody
-    public void incrementReviewViewCount(@RequestParam("review_id") int review_id) {
-        System.out.println("조회수 증가 전");
-        reviewService.incrementReviewViewCount(review_id);
-        System.out.println("조회수 증가 완료");
-    }
-    
-    
+	// 게시물 insert 처리
+	@PostMapping("/insertReview")
+	public String insertReview(@ModelAttribute("review") ReviewVO vo, @RequestParam("receipt_id") int receipt_id,
+			@RequestParam(required = false) MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session, Model model) throws Exception {
+
+		String user_id = (String) session.getAttribute("user_id");
+		if (user_id == null) {
+			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
+			return "redirect:/login";
+		}
+		vo.setUser_id(user_id);
+
+		vo.setReceipt_id(receipt_id); // 변환한 영수증 ID를 vo에 설정
+		
+		System.out.println("이미지 파일 처리를 시작합니다... ");
+
+		// 이미지 파일 저장 부분
+		String savedName = null;
+		if (file != null && !file.isEmpty()) {
+			savedName = file.getOriginalFilename();
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/img");
+			File target = new File(uploadPath, savedName);
+
+			// 이미 파일이 존재하는 경우, 파일명에 시간을 붙여 고유하게 만듭니다.
+			if (target.exists()) {
+				savedName = System.currentTimeMillis() + "_" + savedName;
+				target = new File(uploadPath, savedName);
+			}
+			file.transferTo(target);
+			vo.setReview_file(savedName);
+		}
+		
+		System.out.println("이미지 처리를 완료했습니다. ");
+		
+		model.addAttribute("savedName", savedName);
+		System.out.println("img 넣기 전 >> " + vo);
+		System.out.println("img넣은 후 >> " + vo);
+		
+		reviewService.insertReview(vo);
+		return "board/insertReviewSuccess";
+	}
+
+	// 리뷰게시물 조회수 증가
+	@RequestMapping("incrementReviewViewCount")
+	@ResponseBody
+	public void incrementReviewViewCount(@RequestParam("review_id") int review_id) {
+		System.out.println("조회수 증가 전");
+		reviewService.incrementReviewViewCount(review_id);
+		System.out.println("조회수 증가 완료");
+	}
+
 	// 리뷰게시물 전체 게시글 list
 	@RequestMapping(value = "/allReview", method = RequestMethod.GET)
 	public String allReview(Model model) {

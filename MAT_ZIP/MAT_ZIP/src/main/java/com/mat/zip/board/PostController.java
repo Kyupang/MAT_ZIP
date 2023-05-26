@@ -35,46 +35,49 @@ public class PostController {
 
 	@Autowired
 	PostDAO dao;
-	
+
 	@Autowired
 	PostComDAO dao2;
-	
+
 	// 자유게시판 게시물 등록 insert
 	@RequestMapping("/board/createPost")
-	public void insert(
-			PostVO vo, 
-			HttpServletRequest request,
-			HttpSession session,
-			MultipartFile file, 
-			Model model) throws Exception {
-		
+	public void insert(PostVO vo, HttpServletRequest request, HttpSession session,
+			@RequestParam(required = false) MultipartFile file, Model model) throws Exception {
+
 		String user_id = (String) session.getAttribute("user_id");
-	    
-	    vo.setUser_id(user_id);
-		
-		String savedName = file.getOriginalFilename();
-		String uploadPath
-			= request.getSession().getServletContext().getRealPath("resources/img");
-		File target = new File(uploadPath + "/" + savedName);
-		file.transferTo(target);
-		
+
+		vo.setUser_id(user_id);
+
+		String savedName = null;
+		if (file != null && !file.isEmpty()) {
+			savedName = file.getOriginalFilename();
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/img");
+			File target = new File(uploadPath, savedName);
+
+			// 이미 파일이 존재하는 경우, 파일명에 시간을 붙여 고유하게 만듭니다.
+			if (target.exists()) {
+				savedName = System.currentTimeMillis() + "_" + savedName;
+				target = new File(uploadPath, savedName);
+			}
+			file.transferTo(target);
+			vo.setPost_file(savedName);
+		}
 		model.addAttribute("savedName", savedName);
 		System.out.println("img 넣기 전 >> " + vo);
-		vo.setPost_file(savedName);
 		System.out.println("img넣은 후 >> " + vo);
 
 		dao.insert(vo);
 	}
 
-	// 자유게시판 게시물 수정 update 
+	// 자유게시판 게시물 수정 update
 	@RequestMapping("/board/updatePost")
 	public void update(PostVO vo) {
-	    System.out.println("update요청됨.");
-	    System.out.println(vo);
+		System.out.println("update요청됨.");
+		System.out.println(vo);
 
-	    dao.update(vo);
+		dao.update(vo);
 	}
-	
+
 	// 자유게시판 게시물 수정 페이지로 이동
 	@RequestMapping(value = "/board/updatePost", method = RequestMethod.GET)
 	public void updatepage(int post_id, Model model) {
@@ -82,13 +85,13 @@ public class PostController {
 		PostVO vo = dao.onePostId(post_id);
 		model.addAttribute("vo", vo);
 	}
-	
+
 	// 자유게시판 게시물 삭제 delete
 	@RequestMapping("/board/deletePost")
 	public void delete(PostVO vo) {
 		System.out.println("delete 요청됨. ");
 		System.out.println(vo);
-		
+
 		dao.delete(vo);
 	}
 
@@ -97,22 +100,22 @@ public class PostController {
 	public void onePostId(int post_id, Model model) {
 		System.out.println("onePostId요청됨.");
 		PostVO vo = dao.onePostId(post_id);
-		
+
 		List<PostComVO> list = dao2.postComList(post_id);
-		
+
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
 	}
-	
+
 	// 조회수 증가
-    @RequestMapping("/board/increasePostViewCount")
-    @ResponseBody
-    public void increasePostViewCount(int post_id) {
-    	System.out.println("조회수 증가 전");
-        dao.incrementPostViewCount(post_id);
-        System.out.println("조회수 증가 완료");
-    }
-	
+	@RequestMapping("/board/increasePostViewCount")
+	@ResponseBody
+	public void increasePostViewCount(int post_id) {
+		System.out.println("조회수 증가 전");
+		dao.incrementPostViewCount(post_id);
+		System.out.println("조회수 증가 완료");
+	}
+
 	// 조건별 검색 : user_id로 검색하기
 	@RequestMapping("/board/onePostUserid")
 	public void onePostUserid(String user_id, Model model) {
@@ -120,7 +123,7 @@ public class PostController {
 		PostVO vo = dao.onePostUserid(user_id);
 		model.addAttribute("vo", vo);
 	}
-	
+
 	// 조건별 검색 : food_cg로 검색하기
 	@RequestMapping("/board/onePostFoodcg")
 	public void onePostFoodcg(String food_cg, Model model) {
@@ -128,12 +131,12 @@ public class PostController {
 		PostVO vo = dao.onePostUserid(food_cg);
 		model.addAttribute("vo", vo);
 	}
-	
-	// 자유게시판 전체 게시글 검색 
+
+	// 자유게시판 전체 게시글 검색
 	@RequestMapping("/board/allPost") // ajax
 	public void allPost(Model model) {
 		List<PostVO> list = dao.allPost();
-		System.out.println(list.size()); // list size 
+		System.out.println(list.size()); // list size
 		model.addAttribute("list", list);
 	}
 

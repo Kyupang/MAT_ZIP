@@ -9,7 +9,7 @@
 <body>
     <h1>리뷰 작성</h1>
 
-    <form action="insertReview" method="post">
+    <form action="insertReview" method="post" enctype="multipart/form-data">
         <!-- 영수증 ID는 hidden 필드에 저장하여 form submit과 함께 서버로 전송 -->
         <% String user_id = (String) session.getAttribute("user_id"); %>
 		<input type="hidden" name="user_id" value="<%=user_id%>">
@@ -38,7 +38,7 @@
         <textarea id="review_content" name="review_content" required></textarea><br/>
 
         <label for="review_file">이미지 파일: </label>
-        <input type="file" id="review_file" name="review_file" ><br/>
+        <input type="file" id="file" name="file"><br/>
 
         <label for="review_scope">점수: </label>
         <input type="number" id="review_scope" name="review_scope" min="1" max="5" required><br/>

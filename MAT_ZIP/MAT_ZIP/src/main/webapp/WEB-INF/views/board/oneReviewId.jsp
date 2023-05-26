@@ -69,7 +69,7 @@
 	내용 : ${data.review_content} <br>
 	<c:choose>
 	  <c:when test="${not empty data.review_file}">
-	    <img src="${pageContext.request.contextPath}/resources/img/${reviewVO.review_file}" width=300 height=300> <br>
+	    <img src="${pageContext.request.contextPath}/resources/img/${data.review_file}" width=300 height=300> <br>
 	  </c:when>
 	  <c:otherwise>
 	    <p style="color:#919191">첨부 이미지가 없습니다.</p>

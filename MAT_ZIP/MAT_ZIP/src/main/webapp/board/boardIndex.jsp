@@ -12,16 +12,31 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$("#result").empty();
+		
+		$("#result1").empty();
+		$("#result2").empty();
+		
+		
         $.ajax({
             url : "allPost",
             success : function(data) {
-            	$('#result').append(data)
+            	$('#result1').append(data)
             },
             error:function(request, status, error){
                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             } // error
-        }); // ajax
+        }); // ajax - result1
+        
+        $.ajax({
+            url : "allReview",
+            success : function(data) {
+            	$('#result2').append(data)
+            },
+            error:function(request, status, error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            } // error
+        }); // ajax - result2
+        
 	}); // $ 
 </script>
 	<h1>맛.zip 회원 커뮤니티</h1>
@@ -53,7 +68,11 @@
 	<br>
 	
 	<hr color=green>
-	<div id="result" style="background: #ffd9f7"></div>
+	<div id="result1" style="background: #ffd9f7"></div>
+	<br>
+	<div id="result2" style="background: #ecffd1"></div>
+	<br>
+	<br>
 	<a href="../index.jsp">
 		<button style="background: grey;">index로 돌아가기</button>
 	</a>

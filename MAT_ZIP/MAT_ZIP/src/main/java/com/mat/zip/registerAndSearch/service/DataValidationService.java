@@ -8,5 +8,5 @@ import com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO;
 
 public interface DataValidationService {
 	//HttpSession session
-	RegistedAddressAndNameVO validateExtractedData(List<String> extractedData);
+	RegistedAddressAndNameVO validateExtractedData(HttpSession session,List<String> extractedData);
 }

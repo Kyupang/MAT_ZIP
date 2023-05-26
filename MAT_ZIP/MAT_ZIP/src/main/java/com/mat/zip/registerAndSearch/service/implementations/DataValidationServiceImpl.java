@@ -29,7 +29,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 	PointSaveHistoryServiceImpl pointsavehistoryService;
 	
 	@Override
-	public RegistedAddressAndNameVO validateExtractedData(List<String> extractedData) {
+	public RegistedAddressAndNameVO validateExtractedData(HttpSession session,List<String> extractedData) {
 		//return 값은 가게 지번 주소와 가게이름인데
 		//모든 로직에서 처리된 결과에 따라 
 		//가게 지번주소는 알파벳이 될 수 있고 
@@ -40,8 +40,8 @@ public class DataValidationServiceImpl implements DataValidationService {
 		//주소 1,2  결제일시 3,4  전화번호 5
 		
 		//HttpSession session 파라미터
-		//String userId = String.valueof(session.getAttribute("user_id"));
-		String userId = "admin2";
+		String userId = String.valueOf(session.getAttribute("user_id"));
+		//String userId = "admin2";
 		String storeAddress = "";
 		if(extractedData.get(0).length() <= extractedData.get(1).length() ) {
 			storeAddress = extractedData.get(1);

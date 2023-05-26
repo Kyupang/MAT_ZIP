@@ -26,5 +26,6 @@ public class PointExchangeHistoryController {
 		
 		PointExchangeHistoryService.useDetailHistory(user_id, id);
 		
+		
 	}
 }

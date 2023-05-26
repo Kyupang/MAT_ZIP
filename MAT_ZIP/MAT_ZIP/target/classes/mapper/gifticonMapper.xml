@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 <mapper namespace="gifticon">
-	<select id="findall" resultType="gifticonVO">
+	<select id="findall" resultType="ProductPointVO">
 		select * from multi.product
 	</select>
 </mapper>

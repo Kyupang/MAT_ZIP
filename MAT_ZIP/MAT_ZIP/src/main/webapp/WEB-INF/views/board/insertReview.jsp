@@ -1,4 +1,3 @@
-<%@page import="com.mat.zip.mzMember.model.MzMemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,8 +11,7 @@
 
     <form action="insertReview" method="post">
         <!-- 영수증 ID는 hidden 필드에 저장하여 form submit과 함께 서버로 전송 -->
-        <% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
-        <% String user_id = member.getUser_id(); %>
+        <% String user_id = (String) session.getAttribute("user_id"); %>
 		<input type="hidden" name="user_id" value="<%=user_id%>">
 		<label for="store_id">영수증 ID (이거 확인만하고 나중에 숨길거임): </label>
         <input type="text" id="receipt_id" name="receipt_id" value="${receipt.mzRegisterInfoVO.no}" readonly>

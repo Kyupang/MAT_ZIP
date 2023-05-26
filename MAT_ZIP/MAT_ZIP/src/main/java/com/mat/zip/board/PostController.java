@@ -48,8 +48,9 @@ public class PostController {
 			MultipartFile file, 
 			Model model) throws Exception {
 		
-		MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id");
-		String user_id = member.getUser_id();
+		String user_id = (String) session.getAttribute("user_id");
+	    
+	    vo.setUser_id(user_id);
 		
 		String savedName = file.getOriginalFilename();
 		String uploadPath

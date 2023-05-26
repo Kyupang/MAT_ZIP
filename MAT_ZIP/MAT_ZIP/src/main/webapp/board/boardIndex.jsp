@@ -27,18 +27,15 @@
 	<h1>맛.zip 회원 커뮤니티</h1>
 	<br>
 	
-	<% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
-	<%= member != null ? member.getUser_id() + " 님이 로그인 중입니다." : "" %>
+	<%-- 세션에 저장된 회원 정보 가져오기 --%>
+	<% String user_id = (String) session.getAttribute("user_id"); %>
+	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
 	
-	<% if (session.getAttribute("user_id") == null) { %>
-	
-	! 로그인이 필요합니다. ! 
-	
-	<c:if test="${user_id == null}">
-	    <a href="../mz_member/login" class="order_online">
-	      LOGIN
-	    </a>
-	</c:if>
+	<% if (user_id == null) { %>
+		! 로그인이 필요합니다. ! 
+		<a href="../mz_member/login" class="order_online">
+		      LOGIN
+		</a>
 	
 	<% } %>
 	
@@ -55,34 +52,6 @@
 	</a>
 	<br>
 	
-	<!--
-	<%
-		// if (session.getAttribute("user_id") == null) {
-	%>
-	<hr color="green">
-	<h3>회원 로그인이 필요합니다.</h3>
-	<br>
-	<form action="login" method="get">
-		회원 ID : <input name="user_id" value="admin"><br> 비밀번호 : <input
-			name="user_pw" value="1234"><br>
-		<button type="submit">로그인</button>
-	</form>
-	<br>
-	<br>
-	<%
-		// } else {
-	%>
-	<hr color="green">
-	${user_id} 님이 로그인 중입니다.
-	<br>
-	<a href="2_PostCRUD.jsp">
-		<button style="background: pink;">커뮤니티 게시물 글 작성하기</button>
-	</a>
-	<br>
-	<%
-		// }
-	%>
-	-->
 	<hr color=green>
 	<div id="result" style="background: #ffd9f7"></div>
 	<a href="../index.jsp">

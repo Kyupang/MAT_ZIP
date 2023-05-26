@@ -26,10 +26,11 @@
 </script>
 <h1>회원커뮤니티 - 리뷰게시판 입니다. </h1>
 	
-	<% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
-	<%= member != null ? member.getUser_id() + " 님이 로그인 중입니다." : "" %>
-
-	<% if (member == null) { %>
+	<%-- 세션에 저장된 회원 정보 가져오기 --%>
+	<% String user_id = (String) session.getAttribute("user_id"); %>
+	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
+	
+	<% if (user_id == null) { %>
 		! 로그인이 필요합니다. ! 
 		<a href="../mz_member/login" class="order_online">
 		      LOGIN

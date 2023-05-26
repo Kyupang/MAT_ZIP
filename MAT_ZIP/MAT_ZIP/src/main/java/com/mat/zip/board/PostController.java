@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mat.zip.board.PostVO;
+import com.mat.zip.mzMember.model.MzMemberDTO;
 
 @Controller
 public class PostController {
@@ -41,9 +43,14 @@ public class PostController {
 	@RequestMapping("/board/createPost")
 	public void insert(
 			PostVO vo, 
-			HttpServletRequest request, 
+			HttpServletRequest request,
+			HttpSession session,
 			MultipartFile file, 
 			Model model) throws Exception {
+		
+		MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id");
+		String user_id = member.getUser_id();
+		
 		String savedName = file.getOriginalFilename();
 		String uploadPath
 			= request.getSession().getServletContext().getRealPath("resources/img");

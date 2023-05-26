@@ -18,7 +18,7 @@
       <typeAlias type="com.mat.zip.boss.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
       <typeAlias type="com.mat.zip.boss.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.gifticonVO" alias="gifticonVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.ProductPointVO" alias="productPointVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.model.ProductPointVO" alias="ProductPointVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>

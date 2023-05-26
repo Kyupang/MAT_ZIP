@@ -54,6 +54,9 @@ public class DataValidationServiceImpl implements DataValidationService {
 		//DB에 저장을 하기위한 VO 전처리 후 로직시작 
 		MZRegisterInfoVO vo = new MZRegisterInfoVO();
 		vo.setUserId(userId);
+		//point 저장 객체
+		PointSaveHistoryVO bag2 = new PointSaveHistoryVO();
+		bag2.setUser_id(userId);
 		
 		//포인트 등록을 위한 정보 VO 
 		PointSaveHistoryVO pointVO = new PointSaveHistoryVO();
@@ -104,6 +107,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 				mzRegisterInfoDAO.insert(vo);
 				//point 적립 Service 위치
 				pointsavehistoryService.addPoint(pointVO);
+
 				
 				
 				result.setLandNumAddress("k");
@@ -140,6 +144,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 			mzRegisterInfoDAO.insert(vo);
 			//point 적립 Service 위치
 			pointsavehistoryService.addPoint(pointVO);
+
 			
 			result = restaurantDAO.addressAndName(vo);
 			result.setCount(countInfoInMZ+1);

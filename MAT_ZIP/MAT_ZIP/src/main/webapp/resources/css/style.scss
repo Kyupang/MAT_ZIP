@@ -16,19 +16,19 @@ $textCol: #1f1f1f;
   font-family: 'Dancing Script', cursive;
 }
 
-@mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
-  display: inline-block;
-  padding: $pad1 $pad2;
-  background-color: $col1;
-  color: $col2;
-  border-radius: $bRadius;
-  transition: all 0.3s;
-  border: none;
+// @mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
+//   display: inline-block;
+//   padding: $pad1 $pad2;
+//   background-color: $col1;
+//   color: $col2;
+//   border-radius: $bRadius;
+//   transition: all 0.3s;
+//   border: none;
 
-  &:hover {
-    background-color: darken($color: $col1, $amount: 15);
-  }
-}
+//   &:hover {
+//     background-color: darken($color: $col1, $amount: 15);
+//   }
+// }
 
 @mixin upperBold {
   text-transform: uppercase;
@@ -335,7 +335,7 @@ a:focus {
   }
 
   .detail-box {
-    color: $white;
+    color: #000000 !important;
     margin-bottom: 145px;
     width: 100%; /* 추가 */
 
@@ -349,10 +349,10 @@ a:focus {
       font-size: 14px;
     }
 
-    a {
-      @include hero_btn($primary1, $white, 10px, 45px, 45px);
-      margin-top: 10px;
-    }
+    // a {
+    //   @include hero_btn($primary1, $white, 10px, 45px, 45px);
+    //   margin-top: 10px;
+    // }
 
   }
 

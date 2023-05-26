@@ -1,3 +1,4 @@
+<%@page import="com.mat.zip.mzMember.model.MzMemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -25,32 +26,21 @@
 </script>
 	<h1>맛.zip 회원 커뮤니티</h1>
 	<br>
-	<%
-		if (session.getAttribute("user_id") == null) {
-			// 아래 admin으로 세션 잡아버리는건 수정 필요함!!!
-			session.setAttribute("user_id", "admin");
-			
-			// 이렇게 수정해야댐~ 
-			// 먼저 if문 안에 user_id == null 로 잡은걸 != null로 잡고, 
-			// ${session.getAttribute("user_id")} 님이 로그인 중입니다. 
-			// 추가해주자 그리고 중괄호 닫고  else문 시작, 아래 로그인 필요 else 부분 열고 login 페이지로 이동 
-		}
-	%>
 	
-	<hr color="green">
+	<% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
+	<%= member != null ? member.getUser_id() + " 님이 로그인 중입니다." : "" %>
 	
-	${session.getAttribute("user_id")} 님이 로그인 중입니다.
+	<% if (session.getAttribute("user_id") == null) { %>
 	
-		
-	<%-- <% } else { %>
+	! 로그인이 필요합니다. ! 
 	
-	로그인이 필요합니다. 
+	<c:if test="${user_id == null}">
+	    <a href="../mz_member/login" class="order_online">
+	      LOGIN
+	    </a>
+	</c:if>
 	
-	<a href="login.jsp">
-		<button style="background: yellow;">로그인페이지로 이동하기</button>
-	</a>
-	
-	<% } %> --%>
+	<% } %>
 	
 	<br>
 	<br>

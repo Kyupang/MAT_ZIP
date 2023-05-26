@@ -6,14 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="resources/js/jquery-3.6.4.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(function() {
     $('#1').click(function() {
         $('#result').empty()
         $.ajax({
             type : 'post',
-            url : "/point/exchange",
+            url : "${pageContext.request.contextPath}/point/exchange",
             data : {
                 id : 1
             },
@@ -29,7 +29,7 @@ $(function() {
         $('#result').empty()
         $.ajax({
             type : 'post',
-            url : "/point/exchange",
+            url : "${pageContext.request.contextPath}/point/exchange",
             data : {
                 id : 2
             },
@@ -37,6 +37,7 @@ $(function() {
                 alert(data);
             },
             error : function(xhr, status, error) {
+            	alert(error);
                 alert("포인트 잔액이 부족합니다.");
             }
         })//ajax

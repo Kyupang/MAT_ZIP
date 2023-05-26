@@ -54,13 +54,13 @@ html, body {
 }
 
 #loginBoxTitle {
-	color: #198754;
+	/* color: #198754; */
 	font-weight: bold;
 	font-size: 42px;
 	text-transform: uppercase;
 	padding: 5px;
 	margin-bottom: 20px;
-	background: linear-gradient(to right, #198754, #8ca6ce);
+	background: linear-gradient(to right, #1a1a1c, #ceced9);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -142,6 +142,8 @@ html, body {
 //새로운 함수를 정의하여 중복 체크를 수행합니다.
   function checkDuplication() {
     var storeId = $("input[name='store_id']").val();
+    $("#DupliCheckmessage").text("");  // 함수가 실행될때마다 메시지 초기화
+    $("#DupliCheckmessageS").text("");  
     $.ajax({
       type: "POST",
       url: "checkStoreId",
@@ -180,25 +182,28 @@ html, body {
 
 </head>
 <body class="text-center">
+      
 	<div id="container">
 		<div id="loginBox">
-
-			<div id="loginBoxTitle">사용하실 상점ID를 입력해주세요</div>
+			
+			<div id="loginBoxTitle" >사장님 커뮤니티 구독결제</div>
 
 			<div id="inputBox">
-    <div class="input-form-box">
-        <input name="store_id" placeholder="상점ID" style="width: 100%; height: 50px;">
+    <div class="form-floating mb-3">
+        <input name="store_id" class="form-control" id="floatingInput" placeholder="사용할 상점ID를 입력하세요" style="width: 100%; height: 50px;">
+        <label for="floatingInput">사용할 상점ID를 입력해주세요</label>
     </div>
-	<button id="checkDuplicate" type="button" class="btn btn-primary">중복체크</button>
+	<button id="checkDuplicate" type="button" class="btn btn-outline-danger" style="width: 100%; height: 50px;">중복체크</button>
     <div class="button-login-box">
-        <button type="button" class="btn btn-success" style="width: 100%; height: 50px;" id="payment">결제하고 완료하기</button>
+        <button type="button" class="btn btn-outline-dark" style="width: 100%; height: 50px;" id="payment">결제하고 완료하기</button>
     </div>
     <div class="button-back-box">
         <button type="button" class="btn btn-secondary" onclick="goBack()" style="width: 100%; height: 50px;">이전 페이지로</button>
     </div>
+    <small class="text-muted">상점ID는 차트분석을 위해 사용됩니다.</small>
 <p id="Duplimessage" style="color:red"></p>
-<p id="DupliCheckmessage" style="color: $red-500;"></p>
-<p id="DupliCheckmessageS" style="color:green"></p>
+<p id="DupliCheckmessage" style="color: $red-500; height: 20px; overflow: hidden;"></p>
+<p id="DupliCheckmessageS" style="color:green; height: 20px; overflow: hidden;"></p>
 <!-- 로그인 실패 메시지를 출력하는 부분 -->
  <div style="color: $red-500;">${msg}</div>
                 
@@ -206,6 +211,23 @@ html, body {
 			
 		</div>
 	</div>
-
+	
+<!-- <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-4 fw-bold lh-1 mb-3">사장님 회원 구독결제 하기</h1>
+        <p class="col-lg-10 fs-4">월 2,900원으로 사장님 회원님 등록하고 매출차트, 또슐랭차트, 리뷰감정분석으로 영리하게 가게를 관리하세요. 사장님들만의 커뮤니티도 있습니다.</p>
+      </div>
+      <div class="col-md-10 mx-auto col-lg-5">
+        <form class="p-4 p-md-5 border rounded-3 bg-light">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">상점ID를 등록하세요</label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">결제하고 완료하기</button>
+          <hr class="my-4">
+          <small class="text-muted">사용할 상점ID는 차트분석을 위해 사용됩니다.</small>
+        </form>
+      </div>
+    </div> -->
 </body>
 </html>

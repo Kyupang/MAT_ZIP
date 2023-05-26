@@ -107,7 +107,7 @@
 <form action="signUp" method="post" accept-charset="utf-8">
 <div class="member-container">
 
-  <h1 style="text-align: center; margin-top: 20px;">SGIN UP</h1>
+  <h1 style="text-align: center; margin-top: 20px;">SIGN UP</h1>
   <hr style="border: solid 2px;">
 
     <div class="form-group" style="margin-bottom: 0;">

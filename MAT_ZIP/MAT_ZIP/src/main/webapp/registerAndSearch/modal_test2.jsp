@@ -225,7 +225,7 @@
 				success : function(json) {
 					document.getElementById("map").innerHTML = "";
 					var inputValue = $("#searchInput").val();
-					
+					console.log(inputValue);
 					
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 				    mapOption = { 
@@ -279,8 +279,8 @@
 						      // <a href="mainpage/mzone?landNumAddress=address"><button>+name+"상세페이지로 이동"+</button></a>
 						      // 인포윈도우로 장소에 대한 설명을 표시합니다
 						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+name+"<br>"+address+'</div>'+
-						          '<a href="/zip/mainpage/mzone?landNumAddress='+address+'">상세페이지</a></div>',
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;">   '+name+'   <br>'+
+						          '<a href="/zip/mainpage/mzone?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
 						          removable: true
 						      });
 						      infowindow.open(map, marker);

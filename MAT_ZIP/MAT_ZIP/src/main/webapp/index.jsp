@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- 등록 모달 style -->
   <link rel="stylesheet" type="text/css" href="resources/css/modal-gyu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
   
 </head>
 
@@ -66,25 +67,15 @@
                 <a class="nav-link" href="index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="menu.html">Menu</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="book.jsp">Book Table</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="boss/board_index.jsp">사장님커뮤니티</a>
+                <a class="nav-link" href="boss/board_index.jsp">사장님 커뮤니티</a>
               </li>
               
               <li class="nav-item">
-                <a class="nav-link" href="board/boardIndex.jsp">회원커뮤니티</a>
+                <a class="nav-link" href="board/boardIndex.jsp">회원 커뮤니티</a>
               </li>
               
             </ul>
             <div class="user_option">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
                       <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -135,7 +126,12 @@
                   </g>
                   <g>
                   </g>
-                </svg>
+          <!--캘린더 들어갈 위치 -->
+          <div style="width: 50px; height: 50px; ">
+	          <a href="resources/images/c.png" data-title="오늘의 캘린더" data-lightbox="example-set" style="margin: 0px 0px;">
+	          	<img src="resources/images/cal.png" style="width: 50px">
+	          </a>
+          </div>
           <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
            <div class="client_section">
             <div class="box" style="margin: 10px;">
@@ -192,7 +188,7 @@
 					<div class="modal-content">
 						<span class="close" onclick="closeModal()">&times;</span>
 			
-						<h2>영수증 이미지나 결제내역을 주소가 잘 보이게 찍어 업로드</h2>
+						<h3>영수증 이미지나 카드 결제내역을 세부 정보가 잘 보이게 찍어 업로드</h3>
 			
 						<div id="root">
 							<div class="contents">
@@ -221,22 +217,23 @@
 	        <div id="map" class="map-div" style="width: 100%; height: 450px;"></div>
 	        
 	        <!-- 검색창 -->
+	        <button id="b2" class="btn btn-outline-warning" style="position: absolute; top: 80%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">현 위치에서 검색</button>
 	        <div id="search-container" style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
 	          <nav class="navbar navbar-light">
 	            <div class="container-fluid">
-	              <form class="d-flex">
-	                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-	                <button id="getSearchResult" class="btn btn-warning" type="submit">Search</button>
-	              	<!-- -outline  -->
-	               </form> 
+	             <div>
+					 <input class="form-control me-2" id="searchInput" style="margin-left: 20px; width: 400px; display: inline-block;">
+					 <button class="btn btn-warning" id="getSearchResult">검색</button>
+			     </div>
 	            </div>
+	            
 	          </nav>
+	          
 	        </div>
-	        
+       		     	
 	        <!-- 등록 버튼 -->
-	        <div class="btn-box" style="position: absolute; top: 90%; left: 12%; transform: translate(-50%, -50%); z-index: 1;">
-	          	<button  class="btn1" onclick="openModal()">맛집 등록</button>
-	        	<button id="b2">현위치 기반으로 맛집 표시</button>
+	        <div class="btn-box" style="position: absolute; top: 90%; left: 9%; transform: translate(-50%, -50%); z-index: 1;">
+	          	<button class="btn btn-warning"  onclick="openModal()">맛집 등록</button>
 	        </div>
 	      </div>
 	    </div>
@@ -571,6 +568,7 @@
 	
   <!-- search map is  -->
   <script src="resources/js/searchmarker-gyu.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
  
   <script type="text/javascript">
   	function openNav() {
@@ -579,6 +577,14 @@
   	function closeNav() {
 		document.getElementById("myNav").style.width = "0%";
 	}
+  	
+	lightbox.option({
+	    resizeDuration: 100,
+	    wrapAround: true,
+	    disableScrolling: false,
+	    fitImagesInViewport:false,
+	    maxWidth: 500
+	})
   </script>
   <!--규환 script 관련 코드 end -->
   

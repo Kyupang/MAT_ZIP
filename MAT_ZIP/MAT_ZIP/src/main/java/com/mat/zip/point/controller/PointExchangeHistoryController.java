@@ -16,7 +16,7 @@ public class PointExchangeHistoryController {
 	@Autowired
 	PointExchangeHistoryServiceImpl PointExchangeHistoryService;
 
-	@RequestMapping(value = "/point/exchange", method = RequestMethod.POST)
+	@RequestMapping(value = "point/exchange", method = RequestMethod.POST)
 	public void exchange(HttpServletRequest request,  int id) {
 		
 		HttpSession session = request.getSession();
@@ -24,7 +24,7 @@ public class PointExchangeHistoryController {
 
 		PointExchangeHistoryService.exChange(user_id, id);
 		
-		PointExchangeHistoryService.useDetailHistory(user_id, id);
+		//PointExchangeHistoryService.useDetailHistory(user_id, id);
 		
 		
 	}

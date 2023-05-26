@@ -17,7 +17,7 @@
 		$('#result').empty()
 		$.ajax({
 			type : 'post',
-			url : "/point/pointinquiry",
+			url : "${pageContext.request.contextPath}/point/pointinquiry",
 			success : function(data) {
 				$('#result').append(data)
 			},
@@ -42,6 +42,21 @@
 <style type="text/css">
 body{
 	background-color: #343a40;
+}
+
+.page-total {
+	width: 1200px;
+	height: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (max-width: 1200px) {
+	.page-total {
+	margin-left: 20px;;
+	margin-right: 20px;
+	height: 700px;
+	}
 }
 
 .img-box{
@@ -74,9 +89,22 @@ body{
 
 .member-Info-container{
 	min-width: 300px;
-	width: 550px;
+	float: left;
+  	width: 48%;
 	padding-left: 20px;
 	padding-right: 20px;
+	margin-left: 20px;
+}
+
+.member-Info-container2{
+	min-width: 300px;
+	float: right;
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 550px; 
+	height: 335px; 
+	background-color: white; 
+	border-radius: 20px;
 }
 
 .member-Info-container a{
@@ -122,58 +150,69 @@ body{
       </div>
     </header>
     
-<div class="member-Info-container" style="top: 140px; left: 20%; position: absolute; height: 700px; background-color: white; border-radius: 20px;">
+<div class="page-total">
+<div class="member-Info-container" style="height: 700px; background-color: white; border-radius: 20px;">
 <div class="member-Info">
 <div class="img-box myPage-margin-size" style="background: #ffffff; margin-left: auto; margin-right: auto;">
 	<c:if test="${memberInfo.profile == null}">
 	<img class="profile" src="${pageContext.request.contextPath}/resources/images/basic.png">
 	</c:if>
 	<c:if test="${memberInfo.profile != null}">
-	<img class="profile" src="${pageContext.request.contextPath}/resources/images/${memberInfo.profile}">
+	<img class="profile" src="${pageContext.request.contextPath}/resources/images/basic.png">
 	</c:if>
 </div>
 </div>
-<div style="text-align: center;">
-<h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
-	<p style="font-weight: 700; font-size: 2rem; margin-bottom: 5px; margin-left: 10px">${memberInfo.mark}</p>
-	<p style="font-weight: 700; font-size: 1.5rem; margin: 0;">(보유한 포인트: ${memberInfo.point} p)</p>
-	<div>
-	<span>카테고리 1</span>
-	<span>카테고리 2</span>
-	<span>카테고리3</span>
+	<div style="text-align: center;">
+		<h1 class="myPage-margin-size" style="font-size: 40px;">${memberInfo.nickName}</h1>
+		<p style="font-weight: 700; font-size: 2rem; margin-bottom: 5px; margin-left: 10px">${memberInfo.mark}</p>
+		<div>
+			<span style="font-weight: 700; font-size: 1.5rem; margin: 0;">(보유한 포인트: &nbsp;</span><span style="font-weight: 700; font-size: 1.5rem; margin: 0;" id="result"></span><span style="font-weight: 700; font-size: 1.5rem; margin: 0;">p)</span>
+		</div>
+		<div>
+			<span>카테고리 1</span>
+			<span>카테고리 2</span>
+			<span>카테고리 3</span>
+		</div>
 	</div>
-</div>
 
-<!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
-<h3 class="myPage-margin-size" style="text-align: center;"><a href="/point/gifticon" class="a-tag">포인트 사용</a></h3>
+	<!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
+	<h3 class="myPage-margin-size" style="text-align: center;"><a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a></h3>
 
-<div class="memberInfo1">
-	  <label for="name">이름</label>
-      <input type="text" class="form-control pl-1r" id="name" value="${memberInfo.name}" name="name" disabled="disabled">
-	 
-      <label for="birthDate">출생일자</label>
-      <input type="date" class="form-control pl-1r" id="birthDate" name = "birthDate" value="${memberInfo.birthDate}">
-    
-      <label for="regDate">가입 일자</label>
-      <input type="text" class="form-control pl-1r" id="regDate" name = "regDate" value="${memberInfo.accountDate}" disabled="disabled">
-</div>
+	<div class="memberInfo1">
+		  <label for="name">이름</label>
+	      <input type="text" class="form-control pl-1r" id="name" value="${memberInfo.name}" name="name" disabled="disabled">
+		 
+	      <label for="birthDate">출생일자</label>
+	      <input type="date" class="form-control pl-1r" id="birthDate" name = "birthDate" value="${memberInfo.birthDate}">
+	    
+	      <label for="regDate">가입 일자</label>
+	      <input type="text" class="form-control pl-1r" id="regDate" name = "regDate" value="${memberInfo.accountDate}" disabled="disabled">
+	</div>
       
-<h3 class="myPage-margin-size" style="text-align: center;"><a href="deleteAccount" class="a-tag">회원 탈퇴</a>
-<a href="changeInfo" class="a-tag">정보 수정</a>
-<a href="changeInfo" class="a-tag">비밀번호 수정</a></h3>
-</div>
+	<h3 class="myPage-margin-size" style="text-align: center;">
+		<a href="deleteAccount" class="a-tag">회원 탈퇴</a>
+		<a href="changeInfo" class="a-tag">정보 수정</a>
+		<a href="changeInfo" class="a-tag">비밀번호 수정</a>
+	</h3>
 
-<div class="member-Info-container" style="top: 140px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">
+</div>
+<div>
+</div>
+<div style="height: 700px;">
+<div class="member-Info-container2">
 <div style="margin-top: 20px;">
 <h1 class="myPage-margin-size" style="font-size: 40px;">DDO chelin of ${memberInfo.nickName}</h1>
 <hr style="">
 </div>
 </div>
 
-<div class="member-Info-container" style="top: 500px; right: 20%; position: absolute; width: 550px; height: 335px; background-color: white; border-radius: 20px;">
+<div class="member-Info-container2" style="margin-top: 30px;">
 <div style="margin-top: 20px;">
 <h1 class="myPage-margin-size" style="font-size: 40px;">leaved ${memberInfo.nickName}'s feedback</h1>
 <hr>
+
+</div>
+</div>    
 </div>
 </div>
 </body>

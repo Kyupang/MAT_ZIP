@@ -26,30 +26,31 @@
 </script>
 	
 	
-	<% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
-	<%= member != null ? member.getUser_id() + " 님이 로그인 중입니다." : "" %>
+	<%-- 세션에 저장된 회원 정보 가져오기 --%>
+	<% String user_id = (String) session.getAttribute("user_id"); %>
+	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
 	
-	<% if (session.getAttribute("user_id") == null) { %>
+	<% if (user_id == null) { %>
+		! 로그인이 필요합니다. ! 
+		<a href="../mz_member/login" class="order_online">
+		      LOGIN
+		</a>
 	
-	! 로그인이 필요합니다. ! 
-	
-	<c:if test="${user_id == null}">
-	    <a href="../mz_member/login" class="order_online">
-	      LOGIN
-	    </a>
-	</c:if>
-	
-	<% } %>
-	
+	<% } else { %>
+
 	<br>
 	<br>
 	<a href="boardPostCreate.jsp">
 		<button style="background: pink;">자유게시판 게시글 작성하기</button>
 	</a>
+	<% } %>
 	<br>
 
 	<hr color=green>
 	<div id="result" style="background: #ffd9f7"></div>
-	
+	<hr color=green>
+	<a href="boardIndex.jsp">
+		<button style="background: pink;">게시판 index 페이지로 돌아가기</button>
+	</a>
 </body>
 </html>

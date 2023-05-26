@@ -41,9 +41,8 @@ public class ReviewController {
 	// writeReview 페이지로 이동하는 메소드
 	@GetMapping("/writeReview")
 	public String writeReview(Model model, HttpSession session) {
-		
-		MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id");
-		String user_id = member.getUser_id();
+			
+		String user_id = (String) session.getAttribute("user_id");
 		if (user_id == null) {
 			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
 			return "redirect:/login";
@@ -71,13 +70,13 @@ public class ReviewController {
     @GetMapping("/beforeInsertReview")
     public String beforeInsertReview(@RequestParam("receipt_id") int receipt_id, Model model, HttpSession session) {
 
-        MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id");
-        if (member == null) {
+    	String user_id = (String) session.getAttribute("user_id");
+        if (user_id == null) {
             // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
             return "redirect:/login";
         }
 
-        String user_id = member.getUser_id();
+        // String user_id = member.getUser_id();
 
         List<MZRegisterReceiptDTO> receiptList = reviewService.getReceiptWithRestaurant(user_id);
         MZRegisterReceiptDTO selectedReceiptDTO = null;
@@ -102,8 +101,7 @@ public class ReviewController {
             HttpServletResponse response,
             HttpSession session) throws Exception {
 
-        MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id");
-        String user_id = member.getUser_id();
+    	String user_id = (String) session.getAttribute("user_id");
         if (user_id == null) {
             // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉션합니다.
             return "redirect:/login";

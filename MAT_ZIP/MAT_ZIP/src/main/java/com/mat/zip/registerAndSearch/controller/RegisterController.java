@@ -3,6 +3,8 @@ package com.mat.zip.registerAndSearch.controller;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +27,10 @@ public class RegisterController {
 	
 	@PostMapping("/registerAndSearch/controller/register")
 	@ResponseBody
-	public RegistedAddressAndNameVO register(MultipartFile[] uploadFile) throws FileNotFoundException {
+	public RegistedAddressAndNameVO register(MultipartFile[] uploadFile, HttpSession session) throws FileNotFoundException {
 		String savedFilePath=fileUploadService.saveFile(uploadFile);
 		List<String> ocrResult = ocrService.clovaOCR(savedFilePath);
-		RegistedAddressAndNameVO result =dataValidationService.validateExtractedData(ocrResult);
+		RegistedAddressAndNameVO result =dataValidationService.validateExtractedData(session,ocrResult);
 		return result;
 	}
 }

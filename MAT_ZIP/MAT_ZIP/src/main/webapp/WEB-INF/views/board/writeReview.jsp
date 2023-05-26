@@ -1,8 +1,3 @@
-<%@page import="com.mat.zip.mzMember.model.MzMemberDTO"%>
-<%@page import="com.mat.zip.board.ReviewVO"%>
-<%@page import="com.mat.zip.registerAndSearch.model.MZRegisterInfoVO"%>
-<%@page import="com.mat.zip.registerAndSearch.model.RestaurantVO"%>
-<%@page import="com.mat.zip.board.MZRegisterReceiptDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -24,10 +19,10 @@
 </script>
 <h1>회원커뮤니티 - 리뷰 작성하기 입니다. </h1>
 	
-	<% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
-	<%= member != null ? member.getUser_id() + " 님이 로그인 중입니다." : "" %>
+	<% String user_id = (String) session.getAttribute("user_id"); %>
+	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
 	
-	<% if (member == null) { %>
+	<% if (user_id == null) { %>
 		response.sendRedirect("login");
 		return;
 	<% } %>
@@ -43,7 +38,6 @@
     		<label for="${receipt.mzRegisterInfoVO.no}">${receipt.restaurantVO.name} (${receipt.mzRegisterInfoVO.storeAddress})</label><br>
 		</c:forEach>
 	
-	    <% String user_id = member.getUser_id(); %>
 		<input type="hidden" name="user_id" value="<%=user_id%>">
 		<br>
 		<br>

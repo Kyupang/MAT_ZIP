@@ -213,6 +213,10 @@
 	    	
 	    
 	      <div class="detail-box" style="width: 100%; position: relative;">
+	      	
+	      	<h3>당신의 맛집 라이프를 위해</h3>
+	      	<h3>너만 또 갔어? 나도 또갔어!</h3>
+	      	<h3>또 간다! 맛 잡아!</h2>
 	        <!-- 지도 들어갈 위치 -->
 	        <div id="map" class="map-div" style="width: 100%; height: 450px;"></div>
 	        

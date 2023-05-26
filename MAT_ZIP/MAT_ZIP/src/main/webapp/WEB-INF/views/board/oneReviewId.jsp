@@ -25,12 +25,35 @@
 
 <body>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript"> /* ajax */ </script>
+	<script type="text/javascript"> /* ajax */ 
+	
+	// JSP로부터 값을 가져와 JavaScript 변수에 저장
+	var review_id = parseInt("${data.review_id}");
+	
+	$(function() {
+		
+		// 게시글 로드 완료 후 조회수 증가 요청
+		$.ajax({
+		    url : "incrementReviewViewCount",
+		    data : {
+		        review_id : review_id
+		    },
+		    success : function() {
+		        console.log("조회수 증가");
+		    },
+		    error : function(request, status, error) {
+		        console.log("오류 발생");
+		    }
+		});
+		
+	}) // function
+
+	</script>
 	
 	
-		<a href="boardReview.jsp">
-			<button style="background: #c5ff9c;">리뷰게시판으로 돌아가기</button>
-		</a>
+	<a href="boardReview.jsp">
+		<button style="background: #c5ff9c;">리뷰게시판으로 돌아가기</button>
+	</a>
 	<hr color="red">
 	<br>
 	review id : ${data.review_id} <br> 

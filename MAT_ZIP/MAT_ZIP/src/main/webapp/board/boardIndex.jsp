@@ -1,3 +1,4 @@
+<%@page import="com.mat.zip.mzMember.model.MzMemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -25,8 +26,9 @@
 </script>
 	<h1>맛.zip 회원 커뮤니티</h1>
 	<br>
-
-	<%= session.getAttribute("user_id") %> 님이 로그인 중입니다.
+	
+	<% MzMemberDTO member = (MzMemberDTO) session.getAttribute("user_id"); %>
+	<%= member != null ? member.getUser_id() + " 님이 로그인 중입니다." : "" %>
 	
 	<% if (session.getAttribute("user_id") == null) { %>
 	

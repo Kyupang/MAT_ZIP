@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<!--JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="com.mat.zip.boss.BoardVO"%>
 <%@page import="com.mat.zip.boss.ComVO"%>
 <%@page import="com.mat.zip.boss.Boss_memberVO"%>
@@ -23,7 +25,7 @@
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.css" />
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
   <!-- nice select  -->
@@ -43,6 +45,126 @@
   <link href="../resources/css/boss.css?ver=1" rel="stylesheet">
   <!-- boss.css 파일을 추가 -->
   <style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap'); </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- 댓글작성관련 -->
+<script type="text/javascript">
+	$(function() {
+		$('#b1').click(function() {
+			content = $('#com').val()
+			writer = "${user_id}"
+			/* regdate = '${bag.regdate}' */
+			$.ajax({
+				url : "Board_insertcom",
+				data : {
+					board_id : '${bag.board_id}',
+					content : content,
+					writer : writer
+
+				},
+				success : function(x) {
+					$('#result').load(location.href + ' #result')
+					/* $('#result').empty();
+					$('#result').append(x); */
+					/* location.reload(); */
+					/* $('#result').append(
+						"- " + content + ", " + writer + "<br>") */
+				},
+				error : function() {
+					alert('computer요청 실패!')
+				}//error
+			})//ajax
+		})//b1
+	})//$
+</script>
+<!-- 댓글수정,삭제관련 -->
+<!-- <script type="text/javascript">
+$(function() {
+    // 댓글 메뉴 열기/닫기
+    $(document).on('click', '.menu-icon', function() {
+        var menuOptions = $(this).closest('tr').find('.menu-options');
+        menuOptions.toggle();
+    });
+
+    // 수정 버튼 클릭 시
+    $(document).on('click', '.edit-option', function() {
+        var commentContent = $(this).closest('tr').find('.comment-content');
+        var editInput = $(this).closest('tr').find('.edit-comment');
+
+        commentContent.hide();
+        editInput.val(commentContent.text()).show().focus();
+    });
+
+    // 수정된 내용 저장 버튼 클릭 시
+    $(document).on('focusout', '.edit-comment', function() {
+        var commentContent = $(this).closest('tr').find('.comment-content');
+        var editInput = $(this).closest('tr').find('.edit-comment');
+        var commentId = $(this).closest('tr').data('comment-id');
+        var updatedContent = editInput.val();
+
+        // AJAX 요청을 보내서 수정된 내용 저장 및 적용
+        $.ajax({
+            url: 'Com_update',
+            method: 'POST',
+            data: {
+                reply_id: commentId,
+                content: updatedContent
+            },
+            success: function(response) {
+                commentContent.text(updatedContent).show();
+                editInput.hide();
+            },
+            error: function() {
+                alert('Failed to update comment!');
+            }
+        });
+    });
+
+    // 삭제 옵션 클릭 시
+    $(document).on('click', '.delete-option', function() {
+        var commentId = $(this).closest('tr').data('comment-id');
+
+        // AJAX 요청을 보내서 댓글 삭제
+        $.ajax({
+            url: 'Com_delete',
+            method: 'POST',
+            data: {
+                reply_id: commentId
+            },
+            success: function(response) {
+                // 삭제된 댓글 표시를 갱신하는 등의 작업 수행
+                location.reload();
+            },
+            error: function() {
+                alert('Failed to delete comment!');
+            }
+        });
+    });
+});
+</script> -->
+<!-- 좋아요 -->
+<script>
+$(document).ready(function(){
+    $('.like-form').on('submit', function(event){
+        event.preventDefault();
+        var form = $(this);
+        var board_id = form.find('input[name="board_id"]').val();
+        var likeButton = form.find('.like-button');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: {
+                board_id: board_id
+            },
+            success: function(response) {
+                // '좋아요' 카운트를 업데이트
+                likeButton.text('좋아요 ' + response);
+            }
+        });
+    });
+});
+</script>
 </head>
 
 <body class="sub_page">
@@ -209,7 +331,7 @@
 			<!-- 로우설정  -->
 			<h3>
 				<strong><em><span
-						class="badge rounded-pill text-bg-warning">자유게시판</span></em></strong>
+						class="badge rounded-pill text-bg-secondary p-3">자유게시판</span></em></strong>
 			</h3>
 		</div>
 		<br>
@@ -226,24 +348,19 @@
 			<h6>${bag.content}</h6>
 		</div>
 		
-		<div class="row" class="col-md-2">
-			<form action="like" method="post" class="like-form">
-    <input type="hidden" name="board_id" value="${bag.board_id}">
-    <button type="submit" class="like-button" style="background:red; color: white" >좋아요 ${bag.likecount}</button>
-</form>
-		</div>
-		
-		<div class="row" class="col-md-2">
-			<h6><button type="button" class="btn btn-outline-dark">댓글 개수: ${commentCount}</button></h6>
-		</div>
-	</div>
-	
-	<hr color="green">
+			<form action="bosslike" method="post" class="like-form">
+    		<input type="hidden" name="board_id" value="${bag.board_id}">
+    		<button type="submit" class="like-button" style="background:red; color:white"><i class="bi bi-heart-fill"></i> 좋아요 ${bag.likecount}</button>
+			</form>
+			
+			<div style="width:50; font:bold;">댓글 개수: ${commentCount}</div>
+			</div>
+	<hr style="border: solid 3px gray;">
 	<div id="result">
 		<div class="container">
 			<div class="row">
 				<h4>
-					<strong>댓글 ${commentCount}</strong>
+					<strong>댓글</strong>
 				</h4>
 				<table>
 					<c:forEach items="${Com_list}" var="bag">
@@ -254,20 +371,8 @@
 						</tr>
 						<tr>
 							<fmt:formatDate value="${bag.regdate}" pattern="yyyy-MM-dd HH:mm" />
-					        <!-- 로그인 사용자와 댓글 작성자가 동일한 경우에만 수정 및 삭제 옵션을 렌더링합니다. -->
-						        <c:if test="${sessionScope.user_id == bag.writer}">
-						            <div class="comment-menu">
-						                <span class="menu-icon">&#9776;</span>
-						                <div class="menu-options" style="display: none;">
-						                    <span class="edit-option">수정</span>
-						                    <span class="delete-option">삭제</span>
-						                </div>
-						            </div>
-						        </c:if>
-
-						</tr>	
 							<hr>
-						
+						</tr>
 					</c:forEach>
 				</table>
 			</div>
@@ -275,7 +380,12 @@
 	</div>
 	<!-- 댓글 -->
 	<div class="container">
-		<% if (session.getAttribute("boss_id") != null) { %>
+		<%
+			/* String comid = (String) session.getAttribute("id");
+		ComVO combag = (ComVO)request.getAttribute("bag");
+		String comwriter = combag.getWriter(); */
+		if (session.getAttribute("boss_id") != null) {
+		%>
 		<h5 style="color: green;">회원:${nickName}</h5>
 
 		<input id="com">
@@ -288,9 +398,13 @@
 			<button id="b1">작성</button>
 			<br> --%>
 
-		<% } else { %>로그인시 작성가능
-		<% } %>
+		<%
+			} else {
+		%>로그인시 작성가능<%
+			}
+		%>
 		<!--댓글끝 -->
+
 
 
 		<hr color="green">
@@ -329,7 +443,7 @@
 			<!-- 로우설정  -->
 			<table class="table"
 				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-success">
+				<tr class="table-secondary">
 					<td><input type="hidden" id></td>
 					<div class="col-md-6">
 						<td>제목</td>

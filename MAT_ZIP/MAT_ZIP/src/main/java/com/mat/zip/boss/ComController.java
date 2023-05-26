@@ -14,6 +14,8 @@ public class ComController {
 
 	@Autowired
 	ComDAO dao;
+	@Autowired
+	BoardDAO BoardDAO;
 
 	// 댓글 등록
 	@RequestMapping("/boss/Board_insertcom")
@@ -63,4 +65,18 @@ public class ComController {
 		System.out.println(bag);
 		model.addAttribute("bag", bag);
 	}
+	
+	@RequestMapping("Board_view")
+	public String view(BoardVO bag, Model model, int board_id) {
+	    // 게시글 정보를 불러옴
+	    BoardVO board = BoardDAO.one(board_id);
+	    model.addAttribute("bag", board);
+	  
+	    // 해당 게시글의 댓글 목록을 불러옴
+	    List<ComVO> list = dao.list(board_id);
+	    model.addAttribute("Com_list", list);
+	  
+	    return "Board_detail";
+	}
+
 }

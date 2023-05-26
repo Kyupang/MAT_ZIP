@@ -24,7 +24,7 @@ public class PointExchangeHistoryController {
 
 		PointExchangeHistoryService.exChange(user_id, id);
 		
-		//PointExchangeHistoryService.useDetailHistory(user_id, id);
+		PointExchangeHistoryService.useDetailHistory(user_id, id);
 		
 		
 	}

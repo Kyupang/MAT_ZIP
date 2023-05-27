@@ -3,9 +3,12 @@ package com.mat.zip.boss;
 public class LikesVO {
     private String user_id;
     private int board_id;
+    
+    // getters and setters
 	public String getUser_id() {
 		return user_id;
 	}
+	
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
@@ -20,6 +23,5 @@ public class LikesVO {
 		return "LikesVO [user_id=" + user_id + ", board_id=" + board_id + "]";
 	}
   
-    // getters and setters
 }
 

@@ -3,12 +3,17 @@ package com.mat.zip.boss;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +32,12 @@ public class ChartController {
     public ChartController(ChartService chartService) {
         this.chartService = chartService;
     }
-//매출차트 
+    @Autowired
+    private boss_ReviewService reviewService;
+    @Autowired
+    private SentimentService sentimentService;
+    
+    //매출차트 
     @GetMapping("/chart/{storeId}")
     @ResponseBody
     public Map<String, List<ChartVO>> getChart(@PathVariable String storeId) {
@@ -51,7 +61,7 @@ public class ChartController {
         
         return response;
     }
-// 재방문 차트    
+    // 재방문 차트    
 	 // 이번달,지난달 재방문율 차트 조회
 	    @GetMapping("returnCustomerCount/{storeId}")
 	    public ResponseEntity<Map<String, return_CustomerCountVO>> getReturnCustomerCount(@PathVariable String storeId) {
@@ -105,8 +115,39 @@ public class ChartController {
 	
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    }
+	    
+	    // 리뷰 감정분석 차트
+	    @GetMapping(value = "/analyze/{storeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	    @ResponseBody
+	    public String analyzeReviews(@PathVariable String storeId) {
+	        try {
+	            storeId = URLDecoder.decode(storeId, StandardCharsets.UTF_8.name());
+	        } catch (UnsupportedEncodingException e) {
+	            e.printStackTrace();
+	        }
+	        System.out.println(storeId);
+	        List<String> reviewContents = reviewService.TotalReview(storeId);
 
+	        JSONArray results = new JSONArray();
+	        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
+	        for (String reviewContent : reviewContents) {
+	            final String content = reviewContent;  // 람다 표현식에서 사용하기 위해 final 변수로 저장
+	            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+	                JSONObject requestBody = new JSONObject();
+	                requestBody.put("content", content);  // 람다 표현식 안에서 requestBody 생성
+	                JSONObject analysisResult = sentimentService.analyze(requestBody.toString());
+	                synchronized (results) {
+	                    results.put(new JSONObject(analysisResult.toString()));
+	                }
+	            });
+	            futures.add(future);
+	        }
 
+	        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+	        return results.toString();
+	    }
+	    
 }
 

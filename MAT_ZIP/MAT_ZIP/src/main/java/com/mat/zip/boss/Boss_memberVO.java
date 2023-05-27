@@ -8,6 +8,8 @@ public class Boss_memberVO {
     private String store_id;
     private Date regdate;
     private String nickname;
+    
+    // getters and setters
 	public String getUser_id() {
 		return user_id;
 	}

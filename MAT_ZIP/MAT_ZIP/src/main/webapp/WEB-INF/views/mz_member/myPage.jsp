@@ -8,11 +8,11 @@
 <title>마이페이지</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- 포인트 조회 AJAX -->
-<script type="text/javascript">
+<script>
 	$(function() {
 		$('#result').empty()
 		$.ajax({
@@ -26,6 +26,12 @@
 			}
 		})//ajax
 	})//$
+</script>
+<script>
+        function showPopup(){
+            window.open("${pageContext.request.contextPath}/point/pointhistory","팝업 테스트","width=400, height=300, top=10, left=10");
+        }
+        
 </script>
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
@@ -169,14 +175,20 @@ body{
 			<span style="font-weight: 700; font-size: 1.5rem; margin: 0;">(보유한 포인트: &nbsp;</span><span style="font-weight: 700; font-size: 1.5rem; margin: 0;" id="result"></span><span style="font-weight: 700; font-size: 1.5rem; margin: 0;">p)</span>
 		</div>
 		<div>
+			<!-- 영휘님 포인트 내역 임시 위치 -->
 			<span>카테고리 1</span>
 			<span>카테고리 2</span>
 			<span>카테고리 3</span>
 		</div>
 	</div>
-
+	<!-- 영휘님 포인트 내역 임시 위치 -->
 	<!-- 영휘님 포인트 사용으로 넘어가는 a태그 -->
-	<h3 class="myPage-margin-size" style="text-align: center;"><a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a></h3>
+	<h3 class="myPage-margin-size" style="text-align: center;">
+		<div>
+			<a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a>
+			<a  class="a-tag" onclick="showPopup();">포인트 내역</a>
+		</div>
+	</h3>
 
 	<div class="memberInfo1">
 		  <label for="name">이름</label>

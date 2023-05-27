@@ -6,11 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script type="text/javascript">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
 $(function() {
     $('#1').click(function() {
-        $('#result').empty()
         $.ajax({
             type : 'post',
             url : "${pageContext.request.contextPath}/point/exchange",
@@ -18,37 +17,21 @@ $(function() {
                 id : 1
             },
             success : function(data) {
-                alert(data);
+               alert("요청하신 기프티콘 교환되었습니다.");
             },
             error : function(xhr, status, error) {
-                alert("포인트 잔액이 부족합니다.");
+            	console.log(error.status, error.statusText, error.responseText);
+            	alert("포인트 잔액을 확인해주세요.");
             }
-        })//ajax
-    })//b1
-    $('#2').click(function() {
-        $('#result').empty()
-        $.ajax({
-            type : 'post',
-            url : "${pageContext.request.contextPath}/point/exchange",
-            data : {
-                id : 2
-            },
-            success : function(data) {
-                alert(data);
-            },
-            error : function(xhr, status, error) {
-            	alert(error);
-                alert("포인트 잔액이 부족합니다.");
-            }
-        })//ajax
-    })//b2
-})//$
+        });
+    });
+});
 </script>
 </head>
 <body>
 	<c:forEach items="${list}" var="bag">
 		<button id="${bag.id}">${bag.name}
-			<img src="${bag.img}">
+			<img src="${pageContext.request.contextPath}/resources/images/gif${bag.id}.jpg" style="width: 100px; height: 100px;">
 		</button>
 	</c:forEach>
 	<hr color="red">

@@ -1,16 +1,20 @@
 package com.mat.zip.point.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mat.zip.point.dao.PointInquiryDAO;
 import com.mat.zip.point.model.PointInquiryVO;
+import com.mat.zip.point.model.PointSaveHistoryVO;
 
 @Controller
 public class PointInquiryController {
@@ -18,7 +22,7 @@ public class PointInquiryController {
 	@Autowired
 	PointInquiryDAO dao;
 
-	@RequestMapping(value = "point/pointinquiry", method = RequestMethod.POST)
+	@RequestMapping(value = "/point/pointinquiry", method = RequestMethod.POST)
 	@ResponseBody
 	public int pointinquiry(HttpServletRequest request) {
 		
@@ -27,15 +31,24 @@ public class PointInquiryController {
 		HttpSession session = request.getSession();
 		//user_id로 세션에 저장한 값을 id로 저장
         String user_id = (String) session.getAttribute("user_id");
+        
 
         //vo에 결과값을 넣고 
         //그 vo에 있는 포인트 데이터를 가지고 와서 정수로 넘기기
         //그 값을 리턴해서 mypage로 가져감
 		PointInquiryVO inquirypoint = dao.pointinquiryFind(user_id);
 		int data = inquirypoint.getPoint();
-		
 		return data;
 
+	}
+	
+	@RequestMapping(value = "/point/pointhistory", method = RequestMethod.GET)
+	public void pointhistory(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		
+		List<PointSaveHistoryVO> list = dao.pointhistoryAll(user_id);
+		model.addAttribute("list", list);
 	}
 
 }

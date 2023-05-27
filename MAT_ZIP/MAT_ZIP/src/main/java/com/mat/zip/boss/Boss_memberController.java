@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 	@Controller
 	public class Boss_memberController {
 	    @Autowired
-	    Boss_memberDAO dao;
+	    Boss_memberDAO boss_memberDAO;
 	    @Autowired
-	    MemberDAO dao2;
+	    MemberDAO memberDAO;
 	    
 	    @GetMapping("/boss_login")
 	    public String loginPage(HttpServletRequest request, HttpSession session) {
@@ -34,13 +34,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 	        System.out.println(bag + "login실행됨");
 	        
 	        // Member 테이블 로그인
-	        MemberVO vo = dao2.login(bag);
+	        MemberVO vo = memberDAO.login(bag);
 	        
 	        // Boss_member 테이블 로그인
 	        Boss_memberVO bossBag = new Boss_memberVO();
 	        bossBag.setUser_id(bag.getUser_id());
 	        bossBag.setPassword(bag.getPassword());
-	        Boss_memberVO bossVo = dao.login(bossBag);
+	        Boss_memberVO bossVo = boss_memberDAO.login(bossBag);
 
 	        // member 또는 boss 테이블 중 하나라도 로그인 성공 시
 	        if (vo != null || bossVo != null) {
@@ -79,27 +79,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 	} 
 	    
-	    //사장회원등록 메서드 
-//	    @PostMapping("/boss/innerJoinAndInsert")
-//	    public String innerJoinAndInsert(@RequestParam String store_id, HttpSession session) {
-//	    	// 세션에서 현재 로그인한 사용자의 ID를 가져옵니다.
-//	    	String user_id = (String) session.getAttribute("user_id");
-//
-//	    	// bag에 사용자 ID와 store_id를 저장합니다.
-//	    	Boss_memberVO bag = new Boss_memberVO();
-//	    	bag.setUser_id(user_id);
-//	    	bag.setStore_id(store_id);
-//
-//	    	// member 테이블과 bossmember 테이블을 inner join해서 회원가입 처리를 합니다.
-//	    	dao.innerJoinAndInsert(bag);
-//	    	// 이제 이 사용자는 사장님 계정으로도 로그인되어 있으므로, 'boss_id' 세션에도 사용자 ID를 저장합니다.
-//	        session.setAttribute("boss_id", user_id);
-//	        // log 확인용 (삭제가능)
-//	    	System.out.println("사장회원가입완료");
-//	    	 System.out.println("store_id: " + store_id);
-//	    	// 회원가입 처리가 완료되면 메인 페이지로 리다이렉트합니다.
-//	    	return "forward:board_index.jsp";
-//	    }
 	    
 
 

@@ -7,7 +7,8 @@ public class ChartVO {
 	private String date;
     private int total_amount;
     private String order_id;
-	
+    
+    // getters and setters
 	public String getOrder_id() {
 		return order_id;
 	}

@@ -1,12 +1,6 @@
 package com.mat.zip.boss;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +16,7 @@ public class ComDAO {
 	public int insert(ComVO bag) {
 		int result = my.insert("com.create", bag);
 		return result;
-	}
+	} //board_insertcom 에서 사용
 
 	public int update(ComVO bag) {
 		int result = my.update("com.up", bag);
@@ -45,7 +39,8 @@ public class ComDAO {
 		System.out.println(list.size());
 		return list;
 
-	} // list
+	} // 댓글list
+	
 	//댓글개수세기
 	public int getCommentCount(int boardId) {
 	    return my.selectOne("com.count", boardId);

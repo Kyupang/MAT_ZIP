@@ -7,6 +7,7 @@ public class ComVO {
 	private String content;
 	private java.sql.Timestamp regdate;
 
+	// getters and setters
 	public int getBoard_id() {
 		return board_id;
 	}

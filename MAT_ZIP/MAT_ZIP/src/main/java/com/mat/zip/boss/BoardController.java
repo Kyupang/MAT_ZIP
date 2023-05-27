@@ -1,12 +1,7 @@
 package com.mat.zip.boss;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // 스프링에서 제어하는 역할로 등록!
 @RequestMapping("/boss")
@@ -26,8 +20,6 @@ public class BoardController {
 	BoardDAO boardDAO;
 	@Autowired
 	ComDAO comDAO;
-	@Autowired
-	Boss_memberDAO dao3;
 
 	@RequestMapping("/Board_insert")
 	public void insert(BoardVO bag) {

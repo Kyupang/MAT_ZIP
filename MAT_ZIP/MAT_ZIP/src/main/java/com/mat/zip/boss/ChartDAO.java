@@ -81,5 +81,6 @@ public class ChartDAO {
     public return_OrderTotalVO lastMonthReturnCustomerOrderTotal(String storeId){
     	return sqlSession.selectOne("chartMapper.lastMonthReturnCustomerOrderTotal", storeId);
     }
+    
 
 }

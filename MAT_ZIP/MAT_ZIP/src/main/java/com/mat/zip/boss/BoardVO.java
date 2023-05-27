@@ -12,6 +12,8 @@ public class BoardVO {
 	private int likecount;
 	private boolean liked;
 	private int commentCount;
+	
+	// getters and setters
 
 	public int getCommentCount() {
 		return commentCount;

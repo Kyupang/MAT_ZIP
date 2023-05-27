@@ -39,7 +39,7 @@
 	  $('#emailCheck-Btn').click(function(){
 		  const email = $('#user_id').val();
 		  console.log('회원 이메일: ' + email);
-		  
+		  alert('인증번호가 전송되었습니다.');
 		  $.ajax({
 			  type: 'GET',
 			  url: '<c:url value="/mz_member/mailCheck?email="/>' + email,
@@ -47,7 +47,6 @@
 				  console.log("data: " + data);
 				  $('#authInput').removeAttr('disabled');
 				  code = data;
-				  alert('인증번호가 전송되었습니다.')
 			  }, 
 			  error: function(e){
 				alert('이메일 전송 중 오류가 났습니다.' + e);  

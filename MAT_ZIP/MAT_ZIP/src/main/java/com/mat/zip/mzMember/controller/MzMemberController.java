@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.mat.zip.boss.Boss_memberDAO;
+import com.mat.zip.boss.Boss_memberVO;
 import com.mat.zip.mzMember.model.KakaoLoginBO;
 import com.mat.zip.mzMember.model.MzMemberDTO;
 import com.mat.zip.mzMember.model.NaverLoginBO;
@@ -32,6 +34,9 @@ public class MzMemberController {
 	
 	@Inject
 	MzMemberserviceImpl service;
+	
+	@Autowired
+	Boss_memberDAO dao;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -92,7 +97,19 @@ public class MzMemberController {
 			
 			logger.info("회원 정보 가져옴");
 			session.setAttribute("user_id", memberInfo.getUser_id());
-			
+	        
+	        // Boss_member 테이블 로그인
+	        Boss_memberVO bossBag = new Boss_memberVO();
+	        bossBag.setUser_id(dto.getUser_id());
+	        bossBag.setPassword(dto.getPassword());
+	        Boss_memberVO bossVo = dao.login(bossBag);
+	        
+	        //멤버 vo의 아이디와 boss vo의 아이디가 같으면 if문 실행
+	        if(dto.getUser_id().equals(bossVo.getUser_id()) && bossVo != null) {
+	                // Boss_member 로그인 성공 시, boss_id와 store_id를 세션에 저장
+	                session.setAttribute("boss_id", bossVo.getUser_id());
+	                session.setAttribute("store_id", bossVo.getStore_id());
+	        }
 			return "redirect:/index.jsp";
 		}
 	}

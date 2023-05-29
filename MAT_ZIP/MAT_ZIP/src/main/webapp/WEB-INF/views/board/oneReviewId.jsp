@@ -67,6 +67,7 @@
 	<br>
 	제목 : ${data.review_title} <br>
 	내용 : ${data.review_content} <br>
+	emoticon : ${data.emoticon} <br>
 	<c:choose>
 	  <c:when test="${not empty data.review_file}">
 	    <img src="${pageContext.request.contextPath}/resources/img/${data.review_file}" width=300 height=300> <br>

@@ -10,6 +10,7 @@
 		<td class="top">store name</td>		
 		<td class="top">store food category</td>
 		<td class="top">review title</td>
+		<td class="top">emoticon</td>
 		<td class="top">user_id</td>
 		<td class="top">date</td>
 		<td class="top">view count</td>
@@ -23,6 +24,7 @@
 			<td class="down">${reviewVO.store_id}</td>
 			<td class="down">${reviewVO.store_cg}</td>
 			<td class="down"><a href="oneReviewId?review_id=${reviewVO.review_id}">${reviewVO.review_title}</a></td>
+			<td class="down">${reviewVO.emoticon}</td>
 			<td class="down">${reviewVO.user_id}</td>
 			<td class="down">${reviewVO.updated_date}</td>
 			<td class="down">${reviewVO.review_view_count}</td>

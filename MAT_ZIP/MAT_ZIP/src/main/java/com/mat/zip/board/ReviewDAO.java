@@ -19,5 +19,7 @@ public interface ReviewDAO {
 	public void incrementReviewViewCount(int review_id);
 
 	public List<ReviewVO> allReview();
+	
+	public List<EmojiMapVO> findAllEmojis();
 
 }

@@ -1,5 +1,6 @@
 package com.mat.zip.board;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,6 +52,25 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewVO> allReview() {
 		return reviewDao.allReview();
 	}
+	
+	@Override
+	public List<EmojiMapVO> findAllEmojis() {
+	    return reviewDao.findAllEmojis();
+	}
+	
+	@Override
+    public List<String> findEmojisInReview(String review_content) {
+        List<EmojiMapVO> emojiMap = reviewDao.findAllEmojis();
+        List<String> emojis = new ArrayList<>();
+        
+        for (EmojiMapVO emoji : emojiMap) {
+            if (review_content.contains(emoji.getKeyword())) {
+                emojis.add(emoji.getEmoji());
+            }
+        }
+        
+        return emojis;
+    }
 	
 	
 }

@@ -2,7 +2,10 @@ package com.mat.zip.board;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,8 @@ import javax.servlet.http.HttpSession;
 
 import com.mat.zip.mzMember.model.MzMemberDTO;
 import com.mat.zip.registerAndSearch.model.MZRegisterInfoVO;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/board/*")
@@ -96,7 +102,8 @@ public class ReviewController {
 	@PostMapping("/insertReview")
 	public String insertReview(@ModelAttribute("review") ReviewVO vo, @RequestParam("receipt_id") int receipt_id,
 			@RequestParam(required = false) MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session, Model model) throws Exception {
+			HttpServletResponse response, HttpSession session, Model model, 
+			@RequestParam("emoticons") String emoticons) throws Exception {
 
 		String user_id = (String) session.getAttribute("user_id");
 		if (user_id == null) {
@@ -131,9 +138,39 @@ public class ReviewController {
 		System.out.println("img 넣기 전 >> " + vo);
 		System.out.println("img넣은 후 >> " + vo);
 		
+		vo.setEmoticon(emoticons);
 		reviewService.insertReview(vo);
 		return "board/insertReviewSuccess";
 	}
+	
+	// review_contnet 에서 이모지 찾기
+	@PostMapping("/emojiSearch")
+	@ResponseBody
+	public List<String> searchEmoji(@RequestBody String jsonString) throws IOException {
+			
+		System.out.println("Received JSON: " + jsonString);
+		
+		// JSON 문자열을 JsonNode 객체로 변환합니다.
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode jsonNode = mapper.readTree(jsonString);
+
+		// "review_content" 키를 가진 데이터를 추출합니다.
+		String review_content = jsonNode.get("review_content").asText();
+
+		System.out.println("Review Content: " + review_content);
+			
+		System.out.println("이모지 찾기 시작합니다.");
+		List<String> emojis = reviewService.findEmojisInReview(review_content);
+		    
+		Set<String> uniqueEmojis = new HashSet<>(emojis);
+		System.out.println("uniqueEmojis : " + uniqueEmojis);
+		    
+		emojis = new ArrayList<>(uniqueEmojis);
+		System.out.println("검색된 이모지 : " + emojis);
+		    
+		return emojis;
+	}
+
 
 	// 리뷰게시물 조회수 증가
 	@RequestMapping("incrementReviewViewCount")

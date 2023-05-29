@@ -78,11 +78,11 @@ public class ReviewVO {
 	public void setReview_scope(int review_scope) {
 		this.review_scope = review_scope;
 	}
-	public String getEmotion() {
+	public String getEmoticon() {
 		return emoticon;
 	}
-	public void setEmotion(String emotion) {
-		this.emoticon = emotion;
+	public void setEmoticon(String emoticon) {
+		this.emoticon = emoticon;
 	}
 	public Date getCreated_date() {
 		return created_date;
@@ -111,4 +111,5 @@ public class ReviewVO {
 				+ ", review_scope=" + review_scope + ", emoticon=" + emoticon + ", created_date=" + created_date
 				+ ", updated_date=" + updated_date + ", review_view_count=" + review_view_count + "]";
 	}
+	
 }

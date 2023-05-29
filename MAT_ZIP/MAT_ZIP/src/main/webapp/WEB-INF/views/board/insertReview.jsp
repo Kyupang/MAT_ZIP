@@ -4,9 +4,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insert Review</title>
+<title>Insert Review</title>    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
 </head>
 <body>
+
+    <script>
+	    function searchEmoji() {
+	        let review_content = $("#review_content").val();
+	
+	        $.ajax({
+	            url: 'emojiSearch',
+	            type: 'post',
+	            data: JSON.stringify({ 'review_content': review_content }), // 데이터를 JSON 형식으로 전송합니다.
+	            contentType: "application/json; charset=utf-8", // JSON 형식을 알려줍니다.
+	            success: function(data) {
+	                $("#emojis").empty();
+	                for(let i = 0; i < data.length; i++) {
+	                    $("#emojis").append(data[i]);
+	                }
+	                $("#emoticons").val(data.join(","));
+	            },
+	            error: function(error) {
+	                console.log(error);
+	            }
+	        });
+	    }
+    </script>
+
     <h1>리뷰 작성</h1>
 
     <form action="insertReview" method="post" enctype="multipart/form-data">
@@ -32,19 +57,24 @@
 		</select><br>
 		
         <label for="review_title">제목: </label>
-        <input type="text" id="review_title" name="review_title" required><br/>
+        <input type="text" id="review_title" name="review_title" required> <br>
 
-        <label for="review_content">리뷰 내용: </label>
-        <textarea id="review_content" name="review_content" required></textarea><br/>
-
+        <label for="review_content">리뷰 내용 (1,000자 이내로 작성해주세요.): </label> <br>
+        <input type='text' id="review_content" name="review_content" maxlength='1000' required></input>
+        <button type="button" onclick="searchEmoji()">이모지 조회하기</button> <br>
+        
+        <div id="emojis"></div>
+		
         <label for="review_file">이미지 파일: </label>
         <input type="file" id="file" name="file"><br/>
 
         <label for="review_scope">점수: </label>
         <input type="number" id="review_scope" name="review_scope" min="1" max="5" required><br/>
-
-        <label for="emotion">감정: </label>
-        <input type="text" id="emotion" name="emotion"><br/>
+		
+		<input type="hidden" id="emoticons" name="emoticons">
+		
+        <!-- <label for="emotion">감정: </label>
+        <input type="text" id="emotion" name="emotion"><br/> -->
 
         <button type="submit" style="background: #c5ff9c;">리뷰 작성하기</button>
     </form>

@@ -186,7 +186,7 @@ body{
 	<h3 class="myPage-margin-size" style="text-align: center;">
 		<div>
 			<a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a>
-			<a  class="a-tag" onclick="showPopup();">포인트 내역</a>
+			<a onclick="showPopup();" class="a-tag" >포인트 내역</a>
 		</div>
 	</h3>
 

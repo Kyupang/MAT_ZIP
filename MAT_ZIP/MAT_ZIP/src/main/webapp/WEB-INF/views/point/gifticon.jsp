@@ -127,17 +127,16 @@ $(function() {
 
   <!-- book section -->
   <section class="book_section layout_padding">
-    <div class="container">
+    <div class="container-fluid">
       <div class="heading_container">
         <h2>
           기프티콘 목록
         </h2>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="form_container">
           <c:forEach items="${list}" var="bag">
-            <form action="">
               <div class="btn_box">
                 <button id="${bag.id}">
                   <img src="${pageContext.request.contextPath}/resources/images/gif${bag.id}.jpg" style="width: 150px; height: 250px;">
@@ -145,7 +144,6 @@ $(function() {
                   <p style="font-size: 25px; font-weight: bold; color: yellow;">4600원</p>
                 </button>
               </div>
-            </form>
             </c:forEach>
           </div>
         </div>

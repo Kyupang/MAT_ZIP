@@ -173,7 +173,7 @@ $(document).ready(function(){
     <div class="bg-box">
       <img src="../resources/images/hero-bg.jpg" alt="">
     </div>
-    <!-- header section strats -->
+    <!-- header 섹션 시작 -->
     <header class="header_section" style="z-index: 100;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
@@ -183,40 +183,121 @@ $(document).ready(function(){
             </span>
           </a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
-              <li class="nav-item">
-                <a class="nav-link" href="../index.jsp">Home </a>
-              </li>
               <li class="nav-item active">
-                <a class="nav-link" href="book.html">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
+              	
+                <a class="nav-link" href="../index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="book.html">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../boss/board_index.jsp">사장님 커뮤니티</a>
               </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="../board/boardIndex.jsp">회원 커뮤니티</a>
+              </li>
+              
             </ul>
             <div class="user_option">
-              <a href="" class="user_link">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-              <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
+                  <g>
+                    <g>
+                      <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                    </g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  
+          <!--캘린더 들어갈 위치 -->
+          <div style="width: 50px; height: 50px; ">
+	          <a href="../resources/images/c.png" data-title="오늘의 캘린더" data-lightbox="example-set" style="margin: 0px 0px;">
+	          	<img src="../resources/images/cal.png" style="width: 50px">
+	          </a>
+          </div>
+          
+        <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
+		<div class="client_section">
+		  <div class="box" style="margin: 10px;">
+		    <div class="user-img-box">
+		      <% if (session.getAttribute("user_id") == null) { %>
+		        <a href="../mz_member/signUp">
+		          <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+		        </a>
+		      <% } %>
+		      <% if (session.getAttribute("user_id") != null) { %>
+		        <a href="../mz_member/myPage">
+		          <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+		        </a>
+		      <% } %>
+		    </div>
+		  </div>
+		</div>
+		<% if (session.getAttribute("user_id") == null) { %>
+		  <a href="../mz_member/login" class="order_online">
+		    LOGIN
+		  </a>
+		<% } %>
+		<% if (session.getAttribute("user_id") != null) { %>
+		  <a href="../mz_member/logout" class="order_online">
+		    LOGOUT
+		  </a>
+		<% } %>
+            	
             </div>
           </div>
         </nav>
       </div>
     </header>
-    <!-- end header section -->
+    <!-- 헤더 섹션 종료 -->
   </div>
 
-  <!-- book section -->
+  <!-- 사장 커뮤 헤더시작 -->
 <header class="p-3 text-bg-dark">
 <div class="container">
 <div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
@@ -227,35 +308,27 @@ $(document).ready(function(){
 </a>
 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">매출차트</button></a>
+	<button id="board_index.jsp" class="btn btn-outline-light me-2">매출차트</button>
 	</li>
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">또슐랭차트</button></a>
+	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
 	</li>
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">감정분석차트</button></a>
+	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
 	</li>
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">자유게시판</button></a>
+	<button id="board_index.jsp" class="btn btn-outline-light me-2">자유게시판</button>
 	</li>
 </ul>
 		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
           <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
         </form>
-        <% if (session.getAttribute("user_id") != null) { %>
-        <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">${nickName}님</button>
-         <a href="logout"><button type="button" class="btn btn-warning">Logout</button></a>
-        </div>
-        <% } else { %>
-        <div class="text-end" style="z-index: 200;">
-         <a href="boss_login.jsp"><button type="button" class="btn btn-warning">Login</button></a>
-        </div>
-        <% } %>
+       
 </div>
 </div>
 
 </header>
+<!-- 사장커뮤 헤더 끝 -->
 
 	<% if (session.getAttribute("boss_id") != null) { %>
 	<br>
@@ -325,12 +398,6 @@ $(document).ready(function(){
 		<input id="com">
 		<button id="b1" class="btn btn-outline-success">작성</button>
 		<br>
-		<%-- 		<%  if(comid.equals(comwriter)){}%>
-	<h5 style="color: green;" class="id">회원:${id}</h5>
-
-			<input id="com">
-			<button id="b1">작성</button>
-			<br> --%>
 
 		<%
 			} else {
@@ -398,7 +465,8 @@ $(document).ready(function(){
 				<c:forEach items="${Board_list}" var="bag">
 					<tr>
 						<td><input type="hidden" ${bag.board_id}></td>
-						<td><a href="Board_detail?board_id=${bag.board_id}">${bag.title}</a></td>
+						<td><a href="Board_detail?board_id=${bag.board_id}">${bag.title}
+						</a></td>
 						<td>${bag.writer}</td>
 						<td><fmt:formatDate value="${bag.regdate}"
 								pattern="yyyy-MM-dd HH:mm" /></td>

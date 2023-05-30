@@ -1,5 +1,6 @@
 package com.mat.zip.boss;
 
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -117,37 +118,64 @@ public class ChartController {
 	    }
 	    
 	    // 리뷰 감정분석 차트
-	    @GetMapping(value = "/analyze/{storeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	    @GetMapping(value = "/analyze/{storeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	    @ResponseBody
+//	    public String analyzeReviews(@PathVariable String storeId) {
+//	        try {
+//	            storeId = URLDecoder.decode(storeId, StandardCharsets.UTF_8.name());
+//	        } catch (UnsupportedEncodingException e) {
+//	            e.printStackTrace();
+//	        }
+//	        System.out.println(storeId);
+//	        List<String> reviewContents = reviewService.TotalReview(storeId);
+//
+//	        JSONArray results = new JSONArray();
+//	        List<CompletableFuture<Void>> futures = new ArrayList<>();
+//
+//	        for (String reviewContent : reviewContents) {
+//	            final String content = reviewContent;  // 람다 표현식에서 사용하기 위해 final 변수로 저장
+//	            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+//	                JSONObject requestBody = new JSONObject();
+//	                requestBody.put("content", content);  // 람다 표현식 안에서 requestBody 생성
+//	                JSONObject analysisResult = sentimentService.analyze(requestBody.toString());
+//	                synchronized (results) {
+//	                    results.put(new JSONObject(analysisResult.toString()));
+//	                }
+//	            });
+//	            futures.add(future);
+//	        }
+//
+//	        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+//
+//	        return results.toString();
+//	    }
+	    
+	 // 리뷰 감정분석 차트
+	    @GetMapping(value = "/analyze/{storeId}", produces = "application/json; charset=UTF-8")
 	    @ResponseBody
 	    public String analyzeReviews(@PathVariable String storeId) {
+	    	//세션에서 받아온 storeId 디코딩
 	        try {
-	            storeId = URLDecoder.decode(storeId, StandardCharsets.UTF_8.name());
+	            storeId = URLDecoder.decode(storeId, StandardCharsets.UTF_8.name()); 
 	        } catch (UnsupportedEncodingException e) {
 	            e.printStackTrace();
 	        }
 	        System.out.println(storeId);
+	        // 리뷰 데이터 받아오기 
 	        List<String> reviewContents = reviewService.TotalReview(storeId);
 
+	        // json형태로 바꿔서 api service요청보내기
 	        JSONArray results = new JSONArray();
-	        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
 	        for (String reviewContent : reviewContents) {
-	            final String content = reviewContent;  // 람다 표현식에서 사용하기 위해 final 변수로 저장
-	            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-	                JSONObject requestBody = new JSONObject();
-	                requestBody.put("content", content);  // 람다 표현식 안에서 requestBody 생성
-	                JSONObject analysisResult = sentimentService.analyze(requestBody.toString());
-	                synchronized (results) {
-	                    results.put(new JSONObject(analysisResult.toString()));
-	                }
-	            });
-	            futures.add(future);
+	            JSONObject requestBody = new JSONObject();
+	            requestBody.put("content", reviewContent);
+	            JSONObject analysisResult = sentimentService.analyze(requestBody.toString());
+	            results.put(new JSONObject(analysisResult.toString()));
 	        }
-
-	        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-
+	        
 	        return results.toString();
 	    }
-	    
+
 }
 

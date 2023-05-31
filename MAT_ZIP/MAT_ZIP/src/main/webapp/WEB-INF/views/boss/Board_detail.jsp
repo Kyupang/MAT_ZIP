@@ -3,9 +3,9 @@
 	<!--JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page import="com.mat.zip.boss.BoardVO"%>
-<%@page import="com.mat.zip.boss.ComVO"%>
-<%@page import="com.mat.zip.boss.Boss_memberVO"%>
+<%@page import="com.mat.zip.boss.model.BoardVO"%>
+<%@page import="com.mat.zip.boss.model.ComVO"%>
+<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
 <!DOCTYPE html>
 <html>
 
@@ -143,7 +143,7 @@ $(function() {
 });
 </script> -->
 <!-- 좋아요 -->
-<script>
+<!-- <script>
 $(document).ready(function(){
     $('.like-form').on('submit', function(event){
         event.preventDefault();
@@ -164,7 +164,46 @@ $(document).ready(function(){
         });
     });
 });
+</script> -->
+
+<script>
+$(document).ready(function(){
+    $('.like-form').on('submit', function(event){
+        event.preventDefault();
+        var form = $(this);
+        var board_id = form.find('input[name="board_id"]').val();
+        var likeButton = form.find('.like-button');
+        var heartIcon = likeButton.find('i.bi-heart-fill, i.bi-heart');
+        var likeText = likeButton.find('span');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: {
+                board_id: board_id
+            },
+            success: function(response) {
+                console.log(response);
+                console.log(heartIcon);
+                // '좋아요' 카운트를 업데이트
+                likeText.text('좋아요 ' + response.count);
+                // '좋아요' 상태를 업데이트
+                if (response.isLiked) {
+                    heartIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                } else {
+                    heartIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Error: " + textStatus + ", " + errorThrown);
+            }
+        });
+    });
+});
+
 </script>
+
+
 </head>
 
 <body class="sub_page">
@@ -307,8 +346,8 @@ $(document).ready(function(){
 	</svg>
 </a>
 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li>
-	<button id="board_index.jsp" class="btn btn-outline-light me-2">매출차트</button>
+	<li><a href="board_index.jsp">
+	<button class="btn btn-outline-light me-2">매출차트</button></a>
 	</li>
 	<li>
 	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
@@ -317,7 +356,8 @@ $(document).ready(function(){
 	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
 	</li>
 	<li>
-	<button id="board_index.jsp" class="btn btn-outline-light me-2">자유게시판</button>
+	<a href="board_index.jsp">
+	<button class="btn btn-outline-light me-2">자유게시판</button></a>
 	</li>
 </ul>
 		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -357,11 +397,14 @@ $(document).ready(function(){
 		
 			<form action="bosslike" method="post" class="like-form">
     		<input type="hidden" name="board_id" value="${bag.board_id}">
-    		<button type="submit" class="like-button" style="background:red; color:white"><i class="bi bi-heart-fill"></i> 좋아요 ${bag.likecount}</button>
+    		<button type="submit" class="like-button">
+        	<i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${bag.likecount}</span>
+    		</button>
 			</form>
 			
 			<div style="width:50; font:bold;">댓글 개수: ${commentCount}</div>
 			</div>
+			
 	<hr style="border: solid 3px gray;">
 	<div id="result">
 		<div class="container">
@@ -385,15 +428,11 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	
 	<!-- 댓글 -->
 	<div class="container">
-		<%
-			/* String comid = (String) session.getAttribute("id");
-		ComVO combag = (ComVO)request.getAttribute("bag");
-		String comwriter = combag.getWriter(); */
-		if (session.getAttribute("boss_id") != null) {
-		%>
-		<h5 style="color: green;">회원:${nickName}</h5>
+		<% if (session.getAttribute("boss_id") != null) { %>
+		<h5 style="color: green;">회원:${user_id}</h5>
 
 		<input id="com">
 		<button id="b1" class="btn btn-outline-success">작성</button>
@@ -410,12 +449,13 @@ $(document).ready(function(){
 
 		<hr color="green">
 		<%
-			//세션에서 값을 꺼내는 방법
+		//세션에서 값을 꺼내는 방법
 		String id = (String) session.getAttribute("user_id");
 		//모델에서 값을 꺼내는 방법
 		//model.addAttribute("bag",bag)
 		BoardVO bag = (BoardVO) request.getAttribute("bag");
 		String writer = bag.getWriter();
+		
 		// 접속중인 id와 writer가 같으면 수정 , 삭제버튼 출력
 		if (id != null) {
 			if (id.equals(writer)) {
@@ -619,9 +659,6 @@ $(document).ready(function(){
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <!-- custom js -->
   <script src="../resources/js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-  </script>
   <!-- End Google Map -->
  <!--  <script src="../resources/js/boss_menu.js?ver=3"></script>
   커뮤니티메뉴 js 파일을 추가  -->

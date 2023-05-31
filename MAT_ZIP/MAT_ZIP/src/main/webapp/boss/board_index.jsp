@@ -173,162 +173,160 @@
 
   <!-- 사장 커뮤 헤더시작  -->
 <header class="p-3 text-bg-dark">
-<div class="container">
-<div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
-<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-	<svg class="bi-me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-		<use xlink:href="#bootstrap"></use>
-	</svg>
-</a>
-<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li>
-	<button id="bossChartBtn" class="btn btn-outline-light me-2">매출차트</button>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
-	</li>
-	<li>
-	<button id="boardBtn" class="btn btn-outline-light me-2">자유게시판</button>
-	</li>
-</ul>
-		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-        </form>
-       
-</div>
-</div>
-
-</header>
-<!-- 사장 커뮤 헤더종료 -->
-
-<!-- 사장세션 시작 -->
-	<%
-		if (session.getAttribute("boss_id") != null) {
-	%>
-	<br>
 	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<div id="content"></div>
+	<div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
+	<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+		<svg class="bi-me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+			<use xlink:href="#bootstrap"></use>
+		</svg>
+	</a>
+		<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+			<li>
+			<button id="bossChartBtn" class="btn btn-outline-light me-2">매출차트</button>
+			</li>
+			<li>
+			<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
+			</li>
+			<li>
+			<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
+			</li>
+			<li>
+			<button id="boardBtn" class="btn btn-outline-light me-2">자유게시판</button>
+			</li>
+		</ul>
+			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+	          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+	        </form>
+	       
+	</div>
+	</div>
+	
+	</header>
+	<!-- 사장 커뮤 헤더종료 -->
+	
+	<!-- 사장세션 시작 -->
+		<% if (session.getAttribute("boss_id") != null) { %>
+		<br>
+		<div class="container">
+			<!--컨테이너  -->
+			<div class="row">
+				<!-- 로우설정  -->
+				<div id="content"></div>
+			</div>
 		</div>
-	</div>
-	
-	<!--사장세션 종료 -->
-	
-	<% } else { %>
-	<!-- 여기서부터 블러처리 구독결제 유도 -->
-	<br>
-	<div class="container blur parent">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<div id="content"></div>
+		
+		<!--사장세션 종료 -->
+		
+		<% } else { %>
+		<!-- 여기서부터 블러처리 구독결제 유도 -->
+		<br>
+		<div class="container blur parent">
+			<!--컨테이너  -->
+			<div class="row">
+				<!-- 로우설정  -->
+				<div id="content"></div>
+			</div>
 		</div>
-	</div>
-	<div id="payment-container"></div>
-	<div class="overlay" >
-		<!-- 오버레이를 추가합니다 -->
-		<a href="boss_member.jsp"><button class="subscribe-btn">구독 결제하기</button></a>
-	</div>
-	
-	<div class="container blur">
-		<!-- 블러 클래스를 추가합니다 -->
-		<!--컨테이너  -->
-		<div class="row">
-			
+		<div id="payment-container"></div>
+		<div class="overlay" >
+			<!-- 오버레이를 추가합니다 -->
+			<a href="boss_member.jsp"><button class="subscribe-btn">구독 결제하기</button></a>
 		</div>
-	</div>
+		
+		<div class="container blur">
+			<!-- 블러 클래스를 추가합니다 -->
+			<!--컨테이너  -->
+			<div class="row">
+				
+			</div>
+		</div>
+		
+		<%
+			}
+		%>
+	  <!-- end book section -->
 	
-	<%
-		}
-	%>
-  <!-- end book section -->
-
-  <!-- footer section -->
-  <footer class="footer_section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 footer-col">
-          <div class="footer_contact">
-            <h4>
-              Contact Us
-            </h4>
-            <div class="contact_link_box">
-              <a href="">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <span>
-                  Location
-                </span>
-              </a>
-              <a href="">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <span>
-                  Call +01 1234567890
-                </span>
-              </a>
-              <a href="">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <span>
-                  demo@gmail.com
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <div class="footer_detail">
-            <a href="" class="footer-logo">
-              Feane
-            </a>
-            <p>
-              Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
-            </p>
-            <div class="footer_social">
-              <a href="">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-linkedin" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-pinterest" aria-hidden="true"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <h4>
-            Opening Hours
-          </h4>
-          <p>
-            Everyday
-          </p>
-          <p>
-            10.00 Am -10.00 Pm
-          </p>
-        </div>
-      </div>
-      <div class="footer-info">
-        <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Free Html Templates</a><br><br>
-          &copy; <span id="displayYear"></span> Distributed By
-          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
-        </p>
-      </div>
-    </div>
-  </footer>
-  <!-- footer section -->
+	  <!-- footer section -->
+	  <footer class="footer_section">
+	    <div class="container">
+	      <div class="row">
+	        <div class="col-md-4 footer-col">
+	          <div class="footer_contact">
+	            <h4>
+	              Contact Us
+	            </h4>
+	            <div class="contact_link_box">
+	              <a href="">
+	                <i class="fa fa-map-marker" aria-hidden="true"></i>
+	                <span>
+	                  Location
+	                </span>
+	              </a>
+	              <a href="">
+	                <i class="fa fa-phone" aria-hidden="true"></i>
+	                <span>
+	                  Call +01 1234567890
+	                </span>
+	              </a>
+	              <a href="">
+	                <i class="fa fa-envelope" aria-hidden="true"></i>
+	                <span>
+	                  demo@gmail.com
+	                </span>
+	              </a>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="col-md-4 footer-col">
+	          <div class="footer_detail">
+	            <a href="" class="footer-logo">
+	              Feane
+	            </a>
+	            <p>
+	              Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+	            </p>
+	            <div class="footer_social">
+	              <a href="">
+	                <i class="fa fa-facebook" aria-hidden="true"></i>
+	              </a>
+	              <a href="">
+	                <i class="fa fa-twitter" aria-hidden="true"></i>
+	              </a>
+	              <a href="">
+	                <i class="fa fa-linkedin" aria-hidden="true"></i>
+	              </a>
+	              <a href="">
+	                <i class="fa fa-instagram" aria-hidden="true"></i>
+	              </a>
+	              <a href="">
+	                <i class="fa fa-pinterest" aria-hidden="true"></i>
+	              </a>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="col-md-4 footer-col">
+	          <h4>
+	            Opening Hours
+	          </h4>
+	          <p>
+	            Everyday
+	          </p>
+	          <p>
+	            10.00 Am -10.00 Pm
+	          </p>
+	        </div>
+	      </div>
+	      <div class="footer-info">
+	        <p>
+	          &copy; <span id="displayYear"></span> All Rights Reserved By
+	          <a href="https://html.design/">Free Html Templates</a><br><br>
+	          &copy; <span id="displayYear"></span> Distributed By
+	          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+	        </p>
+	      </div>
+	    </div>
+	  </footer>
+	  <!-- footer section -->
 
   <!-- jQery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -346,7 +344,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <!-- custom js -->
   <script src="../resources/js/custom.js"></script>
-  <script src="../resources/js/boss_menu.js?ver=4"></script>
+  <script src="../resources/js/boss_menu.js?ver=8"></script>
   <!-- 커뮤니티메뉴 js 파일을 추가  -->
 </body>
 

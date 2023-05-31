@@ -38,6 +38,9 @@
   <link rel="stylesheet" type="text/css" href="resources/css/modal-gyu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
   
+  
+  <!--카카오 맵 위치로 테스트-->
+  
 </head>
 
 <body>
@@ -234,9 +237,15 @@
 	        </div>
        		     	
 	        <!-- 등록 버튼 -->
-	        <div class="btn-box" style="position: absolute; top: 90%; left: 9%; transform: translate(-50%, -50%); z-index: 1;">
-	          	<button class="btn btn-warning"  onclick="openModal()">맛집 등록</button>
-	        </div>
+	        <% if (session.getAttribute("user_id") != null) { %>
+				<div class="btn-box" style="position: absolute; top: 90%; left: 9%; transform: translate(-50%, -50%); z-index: 1;">
+		          	<button class="btn btn-warning"  onclick="openModal()">맛집 등록</button>
+		        </div> 
+			<% } else { %>
+			<%
+			  }
+			%>
+	        
 	      </div>
 	    </div>
 	  </div>
@@ -564,7 +573,7 @@
   <script src="resources/js/custom.js"></script>
   
   <!--규환 script 관련 코드 -->
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ab6186bb587538d75199b2dc9588259&libraries=services"></script>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8ab6186bb587538d75199b2dc9588259&libraries=services"></script>
  <!--  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	

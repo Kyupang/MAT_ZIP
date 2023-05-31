@@ -147,7 +147,7 @@ body{
     <header class="header_section" style="background-color: #343a40;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="/zip/index.jsp">
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">
             <span>
               Mat.zip
             </span>

@@ -16,6 +16,8 @@
 	; 
 </style>
 <meta charset="UTF-8">
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> --> <!--감정분석추가 -->
+
 
 <title>Chart.js Test</title>
 <script
@@ -532,7 +534,71 @@ function drawChart() {
             });
         });
 </script>
-	
+	<!-- 감정분석 긍정탑5 부정탑5 -->
+	<script>
+	$(document).ready(function() {
+	    var storeId = '<%= session.getAttribute("store_id") %>';
+	    var encodedStoreId = encodeURIComponent(storeId);
+
+	    $.ajax({
+	        url: 'analyze/' + encodedStoreId,
+	        type: 'GET',
+	        dataType: 'json',
+	        contentType: 'application/json; charset=UTF-8',
+	        success: function(response) {
+	            console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2));
+
+	            // 필드들을 표시할 <div> 요소 가져오기
+	            var resultElement = $("#result");
+
+	            // 기존 결과 초기화
+	            resultElement.empty();
+
+	            // 긍정 리뷰와 부정 리뷰를 분리하기
+	            var positiveReviews = response.filter(function(review) {
+	                return review.document.sentiment === "positive";
+	            });
+	            var negativeReviews = response.filter(function(review) {
+	                return review.document.sentiment === "negative";
+	            });
+
+	            // 각각의 리스트를 정렬하기
+	            positiveReviews.sort(function(a, b) {
+	                return b.document.confidence.positive - a.document.confidence.positive;
+	            });
+	            negativeReviews.sort(function(a, b) {
+	                return b.document.confidence.negative - a.document.confidence.negative;
+	            });
+
+	            // 최대 5개의 긍정 리뷰와 부정 리뷰 선택하기
+	            var maxPositiveReviews = positiveReviews.slice(0, 5);
+	            var maxNegativeReviews = negativeReviews.slice(0, 5);
+
+	            // 최대 긍정 점수가 높은 리뷰 표시
+	            resultElement.append("<h3>긍정 리뷰 TOP 5</h3>");
+	            for (var i = 0; i < maxPositiveReviews.length; i++) {
+	                var review = maxPositiveReviews[i];
+	                var reviewElement = $("<p>").text("리뷰 내용: " + decodeURIComponent(review.sentences[0].content) + ", 감정 분석 결과: " + review.document.sentiment);
+	                resultElement.append(reviewElement);
+	            }
+
+	            // 최대 부정 점수가 높은 리뷰 표시
+	            resultElement.append("<h3>부정 리뷰 TOP5</h3>");
+	            for (var i = 0; i < maxNegativeReviews.length; i++) {
+	                var review = maxNegativeReviews[i];
+	                var reviewElement = $("<p>").text("리뷰 내용: " + decodeURIComponent(review.sentences[0].content) + ", 감정 분석 결과: " + review.document.sentiment);
+	                resultElement.append(reviewElement);
+	            }
+	        },
+
+	        error: function(error) {
+	            alert('감정 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+	        }
+	    });
+
+	});
+
+	</script>
 
 
 
@@ -614,7 +680,9 @@ function drawChart() {
 	<div class="container">
 	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 리뷰 감정분석 차트</i></h1></div>
 	<div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
+	<div id="result">리뷰긍정5부정5표시되는곳</div>
 	</div>
+	
 </body>
 
 </html>

@@ -14,6 +14,8 @@ public interface MZRegisterInfoDAO {
 	
 	List<String> getBuyTimes(String userID);
 	
+	public int getRecordCountByBuyTime(String buyTime);
+	
 	int selectOne(String userId);
 	
 	int delete(int no);

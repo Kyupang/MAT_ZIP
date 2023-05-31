@@ -3,9 +3,9 @@
 	<!--JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page import="com.mat.zip.boss.BoardVO"%>
-<%@page import="com.mat.zip.boss.ComVO"%>
-<%@page import="com.mat.zip.boss.Boss_memberVO"%>
+<%@page import="com.mat.zip.boss.model.BoardVO"%>
+<%@page import="com.mat.zip.boss.model.ComVO"%>
+<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
 <!DOCTYPE html>
 <html>
 
@@ -143,7 +143,7 @@ $(function() {
 });
 </script> -->
 <!-- 좋아요 -->
-<script>
+<!-- <script>
 $(document).ready(function(){
     $('.like-form').on('submit', function(event){
         event.preventDefault();
@@ -164,7 +164,46 @@ $(document).ready(function(){
         });
     });
 });
+</script> -->
+
+<script>
+$(document).ready(function(){
+    $('.like-form').on('submit', function(event){
+        event.preventDefault();
+        var form = $(this);
+        var board_id = form.find('input[name="board_id"]').val();
+        var likeButton = form.find('.like-button');
+        var heartIcon = likeButton.find('i.bi-heart-fill, i.bi-heart');
+        var likeText = likeButton.find('span');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: {
+                board_id: board_id
+            },
+            success: function(response) {
+                console.log(response);
+                console.log(heartIcon);
+                // '좋아요' 카운트를 업데이트
+                likeText.text('좋아요 ' + response.count);
+                // '좋아요' 상태를 업데이트
+                if (response.isLiked) {
+                    heartIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                } else {
+                    heartIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Error: " + textStatus + ", " + errorThrown);
+            }
+        });
+    });
+});
+
 </script>
+
+
 </head>
 
 <body class="sub_page">
@@ -173,7 +212,7 @@ $(document).ready(function(){
     <div class="bg-box">
       <img src="../resources/images/hero-bg.jpg" alt="">
     </div>
-    <!-- header section strats -->
+    <!-- header 섹션 시작 -->
     <header class="header_section" style="z-index: 100;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
@@ -183,37 +222,26 @@ $(document).ready(function(){
             </span>
           </a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
-              <li class="nav-item">
-                <a class="nav-link" href="../index.jsp">Home </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="menu.html">Menu</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="book.html">Book Table <span class="sr-only">(current)</span> </a>
-              </li>
               <li class="nav-item active">
-                <a class="nav-link" href="book.html">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
+              	
+                <a class="nav-link" href="../index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="book.html">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../boss/board_index.jsp">사장님 커뮤니티</a>
               </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="../board/boardIndex.jsp">회원 커뮤니티</a>
+              </li>
+              
             </ul>
             <div class="user_option">
-              <a href="" class="user_link">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-              <a class="cart_link" href="#">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
                       <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -264,25 +292,51 @@ $(document).ready(function(){
                   </g>
                   <g>
                   </g>
-                </svg>
-              </a>
-              <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
-              <a href="" class="order_online">
-                Order Online
-              </a>
+                  
+          <!--캘린더 들어갈 위치 -->
+          <div style="width: 50px; height: 50px; ">
+	          <a href="../resources/images/c.png" data-title="오늘의 캘린더" data-lightbox="example-set" style="margin: 0px 0px;">
+	          	<img src="../resources/images/cal.png" style="width: 50px">
+	          </a>
+          </div>
+          
+        <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
+		<div class="client_section">
+		  <div class="box" style="margin: 10px;">
+		    <div class="user-img-box">
+		      <% if (session.getAttribute("user_id") == null) { %>
+		        <a href="../mz_member/signUp">
+		          <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+		        </a>
+		      <% } %>
+		      <% if (session.getAttribute("user_id") != null) { %>
+		        <a href="../mz_member/myPage">
+		          <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+		        </a>
+		      <% } %>
+		    </div>
+		  </div>
+		</div>
+		<% if (session.getAttribute("user_id") == null) { %>
+		  <a href="../mz_member/login" class="order_online">
+		    LOGIN
+		  </a>
+		<% } %>
+		<% if (session.getAttribute("user_id") != null) { %>
+		  <a href="../mz_member/logout" class="order_online">
+		    LOGOUT
+		  </a>
+		<% } %>
+            	
             </div>
           </div>
         </nav>
       </div>
     </header>
-    <!-- end header section -->
+    <!-- 헤더 섹션 종료 -->
   </div>
 
-  <!-- book section -->
+  <!-- 사장 커뮤 헤더시작 -->
 <header class="p-3 text-bg-dark">
 <div class="container">
 <div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
@@ -292,36 +346,29 @@ $(document).ready(function(){
 	</svg>
 </a>
 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">매출차트</button></a>
+	<li><a href="board_index.jsp">
+	<button class="btn btn-outline-light me-2">매출차트</button></a>
 	</li>
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">또슐랭차트</button></a>
+	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
 	</li>
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">감정분석차트</button></a>
+	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
 	</li>
 	<li>
-	<a href="board_index.jsp"><button class="btn btn-outline-light me-2">자유게시판</button></a>
+	<a href="board_index.jsp">
+	<button class="btn btn-outline-light me-2">자유게시판</button></a>
 	</li>
 </ul>
 		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
           <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
         </form>
-        <% if (session.getAttribute("user_id") != null) { %>
-        <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">${nickName}님</button>
-         <a href="logout"><button type="button" class="btn btn-warning">Logout</button></a>
-        </div>
-        <% } else { %>
-        <div class="text-end" style="z-index: 200;">
-         <a href="boss_login.jsp"><button type="button" class="btn btn-warning">Login</button></a>
-        </div>
-        <% } %>
+       
 </div>
 </div>
 
 </header>
+<!-- 사장커뮤 헤더 끝 -->
 
 	<% if (session.getAttribute("boss_id") != null) { %>
 	<br>
@@ -350,11 +397,14 @@ $(document).ready(function(){
 		
 			<form action="bosslike" method="post" class="like-form">
     		<input type="hidden" name="board_id" value="${bag.board_id}">
-    		<button type="submit" class="like-button" style="background:red; color:white"><i class="bi bi-heart-fill"></i> 좋아요 ${bag.likecount}</button>
+    		<button type="submit" class="like-button">
+        	<i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${bag.likecount}</span>
+    		</button>
 			</form>
 			
 			<div style="width:50; font:bold;">댓글 개수: ${commentCount}</div>
 			</div>
+			
 	<hr style="border: solid 3px gray;">
 	<div id="result">
 		<div class="container">
@@ -378,25 +428,15 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	
 	<!-- 댓글 -->
 	<div class="container">
-		<%
-			/* String comid = (String) session.getAttribute("id");
-		ComVO combag = (ComVO)request.getAttribute("bag");
-		String comwriter = combag.getWriter(); */
-		if (session.getAttribute("boss_id") != null) {
-		%>
-		<h5 style="color: green;">회원:${nickName}</h5>
+		<% if (session.getAttribute("boss_id") != null) { %>
+		<h5 style="color: green;">회원:${user_id}</h5>
 
 		<input id="com">
 		<button id="b1" class="btn btn-outline-success">작성</button>
 		<br>
-		<%-- 		<%  if(comid.equals(comwriter)){}%>
-	<h5 style="color: green;" class="id">회원:${id}</h5>
-
-			<input id="com">
-			<button id="b1">작성</button>
-			<br> --%>
 
 		<%
 			} else {
@@ -409,12 +449,13 @@ $(document).ready(function(){
 
 		<hr color="green">
 		<%
-			//세션에서 값을 꺼내는 방법
+		//세션에서 값을 꺼내는 방법
 		String id = (String) session.getAttribute("user_id");
 		//모델에서 값을 꺼내는 방법
 		//model.addAttribute("bag",bag)
 		BoardVO bag = (BoardVO) request.getAttribute("bag");
 		String writer = bag.getWriter();
+		
 		// 접속중인 id와 writer가 같으면 수정 , 삭제버튼 출력
 		if (id != null) {
 			if (id.equals(writer)) {
@@ -464,7 +505,8 @@ $(document).ready(function(){
 				<c:forEach items="${Board_list}" var="bag">
 					<tr>
 						<td><input type="hidden" ${bag.board_id}></td>
-						<td><a href="Board_detail?board_id=${bag.board_id}">${bag.title}</a></td>
+						<td><a href="Board_detail?board_id=${bag.board_id}">${bag.title}
+						</a></td>
 						<td>${bag.writer}</td>
 						<td><fmt:formatDate value="${bag.regdate}"
 								pattern="yyyy-MM-dd HH:mm" /></td>
@@ -617,9 +659,6 @@ $(document).ready(function(){
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <!-- custom js -->
   <script src="../resources/js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-  </script>
   <!-- End Google Map -->
  <!--  <script src="../resources/js/boss_menu.js?ver=3"></script>
   커뮤니티메뉴 js 파일을 추가  -->

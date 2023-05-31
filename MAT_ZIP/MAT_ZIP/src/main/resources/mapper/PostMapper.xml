@@ -42,20 +42,15 @@
 		select * from cs_post where post_id = #{post_id}
 	</select>
 	
-	<!-- 조건별 검색 : user_id로 검색하기-->
-	<select id="onePostUserid" parameterType="String" resultType="postVO">
-		select * from cs_post where user_id = #{user_id}
-	</select>
-	
-	<!-- 조건별 검색 : food_cg로 검색하기-->
-	<select id="onePostFoodcg" parameterType="String" resultType="postVO">
-		select * from cs_post where food_cg = #{food_cg}
-	</select>
-	
-	
 	<!-- 자유게시판 전체 검색 -->
 	<select id="allPost"  resultType="postVO">
 		select * from cs_post
+	</select>
+	
+	<!-- 자유게시판 제목으로 검색 -->
+	<select id="searchPost" parameterType="String" resultType="postVO">
+	    SELECT * FROM cs_post 
+	    WHERE post_title LIKE CONCAT('%', #{searchTerm}, '%')
 	</select>	
 
 </mapper>

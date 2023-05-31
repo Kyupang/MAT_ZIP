@@ -204,56 +204,64 @@
 	        }); // ajax
 	        
 	        
-	        // 사진게시판 검색 
-			$(document).ready(function(){
-			    $('#searchForm').on('submit', function(e){
-			        e.preventDefault(); // Prevent form submission
-			
-			        var searchTerm = $('#searchTerm').val();
-			
-			        $.ajax({
-			            url: 'searchPhoto', 
-			            type: 'GET',
-			            data: { searchTerm: searchTerm },
-			            success: function(data) {
-			                // 새로운 테이블 행을 저장할 빈 배열을 만듭니다.
-			                var newRows = [];
-			
-			                // 각 검색 결과에 대해
-			                $.each(data, function(i, photo){
-			                    // 새로운 테이블 행을 만듭니다.
-			                    var newRow = '<tr>' +
-			                        '<td>' +
-			                        '<div class="card" style="width: 18rem;">' +
-			                        '<img class="card-img-top" src="../resources/img/' + photo.photo_file + '" alt="' + photo.photo_title + '">' +
-			                        '<div class="card-body">' +
-			                        '<h5 class="card-title">' + photo.photo_title + '</h5>' +
-			                        '<p class="card-text">' + photo.user_id + '</p>' +
-			                        '</div>' +
-			                        '</div>' +
-			                        '</td>' +
-			                        '</tr>';
-			
-			                    // 새로운 테이블 행을 배열에 추가합니다.
-			                    newRows.push(newRow);
-			                });
-			
-			                // 기존 테이블 행을 제거하고 새로운 행을 추가합니다.
-			                $('table').find('tr:gt(0)').remove();
-			                $('table').append(newRows.join(''));
-			            }
-			        });
-			    });
-			});
+	     	// 사진게시판 검색 
+	        $(document).ready(function(){
+	            $('#searchForm').on('submit', function(e){
+	                e.preventDefault(); // Prevent form submission
+
+	                var searchTerm = $('#searchTerm').val();
+
+	                $.ajax({
+	                    url: 'searchPhoto', 
+	                    type: 'GET',
+	                    data: { searchTerm: searchTerm },
+	                    success: function(data) {
+	                        // 새로운 div를 저장할 빈 배열을 만듭니다.
+	                        var newDivs = [];
+
+	                        // 각 검색 결과에 대해
+	                        $.each(data, function(i, photo){
+	                            // 새로운 div를 만듭니다.
+	                            var newDiv = '<div class="col-lg-4 col-md-6 mb-4">' +
+	                                '<div class="card h-100">' +
+	                                '<a href="onePhotoId?photo_id=' + photo.photo_id + '">' +
+	                                '<img class="card-img-top" src="../resources/img/' + photo.photo_file + '" alt="' + photo.photo_title + '">' +
+	                                '</a>' +
+	                                '<div class="card-body">' +
+	                                '<h4 class="card-title">' +
+	                                '<a href="onePhotoId?photo_id=' + photo.photo_id + '">' + photo.photo_title + '</a>' +
+	                                '</h4>' +
+	                                '<h5>' + photo.photo_cg + '</h5>' +
+	                                '<p class="card-text">Posted by <b>' + photo.user_id + '</b> <br> ' +
+	                                formatDate(photo.updated_date) +
+	                                '</p>' +
+	                                '</div>' +
+	                                '<div class="card-footer">' +
+	                                '<small class="text-muted">Views: ' + photo.photo_view_count + '</small>' +
+	                                '</div>' +
+	                                '</div>' +
+	                                '</div>';
+
+	                            // 새로운 div를 배열에 추가합니다.
+	                            newDivs.push(newDiv);
+	                        });
+
+	                        // #result div를 비워두고 새로운 div를 추가합니다.
+	                        $('#result').empty();
+	                        $('#result').append('<div class="row">' + newDivs.join('') + '</div>');
+	                    }
+	                });
+	            });
+	        });
 	        
-	    	// 유닉스 타임스탬프를 "yyyy-MM-dd" 형식의 문자열로 변환하는 함수입니다.
+	     	// 유닉스 타임스탬프를 "yyyy-MM-dd" 형식의 문자열로 변환하는 함수입니다.
 	    	function formatDate(unixTimestamp) {
 	    	    var date = new Date(unixTimestamp);
 	    	    var year = date.getFullYear();
 	    	    var month = ('0' + (date.getMonth() + 1)).slice(-2);
 	    	    var day = ('0' + date.getDate()).slice(-2);
 	    	    return year + '-' + month + '-' + day;
-	    	}	        
+	    	}        
 	        
 		}); // $
 	</script>

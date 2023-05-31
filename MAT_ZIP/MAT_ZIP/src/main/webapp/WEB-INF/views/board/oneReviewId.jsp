@@ -102,33 +102,42 @@
 			}); // b1 
 
 		
-	 	// 수정 버튼 클릭 시
-	    $("#updateBtn").click(function() {
-	    	if (confirm("정말로 게시물을 수정하시겠습니까?")) {
-	    		location.href = "updateReview.jsp?review_id=" + review_id;	
-	    	}
-	    });
+			// 수정 버튼 클릭 시
+			$("#updateBtn").click(function() {
+				if (confirm("정말로 게시물을 수정하시겠습니까?")) {
+					$.ajax({
+						type: "GET",
+						url: "updateReview",
+						data: {
+							review_id: ${data.review_id} // 수정하려는 게시물의 id
+						},
+						success: function() {
+							window.location.href = "updateReview?review_id=" + review_id; // 수정 페이지로 이동
+						}
+					});
+				}
+			});
 		
-	 	// 삭제 버튼 클릭 시
-	    $("#deleteBtn").click(function() {
-	        if (confirm("정말로 게시물을 삭제하시겠습니까?")) {
-	            $.ajax({
-	                type: "POST",
-	                url: "deleteReview",
-	                data: { 
-	                	review_id: review_id,
-	                	user_id: userId
-	                },
-	                success: function() {
-	                    alert("게시물이 삭제되었습니다.");
-	                    window.location.href = "boardReview.jsp";
-	                },
-	                error: function() {
-	                    alert("게시물 삭제에 실패했습니다.");
-	                }
-	            });
-	        }
-	    });
+		 	// 삭제 버튼 클릭 시
+		    $("#deleteBtn").click(function() {
+		        if (confirm("정말로 게시물을 삭제하시겠습니까?")) {
+		            $.ajax({
+		                type: "POST",
+		                url: "deleteReview",
+		                data: { 
+		                	review_id: review_id,
+		                	user_id: userId
+		                },
+		                success: function() {
+		                    alert("게시물이 삭제되었습니다.");
+		                    window.location.href = "boardReview.jsp";
+		                },
+		                error: function() {
+		                    alert("게시물 삭제에 실패했습니다.");
+		                }
+		            });
+		        }
+		    });
 		  
 		  
 		  

@@ -102,8 +102,8 @@ public class ReviewController {
 	@PostMapping("/insertReview")
 	public String insertReview(@ModelAttribute("review") ReviewVO vo, @RequestParam("receipt_id") int receipt_id,
 			@RequestParam(required = false) MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session, Model model, 
-			@RequestParam("emoticons") String emoticons) throws Exception {
+			HttpServletResponse response, HttpSession session, Model model, @RequestParam("emoticons") String emoticons)
+			throws Exception {
 
 		String user_id = (String) session.getAttribute("user_id");
 		if (user_id == null) {
@@ -113,7 +113,7 @@ public class ReviewController {
 		vo.setUser_id(user_id);
 
 		vo.setReceipt_id(receipt_id); // 변환한 영수증 ID를 vo에 설정
-		
+
 		System.out.println("이미지 파일 처리를 시작합니다... ");
 
 		// 이미지 파일 저장 부분
@@ -131,25 +131,25 @@ public class ReviewController {
 			file.transferTo(target);
 			vo.setReview_file(savedName);
 		}
-		
+
 		System.out.println("이미지 처리를 완료했습니다. ");
-		
+
 		model.addAttribute("savedName", savedName);
 		System.out.println("img 넣기 전 >> " + vo);
 		System.out.println("img넣은 후 >> " + vo);
-		
+
 		vo.setEmoticon(emoticons);
 		reviewService.insertReview(vo);
 		return "board/insertReviewSuccess";
 	}
-	
+
 	// review_contnet 에서 이모지 찾기
 	@PostMapping("/emojiSearch")
 	@ResponseBody
 	public List<String> searchEmoji(@RequestBody String jsonString) throws IOException {
-			
+
 		System.out.println("Received JSON: " + jsonString);
-		
+
 		// JSON 문자열을 JsonNode 객체로 변환합니다.
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode jsonNode = mapper.readTree(jsonString);
@@ -158,19 +158,18 @@ public class ReviewController {
 		String review_content = jsonNode.get("review_content").asText();
 
 		System.out.println("Review Content: " + review_content);
-			
+
 		System.out.println("이모지 찾기 시작합니다.");
 		List<String> emojis = reviewService.findEmojisInReview(review_content);
-		    
+
 		Set<String> uniqueEmojis = new HashSet<>(emojis);
 		System.out.println("uniqueEmojis : " + uniqueEmojis);
-		    
+
 		emojis = new ArrayList<>(uniqueEmojis);
 		System.out.println("검색된 이모지 : " + emojis);
-		    
+
 		return emojis;
 	}
-
 
 	// 리뷰게시물 조회수 증가
 	@RequestMapping("incrementReviewViewCount")
@@ -210,20 +209,46 @@ public class ReviewController {
 	public String updateGet(@RequestParam("review_id") int review_id, Model model) {
 
 		logger.info("updateGet...");
-		model.addAttribute("review", reviewService.oneReviewId(review_id));
+		model.addAttribute("data", reviewService.oneReviewId(review_id));
 
 		return "/board/updateReview";
 	}
 
 	// 게시물 수정 처리
 	@RequestMapping(value = "/updateReview", method = RequestMethod.POST)
-	public String update(ReviewVO vo, RedirectAttributes redirectAttributes) {
+	public String update(ReviewVO vo, RedirectAttributes redirectAttributes, HttpServletRequest request,
+			MultipartFile file, Model model, @RequestParam("emoticons") String emoticons) throws Exception {
 
 		logger.info("update Review...");
+
+		// 이미지 파일 저장 부분
+		String savedName = null;
+		if (file != null && !file.isEmpty()) {
+			savedName = file.getOriginalFilename();
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/img");
+			File target = new File(uploadPath, savedName);
+
+			// 이미 파일이 존재하는 경우, 파일명에 시간을 붙여 고유하게 만듭니다.
+			if (target.exists()) {
+				savedName = System.currentTimeMillis() + "_" + savedName;
+				target = new File(uploadPath, savedName);
+			}
+			file.transferTo(target);
+			vo.setReview_file(savedName);
+		}
+
+		System.out.println("이미지 처리를 완료했습니다. ");
+
+		model.addAttribute("savedName", savedName);
+		System.out.println("img 넣기 전 >> " + vo);
+		System.out.println("img넣은 후 >> " + vo);
+
+		vo.setEmoticon(emoticons);
+
 		reviewService.update(vo);
 		redirectAttributes.addFlashAttribute("msg", "updateSuccess");
 
-		return "redirect:/board/allReview";
+		return "board/updateReviewSuccess";
 	}
 
 	// 게시물 삭제 처리
@@ -237,13 +262,12 @@ public class ReviewController {
 		return "redirect:/board/allReview";
 
 	}
-	
-	// 리뷰게시물 제목으로 검색 
+
+	// 리뷰게시물 제목으로 검색
 	@ResponseBody
 	@RequestMapping(value = "/searchReview", method = RequestMethod.GET)
 	public List<ReviewVO> search(@RequestParam("searchTerm") String searchTerm) {
-	    return reviewService.searchReview(searchTerm);
+		return reviewService.searchReview(searchTerm);
 	}
-	
 
 }

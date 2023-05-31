@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,13 +70,36 @@ public class PostController {
 		dao.insert(vo);
 	}
 
-	// 자유게시판 게시물 수정 update
-	@RequestMapping("/board/updatePost")
-	public void update(PostVO vo) {
+	// 자유게시판 게시물 수정 update 처리
+	@PostMapping(value = "/board/updatePost")
+	public String update(PostVO vo, HttpServletRequest request, @RequestParam(required = false) MultipartFile file,
+			Model model) throws Exception {
+
 		System.out.println("update요청됨.");
+
+		String savedName = null;
+		if (file != null && !file.isEmpty()) {
+			savedName = file.getOriginalFilename();
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/img");
+			File target = new File(uploadPath, savedName);
+
+			// 이미 파일이 존재하는 경우, 파일명에 시간을 붙여 고유하게 만듭니다.
+			if (target.exists()) {
+				savedName = System.currentTimeMillis() + "_" + savedName;
+				target = new File(uploadPath, savedName);
+			}
+			file.transferTo(target);
+			vo.setPost_file(savedName);
+		}
+		model.addAttribute("savedName", savedName);
+		System.out.println("img 넣기 전 >> " + vo);
+		System.out.println("img넣은 후 >> " + vo);
+
 		System.out.println(vo);
 
 		dao.update(vo);
+
+		return "/board/updatePostSuccess"; // 수정 성공 후 리다이렉트 할 페이지 지정
 	}
 
 	// 자유게시판 게시물 수정 페이지로 이동
@@ -116,22 +140,6 @@ public class PostController {
 		System.out.println("조회수 증가 완료");
 	}
 
-	// 조건별 검색 : user_id로 검색하기
-	@RequestMapping("/board/onePostUserid")
-	public void onePostUserid(String user_id, Model model) {
-		System.out.println("onePostUserid요청됨.");
-		PostVO vo = dao.onePostUserid(user_id);
-		model.addAttribute("vo", vo);
-	}
-
-	// 조건별 검색 : food_cg로 검색하기
-	@RequestMapping("/board/onePostFoodcg")
-	public void onePostFoodcg(String food_cg, Model model) {
-		System.out.println("onePostUserid요청됨.");
-		PostVO vo = dao.onePostUserid(food_cg);
-		model.addAttribute("vo", vo);
-	}
-
 	// 자유게시판 전체 게시글 검색
 	@RequestMapping("/board/allPost") // ajax
 	public void allPost(Model model) {
@@ -139,5 +147,18 @@ public class PostController {
 		System.out.println(list.size()); // list size
 		model.addAttribute("list", list);
 	}
+	
+	// 리뷰게시물 제목으로 검색
+	@ResponseBody
+	@RequestMapping(value = "/board/searchPost", method = RequestMethod.GET)
+	public ResponseEntity<List<PostVO>> searchPost(@RequestParam("searchTerm") String searchTerm) {
+	    try {
+	        List<PostVO> searchResults = dao.searchPost(searchTerm);
+	        return new ResponseEntity<List<PostVO>>(searchResults, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<List<PostVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
 
 }

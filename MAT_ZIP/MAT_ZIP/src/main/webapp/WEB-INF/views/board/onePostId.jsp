@@ -85,9 +85,11 @@ $(function() {
 			},
 			success : function() {
 				alert("댓글 달기 성공!");
-				var newRow = "<tr><td>" + userId + "</td><td>" + post_comment + "</td><td>" + new Date().toLocaleString() + "</td></tr>";
-				$("#postCommentInsert").append(newRow);
-				$("#postCom").val('');
+				var newRow = "<p>" + post_comment + ", " + userId + "</p>" + 
+	            "<p>댓글 작성 시간: " + new Date().toLocaleString() + "</p><hr>";
+	            
+	            $("#postComList").append(newRow);
+	            $("#postCom").val('');
 			}, // success
 			error: function() {
 				alert("댓글 달기 실패!");
@@ -95,12 +97,21 @@ $(function() {
 		}); // ajax  
 	}); // b1 
 	
- 	// 수정 버튼 클릭 시
-    $("#updateBtn").click(function() {
-    	if (confirm("정말로 게시물을 수정하시겠습니까?")) {
-    		location.href = "updatePost.jsp?post_id=" + post_id;	
-    	}
-    });
+	// 수정 버튼 클릭 시
+	$("#updateBtn").click(function() {
+		if (confirm("정말로 게시물을 수정하시겠습니까?")) {
+			$.ajax({
+				type: "GET",
+				url: "updatePost",
+				data: {
+					post_id: ${vo.post_id} // 수정하려는 게시물의 id
+				},
+				success: function() {
+					window.location.href = "updatePost?post_id=" + post_id; // 수정 페이지로 이동
+				}
+			});
+		}
+	});
 	
  	// 삭제 버튼 클릭 시
     $("#deleteBtn").click(function() {

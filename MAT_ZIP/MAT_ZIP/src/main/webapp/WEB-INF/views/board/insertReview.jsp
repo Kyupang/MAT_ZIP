@@ -60,7 +60,7 @@
         <input type="text" id="review_title" name="review_title" required> <br>
 
         <label for="review_content">리뷰 내용 (1,000자 이내로 작성해주세요.): </label> <br>
-        <input type='text' id="review_content" name="review_content" maxlength='1000' required></input>
+        <input type='text' id="review_content" name="review_content" maxlength='1000' style="width:500px; height:200px;" required></input>
         <button type="button" onclick="searchEmoji()">이모지 조회하기</button> <br>
         
         <div id="emojis"></div>

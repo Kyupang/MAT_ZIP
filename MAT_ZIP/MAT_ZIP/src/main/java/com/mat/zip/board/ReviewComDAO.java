@@ -20,7 +20,7 @@ public class ReviewComDAO {
 	
 	// 자유게시판 댓글 삭제 delete
 	public int delete(ReviewComVO vo) {
-		int result = my.delete("reviewComVO.deletePostCom", vo);
+		int result = my.delete("reviewComVO.deleteReviewCom", vo);
 		return result;
 	}
 

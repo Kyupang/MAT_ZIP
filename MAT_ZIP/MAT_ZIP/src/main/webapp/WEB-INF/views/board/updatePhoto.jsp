@@ -7,13 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>자유게시판 - 게시물등록 화면입니다.</h3>
+	<h3>사진게시판 - 게시물 수정 화면입니다.</h3>
 	<hr color="red">
-	<form action="updatePost" id="form" method="post" enctype="multipart/form-data" >
-		<input type="hidden" name="post_id" value="${vo.post_id}" readonly/>
-		회원 ID : <input name="user_id" value="${vo.user_id}" readonly/><br>
-		제목 : <input name="post_title" value="${vo.post_title}"><br>
-		게시물의 음식 카테고리 : <select name="food_cg" value="${vo.food_cg}">
+	<form action="updatePhoto" id="form" method="post" enctype="multipart/form-data" >
+		회원 ID : <input name="photo_id" value="${data.photo_id}" readonly/><br>
+		회원 ID : <input name="user_id" value="${user_id}" readonly/><br>
+		제목 : <input name="photo_title" value="${data.photo_title}"><br>
+		게시물의 사진 카테고리 : <select name="photo_cg" value="${data.photo_cg}">
 			<option value="한식">한식</option>
 			<option value="양식">양식</option>
 			<option value="중식">중식</option>
@@ -21,7 +21,7 @@
 			<option value="아시안음식">아시안음식</option>
 			<option value="기타">기타</option>
 		</select><br>
-		회원님의 선호 음식 카테고리 : <select name="category" value="${vo.category}">
+		회원님의 선호 음식 카테고리 : <select name="category" value="${data.category}">
 			<option value="한식">한식</option>
 			<option value="양식">양식</option>
 			<option value="중식">중식</option>
@@ -29,8 +29,8 @@
 			<option value="아시안음식">아시안음식</option>
 			<option value="기타">기타</option>
 		</select><br>
-		내용 : <input name="post_content" value="${vo.post_content}" style="width:500px; height:200px;" maxlength=1000><br> 
-		파일 첨부 : <input type="file" name="file" ><br>
+		내용 : <input name="photo_content" style="width:500px; height:200px;" maxlength=140 value="${data.photo_content}"><br> 
+		파일 첨부 : <input type="file" name="file"><br>
 		<br>
 		<button type="submit">게시물 작성하기</button>
 	</form>

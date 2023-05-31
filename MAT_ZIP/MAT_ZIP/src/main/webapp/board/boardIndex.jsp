@@ -215,6 +215,16 @@
 	            } // error
 	        }); // ajax - result2
 	        
+	        $.ajax({
+	            url : "allPhoto2",
+	            success : function(data) {
+	            	$('#result3').append(data)
+	            },
+	            error:function(request, status, error){
+	                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	            } // error
+	        }); // ajax - result3
+	        
 		}); // $ 
 	</script>
 	
@@ -250,6 +260,8 @@
 	<div id="result1"></div>
 	<br>
 	<div id="result2"></div>
+	<br>
+	<div id="result3"></div>
 	<br>
 	<br>
 	<a href="../index.jsp">

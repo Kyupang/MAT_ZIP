@@ -29,7 +29,7 @@ public class PhotoController {
 	@Autowired
 	private PhotoService photoService;
 
-	// insertPhoto 실행 
+	// insertPhoto 실행
 	@PostMapping("/insertPhoto")
 	public String insertPhoto(PhotoVO vo, Model model, HttpServletRequest request, HttpSession session,
 			@RequestParam(required = false) MultipartFile file) throws Exception {
@@ -109,20 +109,44 @@ public class PhotoController {
 	public String updateGet(@RequestParam("photo_id") int photo_id, Model model) {
 
 		logger.info("updateGet...");
-		model.addAttribute("photo", photoService.onePhotoId(photo_id));
+		model.addAttribute("data", photoService.onePhotoId(photo_id));
 
 		return "/board/updatePhoto";
 	}
 
 	// 게시물 수정 처리
 	@RequestMapping(value = "/updatePhoto", method = RequestMethod.POST)
-	public String update(PhotoVO vo, RedirectAttributes redirectAttributes) {
+	public String update(PhotoVO vo, RedirectAttributes redirectAttributes, 
+						HttpServletRequest request, MultipartFile file, Model model) throws Exception {
 
 		logger.info("update Photo...");
+
+		// 이미지 파일 저장 부분
+		String savedName = null;
+		if (file != null && !file.isEmpty()) {
+			savedName = file.getOriginalFilename();
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/img");
+			File target = new File(uploadPath, savedName);
+
+			// 이미 파일이 존재하는 경우, 파일명에 시간을 붙여 고유하게 만듭니다.
+			if (target.exists()) {
+				savedName = System.currentTimeMillis() + "_" + savedName;
+				target = new File(uploadPath, savedName);
+			}
+			file.transferTo(target);
+			vo.setPhoto_file(savedName);
+		}
+		
+		System.out.println("이미지 처리를 완료했습니다. ");
+
+		model.addAttribute("savedName", savedName);
+		System.out.println("img 넣기 전 >> " + vo);
+		System.out.println("img넣은 후 >> " + vo);
+		
 		photoService.updatePhoto(vo);
 		redirectAttributes.addFlashAttribute("msg", "updateSuccess");
 
-		return "redirect:/boardPhoto";
+		return "board/updatePhotoSuccess";
 	}
 
 	// 게시물 삭제 처리

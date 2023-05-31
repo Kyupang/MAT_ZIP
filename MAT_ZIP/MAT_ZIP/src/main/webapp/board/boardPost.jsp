@@ -200,6 +200,62 @@
 	                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	            } // error
 	        }); // ajax
+	        
+	        
+	        // 자유게시판 제목 검색 
+	    	$(document).ready(function(){
+	    	    $('#searchForm').on('submit', function(e){
+	    	        e.preventDefault(); // Prevent form submission
+
+	    	        var searchTerm = $('#searchTerm').val();
+
+	    	        $.ajax({
+	    	            url: 'searchPost', 
+	    	            type: 'GET',
+	    	            data: { searchTerm: searchTerm },
+	    	            success: function(data) {
+	    	                // 새로운 테이블 행을 저장할 빈 배열을 만듭니다.
+	    	                var newRows = [];
+
+	    	                // 각 검색 결과에 대해
+	    	                $.each(data, function(i, post){
+	    	                    // 새로운 테이블 행을 만듭니다.
+	    	                    var newRow = '<tr class="table table-striped">' +
+	    	                        '<td>자유게시판</td>' +
+	    	                        '<td>' + post.food_cg + '</td>' +
+	    	                        '<td><a href="onePostId?post_id=' + post.post_id + '">' + post.post_title + '</a></td>' +
+	    	                        '<td>' + post.user_id + '</td>' +
+	    	                        '<td>' + formatDate(post.updated_date) + '</td>' +
+	    	                        '<td>' + post.post_view_count + '</td>' +
+	    	                        '</tr>';
+
+	    	                    // 새로운 테이블 행을 배열에 추가합니다.
+	    	                    newRows.push(newRow);
+	    	                });
+
+	    	                // 기존 테이블 행을 제거하고 새로운 행을 추가합니다.
+	    	                $('table').find('tr:gt(0)').remove();
+	    	                $('table').append(newRows.join(''));
+	    	            }
+	    	        });
+	    	    });
+	    	});
+
+	    	// 유닉스 타임스탬프를 "yyyy-MM-dd" 형식의 문자열로 변환하는 함수입니다.
+	    	function formatDate(unixTimestamp) {
+	    	    var date = new Date(unixTimestamp);
+	    	    var year = date.getFullYear();
+	    	    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+	    	    var day = ('0' + date.getDate()).slice(-2);
+	    	    return year + '-' + month + '-' + day;
+	    	}
+	        
+	        
+	        
+	        
+	        
+	        
+	        
 		}); // $
 	</script>
 	
@@ -223,7 +279,12 @@
 	</a>
 	<% } %>
 	<br>
-
+	
+	<form id="searchForm">
+	    <input type="text" id="searchTerm" placeholder="Search..." required>
+	    <input type="submit" value="Search">
+	</form>
+	
 	<hr color=green>
 	<div id="result"></div>
 	<hr color=green>

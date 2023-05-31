@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.mat.zip.boss.Boss_memberDAO;
-import com.mat.zip.boss.Boss_memberVO;
+import com.mat.zip.boss.dao.Boss_memberDAO;
+import com.mat.zip.boss.model.Boss_memberVO;
 import com.mat.zip.mzMember.model.KakaoLoginBO;
 import com.mat.zip.mzMember.model.MzMemberDTO;
 import com.mat.zip.mzMember.model.NaverLoginBO;

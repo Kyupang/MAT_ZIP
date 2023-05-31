@@ -95,3 +95,19 @@ td {
 	left: 300px;
 	bottom: 30px;
 }
+.nav-link:hover {
+  background-color: #5a6268 !important;
+  color: yellow !important;
+}
+#uniqueSidebar {
+   background-color: white;
+   border: 2px solid #FFB900;
+}
+
+#uniqueSidebar hr {
+    border-top: 1px solid black;
+}
+
+#uniqueSidebar .btn.nav-link {
+    color: black;
+}

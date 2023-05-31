@@ -143,18 +143,18 @@ public class BoardController {
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	//페이지 로드될때 꽉찬하트 빈하트
+//	//페이지 로드될때 꽉찬하트 빈하트
 //	@GetMapping("/bosslikeload/{board_id}")
-//	public ModelAndView getBoard(HttpSession session, @PathVariable("board_id") int board_id) {
-//	    ModelAndView mav = new ModelAndView();
-//	    String user_id = session.getAttribute("user_id").toString();
-//	    boolean isLiked = boardDAO.isLikedByUser(user_id, board_id);
-//	    BoardVO board = boardDAO.detail(board_id);
-//	    mav.addObject("board", board);
-//	    mav.addObject("isLiked", isLiked);
-//	    mav.setViewName("board/detail");
-//	    return mav;
-//	}
+//    public ModelAndView getBoard(HttpSession session, @PathVariable("board_id") int board_id) {
+//        ModelAndView mav = new ModelAndView();
+//        String user_id = session.getAttribute("user_id").toString();
+//        boolean isLiked = boardDAO.isLikedByUser(user_id, board_id);
+//        BoardVO board = boardDAO.detail(board_id);
+//        mav.addObject("board", board);
+//        mav.addObject("isLiked", isLiked);
+//        mav.setViewName("board/detail");
+//        return mav;
+//    }
 
 
 

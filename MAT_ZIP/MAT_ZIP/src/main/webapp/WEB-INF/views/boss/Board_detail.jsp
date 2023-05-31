@@ -378,7 +378,7 @@ $(document).ready(function(){
 			<!-- 로우설정  -->
 			<h3>
 				<strong><em><span
-						class="badge rounded-pill text-bg-secondary p-3">자유게시판</span></em></strong>
+						class="badge rounded-pill text-bg-warning p-3">자유게시판</span></em></strong>
 			</h3>
 		</div>
 		<br>
@@ -395,15 +395,25 @@ $(document).ready(function(){
 			<h6>${bag.content}</h6>
 		</div>
 		
-			<form action="bosslike" method="post" class="like-form">
-    		<input type="hidden" name="board_id" value="${bag.board_id}">
-    		<button type="submit" class="like-button">
-        	<i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${bag.likecount}</span>
-    		</button>
-			</form>
-			
-			<div style="width:50; font:bold;">댓글 개수: ${commentCount}</div>
+			<!--게시글 로드시 좋아요 여부에 따라 빈하트,꽉찬하트 - 현재 likes DB 더미데이터부족으로 구현불가 , 
+			더미데이터 확보한 이후 위의 form action대신 사용하면됨  -->
+			<%-- <form action="bosslike" method="post" class="like-form">
+		    <input type="hidden" name="board_id" value="${board.board_id}">
+		    <button type="submit" class="like-button">
+		        <i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${board.likecount}</span>
+		    </button>
+			</form> --%>
+			<div style="display: flex; align-items: center;">
+			  <form action="bosslike" method="post" class="like-form">
+			    <input type="hidden" name="board_id" value="${bag.board_id}">
+			    <button type="submit" class="like-button btn btn-outline-dark">
+			      <i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}" style="color:red;"></i> 
+			      <span>좋아요 ${bag.likecount} </span>
+			    </button>
+			  </form>
+			  <div style="width:50; font:bold;" class="btn btn-outline-dark">  댓글 개수: ${commentCount}</div>
 			</div>
+
 			
 	<hr style="border: solid 3px gray;">
 	<div id="result">
@@ -484,7 +494,7 @@ $(document).ready(function(){
 			<!-- 로우설정  -->
 			<table class="table"
 				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-secondary">
+				<tr class="table-warning">
 					<td><input type="hidden" id></td>
 					<div class="col-md-6">
 						<td>제목</td>

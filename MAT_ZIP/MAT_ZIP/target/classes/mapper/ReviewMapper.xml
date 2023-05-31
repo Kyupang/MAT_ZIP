@@ -84,5 +84,11 @@
 	<select id="findAllEmojis" resultType="EmojiMapVO">
     	SELECT * FROM emojiMap
 	</select>
+	
+	<!-- 리뷰 검색 -->
+	<select id="searchReview" parameterType="String" resultType="reviewVO">
+	    SELECT * FROM cs_review 
+	    WHERE review_title LIKE CONCAT('%', #{searchTerm}, '%')
+	</select>
 
 </mapper>

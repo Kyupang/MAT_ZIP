@@ -24,4 +24,6 @@ public interface ReviewService {
 	
 	List<String> findEmojisInReview(String review_content);
 	
+	public List<ReviewVO> searchReview(String searchTerm);
+	
 }

@@ -21,5 +21,7 @@ public interface ReviewDAO {
 	public List<ReviewVO> allReview();
 	
 	public List<EmojiMapVO> findAllEmojis();
+	
+	public List<ReviewVO> searchReview(String searchTerm);
 
 }

@@ -72,5 +72,10 @@ public class ReviewServiceImpl implements ReviewService {
         return emojis;
     }
 	
+	@Override
+	public List<ReviewVO> searchReview(String searchTerm) {
+	    return reviewDao.searchReview(searchTerm);
+	}
+	
 	
 }

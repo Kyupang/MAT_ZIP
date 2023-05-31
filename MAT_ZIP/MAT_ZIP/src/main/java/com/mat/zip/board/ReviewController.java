@@ -237,5 +237,13 @@ public class ReviewController {
 		return "redirect:/board/allReview";
 
 	}
+	
+	// 리뷰게시물 제목으로 검색 
+	@ResponseBody
+	@RequestMapping(value = "/searchReview", method = RequestMethod.GET)
+	public List<ReviewVO> search(@RequestParam("searchTerm") String searchTerm) {
+	    return reviewService.searchReview(searchTerm);
+	}
+	
 
 }

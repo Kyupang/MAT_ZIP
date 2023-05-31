@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="photoVO">
+<mapper namespace="com.mat.zip.mapper.PhotoMapper">
 
 	<!-- 글쓰기 -->
-	<insert id="createPhoto" 
+	<insert id="insertPhoto" 
 			parameterType="photoVO"
 			useGeneratedKeys="true" 
 			keyProperty="photo_id"
@@ -30,7 +30,31 @@
         photo_view_count = photo_view_count + 1
         WHERE photo_id = #{post_id}
     </update>
+	
+	<!-- 사진글 삭제 -->
+	<delete id="deletePhoto" parameterType="int">
+		DELETE FROM cs_photo
+		WHERE photo_id = #{photo_id}
+	</delete>
+	
+	<!-- 사진글 상세정보 조회 -->
+	<select id="onePhotoId" parameterType="int"
+		resultType="photoVO">
+		SELECT * FROM cs_photo WHERE photo_id =
+		#{photo_id}
+	</select>
+	
+	<!-- 사진게시판 전체 list -->
+	<select id="allPhoto" resultType="photoVO">
+		SELECT * FROM
+		cs_photo
+	</select>
 
+	<!-- 사진게시판 검색 (제목) -->
+	<select id="searchPhoto" parameterType="String" resultType="photoVO">
+	    SELECT * FROM cs_photo 
+	    WHERE photo_title LIKE CONCAT('%', #{searchTerm}, '%')
+	</select>
 
 
 </mapper>

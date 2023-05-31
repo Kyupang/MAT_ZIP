@@ -21,7 +21,24 @@
 	where user_id = #{user_id} 
 </select>
 
-<update id="mzUpdate" parameterType="memberDTO">
+<!-- 비밀번호 변경 -->
+<update id="changePw" parameterType="memberDTO">
+	update multi.mz_member
+	set password = #{password}, pwCheck = #{pwCheck}
+	where user_id = #{user_id} 
 </update>
+
+<!-- 회원 탈퇴 -->
+<delete id="deleteAccount" parameterType="memberDTO">
+	delete from multi.mz_member
+	where user_id = #{user_id} 
+	and password = #{password}
+</delete>
+
+<!-- 작성한 리뷰 글 불러오기 -->
+<select id="getReview" resultType="reviewVO">
+	select * from multi.cs_review 
+	where user_id = #{user_id} 
+</select>
 
 </mapper>

@@ -1,9 +1,13 @@
 package com.mat.zip.mzMember.model;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
+
+import com.mat.zip.board.ReviewVO;
 
 @Component
 public class MzMemberDAOImpl implements MzMemberDAO {
@@ -28,6 +32,22 @@ public class MzMemberDAOImpl implements MzMemberDAO {
 	public MzMemberDTO getMemberInfo(String id) {
 		MzMemberDTO dto = my.selectOne(namespace + "getInfo", id);
 		return dto;
+	}
+	
+	@Override
+	public void deleteAccount(MzMemberDTO dto) throws Exception {
+		my.delete(namespace + "deleteAccount", dto);
+	}
+	
+	@Override
+	public void changePw(MzMemberDTO dto) throws Exception {
+		my.update(namespace + "changePw", dto);
+	}
+	
+	@Override
+	public List<ReviewVO> userReview(String userId) throws Exception {
+		List<ReviewVO> reviewVO = my.selectList(namespace + "getReview", userId);
+		return reviewVO;
 	}
 }
 

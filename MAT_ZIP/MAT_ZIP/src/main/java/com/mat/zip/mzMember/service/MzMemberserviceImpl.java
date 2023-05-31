@@ -2,11 +2,13 @@ package com.mat.zip.mzMember.service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import com.mat.zip.board.ReviewVO;
 import com.mat.zip.mzMember.model.MzMemberDAOImpl;
 import com.mat.zip.mzMember.model.MzMemberDTO;
 
@@ -85,7 +88,6 @@ public class MzMemberserviceImpl implements MzMemberService {
 		setAG(dto);
 		setPN(dto);
 		dao.signUp(dto);
-		System.out.println(dto);
 	}
 	
 	/** 랜덤으로 인증번호 만드는 메서드
@@ -141,6 +143,25 @@ public class MzMemberserviceImpl implements MzMemberService {
 	@Override
 	public MzMemberDTO getMemberInfo(String id) throws Exception {
 		return dao.getMemberInfo(id);
+	}
+	
+	/** 회원 탈퇴 진행 */
+	@Override
+	public void changePw(MzMemberDTO dto, HttpSession session) throws Exception {
+		String userId = (String) session.getAttribute("user_id");
+		dto.setUser_id(userId);
+		dao.changePw(dto);
+	}
+	
+	/** 회원 탈퇴 진행 */
+	@Override
+	public void deleteAccount(MzMemberDTO dto) throws Exception {
+		dao.deleteAccount(dto);
+	}
+	
+	@Override
+	public List<ReviewVO> getReview(String userId) throws Exception {
+		return dao.userReview(userId);
 	}
 	
 }

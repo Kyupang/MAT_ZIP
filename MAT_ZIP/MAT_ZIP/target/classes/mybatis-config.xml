@@ -8,17 +8,17 @@
    <typeAliases>
       <typeAlias type="com.mat.zip.registerAndSearch.model.MZRegisterInfoVO" alias="mzRegisterInfoVO"></typeAlias>      
       <typeAlias type="com.mat.zip.registerAndSearch.model.RestaurantVO" alias="restaurantVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.BoardVO" alias="boardVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.ComVO" alias="ComVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.Boss_memberVO" alias="boss_memberVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.MemberVO" alias="memberVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.PaymentVO" alias="paymentVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.ChartVO" alias="ChartVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.return_CustomerCountVO" alias="return_CustomerCountVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
-      <typeAlias type="com.mat.zip.boss.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.BoardVO" alias="boardVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.ComVO" alias="ComVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.Boss_memberVO" alias="boss_memberVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.MemberVO" alias="memberVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.PaymentVO" alias="paymentVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.ChartVO" alias="ChartVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.return_CustomerCountVO" alias="return_CustomerCountVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.return_OrderCountVO" alias="return_OrderCountVO"></typeAlias>
+      <typeAlias type="com.mat.zip.boss.model.return_OrderTotalVO" alias="return_OrderTotalVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.gifticonVO" alias="gifticonVO"></typeAlias>
-		<typeAlias type="com.mat.zip.point.model.ProductPointVO" alias="productPointVO"></typeAlias>
+		<typeAlias type="com.mat.zip.point.model.ProductPointVO" alias="ProductPointVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointExchangeHistoryVO" alias="PointExchangeHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointSaveHistoryVO" alias="PointSaveHistoryVO"></typeAlias>
 		<typeAlias type="com.mat.zip.point.model.PointDetailHistoryVO" alias="PointDetailHistoryVO"></typeAlias>

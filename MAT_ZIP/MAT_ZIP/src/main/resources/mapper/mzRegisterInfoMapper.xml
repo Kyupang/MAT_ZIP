@@ -24,6 +24,12 @@
     	SELECT m.buytime FROM mzRegisterInfo m WHERE userID = #{userID}
 	</select>
 	
+	<!-- 추출된 시간과 같은 시간이 있는지 확인하는 쿼리 -->
+	<select id="getRecordCountByBuyTime" parameterType="String" resultType="int">
+ 		SELECT IFNULL(COUNT(*), 0)
+  		FROM mzRegisterInfo
+  		WHERE buyTime = #{buyTime}
+	</select>
 	
 	<!-- 추가적 관리를 위한 대비 -->
 	<delete id="del"  parameterType="Integer">

@@ -1,5 +1,5 @@
-<%@page import="com.mat.zip.boss.BoardVO"%>
-<%@page import="com.mat.zip.boss.ComVO"%>
+<%@page import="com.mat.zip.boss.model.BoardVO"%>
+<%@page import="com.mat.zip.boss.model.ComVO"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

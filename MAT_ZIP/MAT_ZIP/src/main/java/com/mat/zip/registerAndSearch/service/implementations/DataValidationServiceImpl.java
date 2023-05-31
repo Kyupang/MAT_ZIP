@@ -38,7 +38,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 		
 		//OCR에서 나온 결과값 1,2,3,4,5를 처리.
 		//주소 1,2  결제일시 3,4  전화번호 5
-		
+		System.out.println(extractedData);
 		//HttpSession session 파라미터
 		String userId = String.valueOf(session.getAttribute("user_id"));
 		//String userId = "admin2";
@@ -83,6 +83,17 @@ public class DataValidationServiceImpl implements DataValidationService {
                 }
             }
 		}
+		
+		
+		//아이디가 다르더라도 같은 시간을 가진 값이 DB에 있다면 return 동일한 시간 존재 한단 알람 띄워야함 
+		//buyTime으로 같은 시간이 있는지 훑고와 
+		int sameTime = mzRegisterInfoDAO.getRecordCountByBuyTime(buyTime);
+		if(sameTime == 1) {
+			result.setLandNumAddress("b");
+			return result;
+		}
+		
+		
 		
 		//DB에 저장을 하기위한 VO 전처리 후 로직시작
 		vo.setStoreAddress(storeAddress);

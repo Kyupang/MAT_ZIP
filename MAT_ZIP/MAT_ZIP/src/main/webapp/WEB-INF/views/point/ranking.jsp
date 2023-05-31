@@ -6,8 +6,7 @@
 <body>
 	<section class="client_section layout_padding-bottom">
 		<div class="container">
-			<div
-				class="heading_container heading_center psudo_white_primary mb_45">
+			<div class="heading_container heading_center psudo_white_primary mb_45">
 				<h2>또슐랭 가이드</h2>
 			</div>
 			<div id="result" class="carousel-wrap row ">

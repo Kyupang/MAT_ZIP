@@ -147,7 +147,7 @@ body{
     <header class="header_section" style="background-color: #343a40;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="/zip/index.jsp">
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">
             <span>
               Mat.zip
             </span>
@@ -186,7 +186,7 @@ body{
 	<h3 class="myPage-margin-size" style="text-align: center;">
 		<div>
 			<a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a>
-			<a onclick="showPopup();" class="a-tag" >포인트 내역</a>
+			<a  class="a-tag" onclick="showPopup();">포인트 내역</a>
 		</div>
 	</h3>
 

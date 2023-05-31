@@ -151,8 +151,9 @@ ${user_id} 님의 선호 음식 카테고리 : ${vo.category} <br>
 <br>
 
 <hr color="red">
+
 <c:choose>
-    <c:when test="${session.getAttribute('user_id') == writerId}">
+    <c:when test="${sessionScope.user_id == vo.user_id}">
         <button id="updateBtn">게시물 수정</button>
         <button id="deleteBtn">게시물 삭제</button>
     </c:when>

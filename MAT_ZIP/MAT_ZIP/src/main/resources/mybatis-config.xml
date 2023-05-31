@@ -39,6 +39,8 @@
 			alias="reviewComVO"></typeAlias>
 		<typeAlias type="com.mat.zip.board.MZRegisterReceiptDTO"
 			alias="MZRegisterReceiptDTO"></typeAlias>
+		<typeAlias type="com.mat.zip.board.EmojiMapVO"
+			alias="emojiMapVO"></typeAlias>
 		 
 		 <typeAlias type="com.mat.zip.mainpage.MzlistVO" 
 			 alias="mzlistVO"></typeAlias>	

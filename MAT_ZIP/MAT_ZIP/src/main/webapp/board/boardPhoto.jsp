@@ -191,75 +191,108 @@
 	<script type="text/javascript">
 		$(function() {
 			
-			$("#result1").empty();
-			$("#result2").empty();
-			
-			
+			// 사진게시판 실행하자마자 allPhoto2 list를 보여주자 
+			$("#result").empty();
 	        $.ajax({
-	            url : "allPost",
+	            url : "allPhoto2",
 	            success : function(data) {
-	            	$('#result1').append(data)
+	            	$('#result').append(data)
 	            },
 	            error:function(request, status, error){
 	                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	            } // error
-	        }); // ajax - result1
+	        }); // ajax
 	        
-	        $.ajax({
-	            url : "allReview",
-	            success : function(data) {
-	            	$('#result2').append(data)
-	            },
-	            error:function(request, status, error){
-	                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	            } // error
-	        }); // ajax - result2
 	        
-		}); // $ 
+	        // 사진게시판 검색 
+			$(document).ready(function(){
+			    $('#searchForm').on('submit', function(e){
+			        e.preventDefault(); // Prevent form submission
+			
+			        var searchTerm = $('#searchTerm').val();
+			
+			        $.ajax({
+			            url: 'searchPhoto', 
+			            type: 'GET',
+			            data: { searchTerm: searchTerm },
+			            success: function(data) {
+			                // 새로운 테이블 행을 저장할 빈 배열을 만듭니다.
+			                var newRows = [];
+			
+			                // 각 검색 결과에 대해
+			                $.each(data, function(i, photo){
+			                    // 새로운 테이블 행을 만듭니다.
+			                    var newRow = '<tr>' +
+			                        '<td>' +
+			                        '<div class="card" style="width: 18rem;">' +
+			                        '<img class="card-img-top" src="../resources/img/' + photo.photo_file + '" alt="' + photo.photo_title + '">' +
+			                        '<div class="card-body">' +
+			                        '<h5 class="card-title">' + photo.photo_title + '</h5>' +
+			                        '<p class="card-text">' + photo.user_id + '</p>' +
+			                        '</div>' +
+			                        '</div>' +
+			                        '</td>' +
+			                        '</tr>';
+			
+			                    // 새로운 테이블 행을 배열에 추가합니다.
+			                    newRows.push(newRow);
+			                });
+			
+			                // 기존 테이블 행을 제거하고 새로운 행을 추가합니다.
+			                $('table').find('tr:gt(0)').remove();
+			                $('table').append(newRows.join(''));
+			            }
+			        });
+			    });
+			});
+	        
+	    	// 유닉스 타임스탬프를 "yyyy-MM-dd" 형식의 문자열로 변환하는 함수입니다.
+	    	function formatDate(unixTimestamp) {
+	    	    var date = new Date(unixTimestamp);
+	    	    var year = date.getFullYear();
+	    	    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+	    	    var day = ('0' + date.getDate()).slice(-2);
+	    	    return year + '-' + month + '-' + day;
+	    	}	        
+	        
+		}); // $
 	</script>
 	
-	<!-- <h1>맛.zip 회원 커뮤니티</h1> -->
-	<br>
 	
 	<%-- 세션에 저장된 회원 정보 가져오기 --%>
 	<% String user_id = (String) session.getAttribute("user_id"); %>
 	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
 	
 	<% if (user_id == null) { %>
-		! 게시물을 작성하려면, 로그인이 필요합니다. ! 
+		! 로그인이 필요합니다. ! 
 		<a href="../mz_member/login" class="order_online">
 		      LOGIN
 		</a>
 	
+	<% } else { %>
+
+	<br>
+	<br>
+	<a href="boardPhotoCreate.jsp">
+		<button type="button" class="btn btn-warning">사진게시판 게시글 작성하기</button>
+	</a>
 	<% } %>
-	
-	<br>
-	<br>
-	<a href="boardReview.jsp">
-		<button type="button" class="btn btn-warning">리뷰게시판</button>
-	</a>
-	<a href="boardPhoto.jsp">
-		<button type="button" class="btn btn-warning">맛집 사진첩</button>
-	</a>
-	<a href="boardPost.jsp">
-		<button type="button" class="btn btn-warning">자유게시판</button>
-	</a>
-	<br>
-	
+	<form id="searchForm">
+	    <input type="text" id="searchTerm" placeholder="Search..." required>
+	    <input type="submit" value="Search">
+	</form>
+
 	<hr color=green>
-	<div id="result1"></div>
-	<br>
-	<div id="result2"></div>
-	<br>
-	<br>
-	<a href="../index.jsp">
-		<button type="button" class="btn btn-outline-secondary">index로 돌아가기</button>
+	<div id="result"></div>
+	<hr color=green>
+	<a href="boardIndex.jsp">
+		<button type="button" class="btn btn-outline-secondary">게시판 index 페이지로 돌아가기</button>
 	</a>
 	<br>
 	<br>
 	
-	
-  <!-- end client section -->
+	<!-- end client section -->
+
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -378,6 +411,7 @@
 	})
   </script>
   <!--규환 script 관련 코드 end -->
+	
 	
 </body>
 </html>

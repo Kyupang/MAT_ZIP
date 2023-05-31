@@ -1,6 +1,4 @@
-<%@page import="com.mat.zip.board.PostVO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.mat.zip.board.PostVO"%>
+<%@page import="com.mat.zip.board.ReviewVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -13,28 +11,29 @@
 
 <div class="container mt-3">
 <table>
-	<tr class="table-warning">
-		<!-- <td>post_id</td> -->
-		<td>board name</td>
-		<td>food_cg</td>		
-		<td>title</td>
+	<tr  class="table-warning">
+		<!-- <td>review_id</td> -->
+		<td>board name</td>	
+		<td>photo cg</td>
+		<td>review title</td>
 		<td>user_id</td>
 		<td>date</td>
 		<td>view count</td>
 	</tr>
 
-	<c:forEach items="${list}" var="vo">
+	<c:forEach items="${photo}" var="photoVO">
 
 		<tr class="table table-striped">
-			<%-- <td>${vo.post_id}</td> --%>
-			<td>자유게시판</td>
-			<td>${vo.food_cg}</td>
-			<td><a href="onePostId?post_id=${vo.post_id}">${vo.post_title}</a></td>
-			<td>${vo.user_id}</td>
-			<td><fmt:formatDate value="${vo.updated_date}" pattern="yyyy-MM-dd" /></td>
-			<td>${vo.post_view_count}</td>
+			<%-- <td>${reviewVO.review_id}</td> --%>
+			<td>사진게시판</td>
+			<td>${photoVO.photo_cg}</td>
+			<td><a href="onePhotoId?photo_id=${photoVO.photo_id}">${photoVO.photo_title}</a></td>
+			<td>${photoVO.user_id}</td>
+			<td><fmt:formatDate value="${photoVO.updated_date}" pattern="yyyy-MM-dd" /></td>
+			<td>${photoVO.photo_view_count}</td>
 		</tr>
 
 	</c:forEach>
+	
 </table>
 </div>

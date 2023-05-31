@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
 body {
-	background: yellow;
+	background: black;
 }
 
 td {
@@ -22,7 +22,7 @@ td {
 }
 
 .down {
-	background: lime;
+	background: orange;
 }
 </style>
 </head>

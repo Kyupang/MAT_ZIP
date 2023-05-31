@@ -1,5 +1,7 @@
 package com.mat.zip.mzMember.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.mat.zip.board.ReviewVO;
 import com.mat.zip.boss.dao.Boss_memberDAO;
 import com.mat.zip.boss.model.Boss_memberVO;
 import com.mat.zip.mzMember.model.KakaoLoginBO;
@@ -49,15 +52,6 @@ public class MzMemberController {
 		this.kakaoLoginBO = kakaologinBO;
 	}
 	
-	/** 이메일 인증 */
-	@RequestMapping(value = "mailCheck", method = RequestMethod.GET)
-	@ResponseBody
-	public String mailCheck(String email) {
-		logger.info("이메일 인증 요청이 들어옴");
-		logger.info("인증 진행 메일: " + email);
-		return service.authEmail(email);
-	}
-	
 	/** 메인 페이지에서 로그인 페이지 넘어가는 경로 맵핑, 네이버 아이디 인증 url 생성 메서드 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String loginPage(HttpSession session, Model model, String url) {
@@ -65,12 +59,10 @@ public class MzMemberController {
 		/* naverLogin 클래스의 네아로 인증 url 생성하는 메서드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationURL(session);
 		model.addAttribute("naverUrl", naverAuthUrl);
-		logger.info("naver url: " + naverAuthUrl);
 		
 		/* kakaoLoginBO 클래스의 카카오 로그인 인증 url 생성하는 메서드 호출 */
 		String kakaoAuthUrl = kakaoLoginBO.getAuthorizationURL(session);
 		model.addAttribute("kakaoUrl", kakaoAuthUrl);
-		logger.info("kakao url: " + kakaoAuthUrl);
 		
 		return "/mz_member/login";
 	}
@@ -176,15 +168,41 @@ public class MzMemberController {
 	public String memberInfo(MzMemberDTO dto, HttpSession session, Model model) throws Exception {
 		String id = String.valueOf(session.getAttribute("user_id"));
 		
+		//회원정보 얻어와서 모델에 넣고 페이지로 정보 넘김
 		MzMemberDTO memberInfo = service.getMemberInfo(id);
 		model.addAttribute("memberInfo", memberInfo);
+		
+		//리뷰 정보 리스트로 불러서 출력
+		List<ReviewVO> review = service.getReview(id);
+		model.addAttribute("review",review);
+		System.out.println(review);
 		
 		return "/mz_member/myPage";
 	}
 	
+	/** 게시글 불러서 내 vo에 넣기 */
+	
 	/** 회원 정보 수정 맵핑 */
 	@RequestMapping(value = "changeInfo", method = RequestMethod.GET)
 	public void changeInfo() {
+	}
+	
+	/** 회원 탈퇴  */
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String deleteAccount(MzMemberDTO dto, HttpSession session) throws Exception{
+		logger.info("회원 탈퇴 진행");
+		service.deleteAccount(dto);
+		//메인 페이지로 리턴 전 세션 값 전부 무효화
+		session.invalidate();
+		return "redirect:/index.jsp";
+	}
+	
+	/** 비밀번호 수정  */
+	@RequestMapping(value = "updatePw", method = RequestMethod.GET)
+	public String changePw(MzMemberDTO dto, HttpSession session) throws Exception {
+		logger.info("비밀번호 수정");
+		service.changePw(dto, session);
+		return "redirect:/index.jsp";
 	}
 	
 }

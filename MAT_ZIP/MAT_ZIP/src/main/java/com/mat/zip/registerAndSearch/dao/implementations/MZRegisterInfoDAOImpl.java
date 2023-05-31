@@ -40,6 +40,11 @@ public class MZRegisterInfoDAOImpl implements MZRegisterInfoDAO {
 		return result;
 	}
 	
+	@Override
+	public int getRecordCountByBuyTime(String buyTime) {
+		int result = my.selectOne("mzRegisterInfo.getRecordCountByBuyTime", buyTime);
+		return result;
+	}
 	
 	// 추후 관리를 위한 CRUD 코드
 	@Override

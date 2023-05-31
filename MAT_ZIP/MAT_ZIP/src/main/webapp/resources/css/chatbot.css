@@ -3,8 +3,8 @@
 .chatCommon {
 	border-radius: 30px;
 	box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 60px;
-	position: absolute;
-	right: 30px;
+	position: sticky;
+	left: 85%;
 	bottom: 30px;
 	box-sizing: border-box;
 }

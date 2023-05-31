@@ -65,6 +65,10 @@
 		$('#chatOpenBtn').toggle();
 	}
 	
+	function removeHidden(){
+        	$('#chatMain').removeAttr('hidden')
+        }
+        
 	
 	//jsp 실행과 동시에 연결
 	connect();

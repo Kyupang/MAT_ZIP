@@ -37,6 +37,8 @@
   <!-- 등록 모달 style -->
   <link rel="stylesheet" type="text/css" href="resources/css/modal-gyu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+  <!-- 챗봇 style -->
+   <link rel="stylesheet" type="text/css" href="resources/css/chatbot.css">
   
 </head>
 
@@ -459,10 +461,31 @@
 
   <!-- end food section -->
 
-  <!-- about section -->
+  <!-- chatbot -->
 
+<div id="chatMain" class="chatCommon" hidden="hidden">
+		<div id="chatTop">
+			<div id="chatTitle">
+				<span style="font-size: 24px;">맛돌이</span>
+			</div>
+			<button class="chatBtn chatMenuBtn" onclick="chatToggle()">
+				<span class="material-symbols-outlined symbol">x</span>
+			</button>
+		</div>
+		<div id="chat">
+			<div id="chatList"></div>
+		</div>
+		<div id="chatBottom">
+			<button id="home" class="chatMenuBtn" onclick="sendMessage(this)" value="메인">
+				<span class="material-symbols-outlined symbol">메인 메뉴</span>
+			</button>
+		</div>
+	</div>
+	<button id="chatOpenBtn" class="chatBtn chatCommon" onclick="chatToggle(); removeHidden();" >
+		<span class="material-symbols-outlined symbol">챗봇</span>
+	</button>
   
-  <!-- end about section -->
+  <!-- end chatbot -->
 
   <!-- end book section -->
 
@@ -571,6 +594,8 @@
   <!-- search map is  -->
   <script src="resources/js/searchmarker-gyu.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
+ <!-- 챗봇 js / 현재 웹소켓 연결 경로 절대 경로 설정  -->
+ <script type="text/javascript" src="resources/js/chatbot.js"></script>
  
   <script type="text/javascript">
   	function openNav() {

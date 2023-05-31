@@ -248,12 +248,12 @@
 		    <version>1.4.7</version>
 		</dependency>
 		
-		<!-- 이메일 의존성 2 -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
 		    <version>5.3.9</version>
 		</dependency>
+		<!-- 이메일 의존성 끝 -->
 		
 		<!-- oauth 라이브러리 -->
 		<dependency>
@@ -281,6 +281,34 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+		<!-- json 라이브러리 끝 -->
+		
+		<!-- 아래 4개는 챗봇, json 데이터 추출 라이브러리 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.10.2</version>
+		</dependency>
+
+		<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- 챗봇 끝 -->
+		<!-- 정서현 끝 -->
 
 	</dependencies>
 	<build>

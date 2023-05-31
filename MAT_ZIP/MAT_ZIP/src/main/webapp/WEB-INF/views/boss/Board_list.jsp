@@ -23,6 +23,14 @@
 	right: 100px;
 
 }
+.table a {
+    color: black;
+    text-decoration: none;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
 </style>
 <meta charset="UTF-8">
 <title>맛.zip</title>
@@ -56,16 +64,16 @@ $(document).ready(function() {
 
 </head>
 <body>
-
 	<div class="container">
 		<!--컨테이너  -->
 		<div class="row">
 			<!-- 로우설정  -->
+			<br>
 			<table class="table"
 				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-secondary">
+				<tr style="background:#FFC31E;">
 					<td><input type="hidden" id></td>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<td>제목</td>
 					</div>
 					<div class="col-md-1">

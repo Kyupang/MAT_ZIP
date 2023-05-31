@@ -195,7 +195,7 @@ function drawChart() {
                 };
 
                 /* 도넛 차트 그리기 */
-                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                var chart = new google.visualization.PieChart(document.getElementById('reorderChart'));
                 chart.draw(data, options);
 
                 /* HTML 태그에 데이터 설정 */
@@ -604,7 +604,48 @@ function drawChart() {
 
 </head>
 <body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- 사이드바 시작 -->
+    <div id="uniqueSidebar" class="col-md-3 d-flex flex-column flex-shrink-0 p-3 text-bg-light" style="width: 160px; height:300px; position: fixed; top: 116px; right: 0; left: auto;">
+     <a href="/" class="d-flex align-items-center mb-md-0 me-md-auto text-black text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32" style="fill: black;"><use xlink:href="#bi bi-shop"></use></svg>
+        <span class="fs-4">매출<br>장부</span>
+      </a>
+      <hr style="background-color:black">
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <button id="salesChartBtn" class="btn nav-link text-black" style="font:bold;">
+            <svg class="bi bi-shop me-2" width="16" height="16" style="fill: black;"><use xlink:href="#home"></use></svg>
+            매출
+          </button>
+        </li>
+        <li>
+          <button id="reorderChartBtn" class="btn nav-link text-black" style="font:bold;">
+            <svg class="bi pe-none me-2" width="16" height="16" style="fill: black;"><use xlink:href="#speedometer2"></use></svg>
+            또슐랭
+          </button>
+        </li>
+        <li>
+          <button id="emotionChartBtn" class="btn nav-link text-black" style="font:bold;">
+            <svg class="bi pe-none me-2" width="16" height="16" style="fill: black;"><use xlink:href="#table"></use></svg>
+            감정분석
+          </button>
+          </ul>
+      <hr>
+    </div>
+    </div>
+    </div>
+  <!-- 내부 버튼 -->
+  <!-- <div style="position: fixed; top: 200px; right: 10px;">
+  <button id="salesChartBtn">매출 차트</button>
+  <button id="reorderChartBtn">또슐랭 차트</button>
+  <button id="emotionChartBtn">감정 분석 차트</button>
+  </div> -->
+	
+	<br>
 	<div class="container">
+	<!--매출차트 시작-->
 	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 매출 차트</i></h1></div>
 	<div id="linechart_material" style="width: 600px; height: 500px"></div>
 	<ul>
@@ -615,26 +656,6 @@ function drawChart() {
 	<div id="lastMonthTotal">저번달 총 매출</div></li>
 	</ul>	
 	</div>
-	<hr style="border: dashed 10px #121d40;" align="center">
-	
-	
-	<br>
-	<div class="container">
-	<div class="row">
-	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 재주문율 차트</i></h1></div>
-	<table>
-	<tr>
-	<td>
-	<div id="donutchart" style="width: 800px; height: 500px;"></div>
-	</td>
-	<td>
-	<div id="여러번주문차트" style="width: 600px; height: 400px;"></div>
-	</td>
-	</tr>
-	</table>
-	</div>
-	</div>
-	
 	<div class="container">
 	<div class="row">
 	<table>
@@ -674,15 +695,37 @@ function drawChart() {
 	</ul>
 	</div>
 	</div>
-	
 	<hr style="border: dashed 10px #121d40;" align="center">
+	<!-- 매출차트 끝 -->
+	
+	<!-- 또슐랭 차트 시작 -->
 	<br>
+	<div class="container">
+	<div class="row">
+	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 재주문율 차트</i></h1></div>
+	<table>
+	<tr>
+	<td>
+	<div id="reorderChart" style="width: 800px; height: 500px;"></div>
+	</td>
+	<td>
+	<div id="여러번주문차트" style="width: 600px; height: 400px;"></div>
+	</td>
+	</tr>
+	</table>
+	</div>
+	</div>
+	<!-- 또슐랭차트 끝 -->
+	
+	<!-- 감정분석 차트 시작-->
+	<hr style="border: dashed 10px #121d40;" align="center">
 	<div class="container">
 	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 리뷰 감정분석 차트</i></h1></div>
 	<div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
 	<div id="result">리뷰긍정5부정5표시되는곳</div>
 	</div>
-	
+	<!-- 감정분석 차트 끝  -->
+	<script src="../resources/js/boss_scroll.js?ver=11"></script>
 </body>
 
 </html>

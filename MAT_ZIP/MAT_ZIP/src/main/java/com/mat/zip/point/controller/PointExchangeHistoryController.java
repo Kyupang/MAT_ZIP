@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mat.zip.point.service.PointExchangeHistoryServiceImpl;
 
@@ -16,16 +17,16 @@ public class PointExchangeHistoryController {
 	@Autowired
 	PointExchangeHistoryServiceImpl PointExchangeHistoryService;
 
-	@RequestMapping(value = "point/exchange", method = RequestMethod.POST)
-	public void exchange(HttpServletRequest request,  int id) {
-		
+	@RequestMapping(value = "/point/exchange", method = RequestMethod.POST)
+	@ResponseBody
+	public void exchange(HttpServletRequest request, int id) {
+
 		HttpSession session = request.getSession();
-        String user_id = (String) session.getAttribute("user_id");
+		String user_id = (String) session.getAttribute("user_id");
 
 		PointExchangeHistoryService.exChange(user_id, id);
-		
+
 		PointExchangeHistoryService.useDetailHistory(user_id, id);
-		
-		
+
 	}
 }

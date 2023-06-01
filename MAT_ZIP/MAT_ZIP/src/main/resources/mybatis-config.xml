@@ -25,6 +25,7 @@
       <typeAlias type="com.mat.zip.point.model.PointInquiryVO" alias="PointInquiryVO"></typeAlias>
       <typeAlias type="com.mat.zip.point.model.RankingVO" alias="RankingVO"></typeAlias>
 		<typeAlias type="com.mat.zip.mzMember.model.MzMemberDTO" alias="memberDTO"></typeAlias>
+		<typeAlias type="com.mat.zip.calendar.CalVO" alias="calVO"></typeAlias>
 
       
       <typeAlias type="com.mat.zip.board.PostVO" alias="postVO"></typeAlias>
@@ -76,6 +77,9 @@
 		<mapper resource="mapper/ReviewComMapper.xml" />
 		
 		<mapper resource="mapper/MzlistMapper.xml" />
+		
+		
+		<mapper resource="mapper/CalMapper.xml" />
    </mappers>
    
 </configuration>

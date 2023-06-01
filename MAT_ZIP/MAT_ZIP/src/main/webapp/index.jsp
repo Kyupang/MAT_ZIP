@@ -47,9 +47,11 @@
 
 <body>
 
-  <div class="hero_area">
+	<!--style="margin-top: 20px;"  -->
+	<!-- --> 
+  <div class="hero_area" style="height: 700px;" >
     <div class="bg-box">
-      <img src="resources/images/hero-bg.jpg" alt="">
+      <img src="resources/images/hero-bg.jpg" alt=""  style="height: 680px;">
     </div>
     <!-- header section strats -->
     <header class="header_section">
@@ -490,10 +492,10 @@
 			</button>
 		</div>
 	</div>
-	<button id="chatOpenBtn" class="chatBtn chatCommon" onclick="chatToggle(); removeHidden();" >
-		<span class="material-symbols-outlined symbol">챗봇</span>
+	<button id="chatOpenBtn" class="chatBtn chatCommon" onclick="chatToggle(); removeHidden();" style = "z-index: 1;"  >
+		<span class="material-symbols-outlined symbol" >챗봇</span>
 	</button>
-  
+ 
   <!-- end chatbot -->
 
   <!-- end book section -->

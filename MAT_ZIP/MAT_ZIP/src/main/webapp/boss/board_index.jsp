@@ -246,12 +246,7 @@
       </a>
       <hr style="background-color:black">
       <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <button id="homeBtn" class="btn nav-link" aria-current="page" style="color:#FFB900; font:bold;">
-            <svg class="bi bi-shop me-2" width="16" height="16" style="fill: black;"><use xlink:href="#home"></use></svg>
-            Home
-          </button>
-        </li>
+       
         <li>
           <button id="bossChartBtn" class="btn nav-link text-black" style="font:bold;">
             <svg class="bi pe-none me-2" width="16" height="16" style="fill: black;"><use xlink:href="#speedometer2"></use></svg>
@@ -263,24 +258,12 @@
             <svg class="bi pe-none me-2" width="16" height="16" style="fill: black;"><use xlink:href="#table"></use></svg>
             자유게시판
           </button>
-
-        <!-- </li>
-        <li>
-          <button id="emotionChartBtn" class="btn nav-link text-white">
-            <svg class="bi pe-none me-2" width="16" height="16" style="fill: white;"><use xlink:href="#grid"></use></svg>
-            감정분석 차트
-          </button>
         </li>
-        <li>
-          <button id="boardBtn" class="btn nav-link text-white">
-            <svg class="bi pe-none me-2" width="16" height="16" style="fill: white;"><use xlink:href="#people-circle"></use></svg>
-            자유게시판
-          </button>
-        </li> -->
       </ul>
       <hr>
     </div>
     <!-- 사이드 바 옆 종료 -->
+    
     <!-- 메인 컨텐츠 -->
     <div class="col-md-9">
       <div class="container">
@@ -292,7 +275,7 @@
   </div>
 </div>
  <!-- 메인 컨텐츠 종료 -->
-<% } else { %>
+<% } else if (session.getAttribute("user_id") != null) { %> 
 <!-- 여기서부터 블러처리 구독결제 유도 -->
 <br>
 <div class="container blur parent">
@@ -314,11 +297,30 @@
   </div>
 </div>
 <%
-  }
+  } else{
 %>
+<br>
+<div class="container blur parent">
+  <!--컨테이너  -->
+  <div class="row">
+    <!-- 로우설정  -->
+    <div id="content"></div>
+  </div>
+</div>
+<div id="payment-container"></div>
+<div class="overlay" >
+  <!-- 오버레이를 추가합니다 -->
+  <a href="../mz_member/login"><button class="subscribe-btn">구독 결제하기</button></a>
+</div>
+<div class="container blur">
+  <!-- 블러 클래스를 추가합니다 -->
+  <!--컨테이너  -->
+  <div class="row">
+  </div>
+</div>
+<%} %>
 <!-- end book section -->
 
-	
 	  <!-- footer section -->
 	  <footer class="footer_section">
 	    <div class="container">

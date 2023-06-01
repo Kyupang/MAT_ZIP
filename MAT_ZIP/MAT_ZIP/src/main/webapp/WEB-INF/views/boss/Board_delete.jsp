@@ -22,17 +22,12 @@
 <script type="text/javascript">
 	$(function() {
 		$.ajax({
-			url : "Board_list",
+			url : "board_index.jsp",
 			data : {
 				board_id : '${bag.board_id}',
 			},
 			success : function(x) {
-				window.location.href = "Board_list"
-				/* $('#result').empty();
-				$('#result').append(x); */
-				/* location.reload(); */
-				/* $('#result').append(
-					"- " + content + ", " + writer + "<br>") */
+				window.location.href = "board_index.jsp"
 			},
 			error : function() {
 				alert('computer요청 실패!')

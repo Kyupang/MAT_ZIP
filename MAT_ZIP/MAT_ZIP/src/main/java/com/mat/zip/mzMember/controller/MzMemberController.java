@@ -98,9 +98,12 @@ public class MzMemberController {
 			logger.info("회원 정보 가져옴");
 			session.setAttribute("user_id", memberInfo.getUser_id());
 			
-	        if(memberInfo.getUser().equals("사장")) {
+			Boss_memberVO bossBag = new Boss_memberVO();
+			bossBag.setUser_id(dto.getUser_id());
+			bossBag.setPassword(dto.getPassword());
+			
+	        if(dao.login(bossBag) != null) {
 		        // Boss_member 테이블 로그인
-	        	Boss_memberVO bossBag = new Boss_memberVO();
 		        bossBag.setUser_id(dto.getUser_id());
 		        bossBag.setPassword(dto.getPassword());
 		        Boss_memberVO bossVo = dao.login(bossBag);

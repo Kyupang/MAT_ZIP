@@ -40,7 +40,7 @@ public class ChartController {
     @Autowired
     private SentimentService sentimentService;
     
-    //매출차트 
+  //매출차트 
     @GetMapping("/chart/{storeId}")
     @ResponseBody
     public Map<String, List<ChartVO>> getChart(@PathVariable String storeId) {
@@ -52,18 +52,23 @@ public class ChartController {
         }
         List<ChartVO> chartData = chartService.DailyTotalAmount(storeId);
         List<ChartVO> chartDataX = chartService.XTotalAmount(storeId);
+        List<ChartVO> chartDatatwo = chartService.twoTotalAmount(storeId);
         List<ChartVO> thisMonthTotal = chartService.thisMonthTotalAmount(storeId);
         List<ChartVO> lastMonthTotal = chartService.lastMonthTotalAmount(storeId);
+        List<ChartVO> twoMonthsAgoTotal = chartService.twoMonthsAgoTotalAmount(storeId);
         
         
         Map<String, List<ChartVO>> response = new HashMap<>();
         response.put("thisMonth", chartData);
         response.put("lastMonth", chartDataX);
+        response.put("twoMonth", chartDatatwo);
         response.put("thisMonthTotal", thisMonthTotal);
         response.put("lastMonthTotal", lastMonthTotal);
+        response.put("twoMonthsAgoTotal", twoMonthsAgoTotal);
         
         return response;
     }
+    
     // 재방문 차트    
 	 // 이번달,지난달 재방문율 차트 조회
 	    @GetMapping("returnCustomerCount/{storeId}")

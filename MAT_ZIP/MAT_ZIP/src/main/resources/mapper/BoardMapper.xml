@@ -4,7 +4,7 @@
 
 	<insert id="create" parameterType="BoardVO">
 		insert into board values
-		(null, #{writer}, #{title}, #{content},now(),now(),null,0,0)
+		(null, #{writer}, #{title}, #{content},now(),now(),0,0)
 	</insert>
 	<delete id="del" parameterType="int">
 		delete from board where board_id
@@ -55,11 +55,18 @@
 <!-- 좋아요 버튼 끝 -->
 
 
-
+<!-- 검색부분 게시판번호,제목,내용 -->
 	<select id="one" parameterType="int" resultType="BoardVO">
 		select * from
 		board where board_id = #{board_id}
 	</select>
+	<select id="searchByTitleOrContent" parameterType="map" resultType="BoardVO">
+	    select * from board 
+	    where title like concat('%', #{keyword}, '%') 
+	    or content like concat('%', #{keyword}, '%')
+	</select>
+
+	<!-- 검색 부분 끝 -->
 	<select id="detail" parameterType="int" resultType="BoardVO">
 		select * from
 		board where board_id = #{board_id}

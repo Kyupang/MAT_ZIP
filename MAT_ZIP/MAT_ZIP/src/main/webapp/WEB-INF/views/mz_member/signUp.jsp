@@ -32,7 +32,12 @@
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
-
+  
+  <style type="text/css">
+  .btn{
+  	background-color: #dcdcdc;
+  }
+  </style>
   <script type="text/javascript">
   $(function(){
 	  
@@ -111,9 +116,9 @@
 
     <div class="form-group" style="margin-bottom: 0;">
       <label for="user_id">이메일</label>
-	 	<div class="input-group">
-     		<input type="email" class="form-control pl-1r" id="user_id" value="${memberDTO.user_id}" placeholder="이메일을 입력해 주세요." name="user_id">
-     	<div class="input-group-btn" style="padding-bottom: 0; padding-top: 0">
+	 	<div class="input-group"  style="width: 69%">
+     		<input type="email" class="form-control pl-1r" id="user_id" value="${memberDTO.user_id}" placeholder="이메일을 입력해 주세요." name="user_id" style="width: 69%">
+     	<div class="input-group-btn" style="padding-bottom: 0; padding-top: 0;">
       		<button class="btn btn-default p2-10" type="button" id = "emailCheck-Btn" style="background-color: #dcdcdc;">이메일 인증</button>
     	</div>
   		</div>

@@ -217,6 +217,7 @@ body{
 	transition: 0.3s;
 	margin-top: 10px;
 	border-radius: 30px;
+	cursor: pointer;
 }
 
 .memberInfo1{
@@ -344,7 +345,7 @@ body{
 	<h3 class="myPage-margin-size" style="text-align: center;">
 		<a onclick="deleteAccount();" class="a-tag">회원 탈퇴</a>
 		<a onclick="updateSection();" class="a-tag">정보 수정</a>
-		<c:if test="${password != null}">
+		<c:if test="${memberInfo.password != null}">
 		<a onclick="updatePwFunction();" class="a-tag">비밀번호 변경</a>
 		</c:if>
 	</h3>

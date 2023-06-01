@@ -33,11 +33,27 @@
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
   
-  <style type="text/css">
-  .btn{
+<style type="text/css">
+body{
+	background-color: #343a40;
+}
+.btn{
   	background-color: #dcdcdc;
-  }
-  </style>
+}
+  
+hr{
+	color: #ffc107
+}
+.page_total{
+	width: 40rem;
+	height: 100%;
+	border-radius: 7px;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+}
+</style>
   <script type="text/javascript">
   $(function(){
 	  
@@ -107,10 +123,11 @@
         </nav>
       </div>
     </header>
-	
+    
+	<div class="page_total" style="background-color: white; ">
 <form action="signUp" method="post" accept-charset="utf-8">
 <div class="member-container">
-
+	
   <h1 style="text-align: center; margin-top: 20px;">SIGN UP</h1>
   <hr style="border: solid 2px;">
 
@@ -190,11 +207,12 @@
 	</div>
 </form>
 	<div class="member-container">
-		<div class="form-group">
+		<div class="form-group" style="margin-bottom: 0px;">
 			  <p style="text-align: center; font-size: small; margin: 13px 0px;">
-			     맛.zip의 회원이신가요? <a href="login" style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">로그인</a>
+			     맛.zip의 회원이신가요? <a href="login" style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">로그인</a>
 			  </p>
 		</div>
+</div>
 </div>
 </body>
 </html>

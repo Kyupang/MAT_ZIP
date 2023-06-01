@@ -22,6 +22,8 @@ public interface MZRegisterInfoDAO {
 	
 	List<MZRegisterInfoVO> list();
 	
+	
+	
 
 
 }

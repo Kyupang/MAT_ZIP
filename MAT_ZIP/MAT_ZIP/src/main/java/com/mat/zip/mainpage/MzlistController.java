@@ -14,7 +14,7 @@ public class MzlistController {
 	MzlistDAO dao; 
 	
 	
-	@RequestMapping("mainpage/mzone")
+	@RequestMapping("mainpage/mzonee")
 	public void one(String landNumAddress, Model model) {
 		System.out.println("-----------" +  landNumAddress);
 		MzlistVO vo = dao.one(landNumAddress);

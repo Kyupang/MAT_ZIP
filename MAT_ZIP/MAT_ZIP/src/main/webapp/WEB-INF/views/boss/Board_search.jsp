@@ -1,16 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	<!--JSTL -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="com.mat.zip.boss.model.BoardVO"%>
 <%@page import="com.mat.zip.boss.model.ComVO"%>
-<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
-
 <head>
-  <!-- Basic -->
+<!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Mobile Metas -->
@@ -46,151 +45,15 @@
   <!-- boss.css 파일을 추가 -->
   <style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap'); </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
-  <!-- 댓글작성관련 -->
-<script type="text/javascript">
-	$(function() {
-		$('#b1').click(function() {
-			content = $('#com').val()
-			writer = "${user_id}"
-			/* regdate = '${bag.regdate}' */
-			$.ajax({
-				url : "Board_insertcom",
-				data : {
-					board_id : '${bag.board_id}',
-					content : content,
-					writer : writer
-
-				},
-				success : function(x) {
-					$('#result').load(location.href + ' #result')
-					/* $('#result').empty();
-					$('#result').append(x); */
-					/* location.reload(); */
-					/* $('#result').append(
-						"- " + content + ", " + writer + "<br>") */
-				},
-				error : function() {
-					alert('computer요청 실패!')
-				}//error
-			})//ajax
-		})//b1
-	})//$
-</script>
-<!-- 댓글수정,삭제관련 -->
-<!-- <script type="text/javascript">
-$(function() {
-    // 댓글 메뉴 열기/닫기
-    $(document).on('click', '.menu-icon', function() {
-        var menuOptions = $(this).closest('tr').find('.menu-options');
-        menuOptions.toggle();
-    });
-
-    // 수정 버튼 클릭 시
-    $(document).on('click', '.edit-option', function() {
-        var commentContent = $(this).closest('tr').find('.comment-content');
-        var editInput = $(this).closest('tr').find('.edit-comment');
-
-        commentContent.hide();
-        editInput.val(commentContent.text()).show().focus();
-    });
-
-    // 수정된 내용 저장 버튼 클릭 시
-    $(document).on('focusout', '.edit-comment', function() {
-        var commentContent = $(this).closest('tr').find('.comment-content');
-        var editInput = $(this).closest('tr').find('.edit-comment');
-        var commentId = $(this).closest('tr').data('comment-id');
-        var updatedContent = editInput.val();
-
-        // AJAX 요청을 보내서 수정된 내용 저장 및 적용
-        $.ajax({
-            url: 'Com_update',
-            method: 'POST',
-            data: {
-                reply_id: commentId,
-                content: updatedContent
-            },
-            success: function(response) {
-                commentContent.text(updatedContent).show();
-                editInput.hide();
-            },
-            error: function() {
-                alert('Failed to update comment!');
-            }
-        });
-    });
-
-    // 삭제 옵션 클릭 시
-    $(document).on('click', '.delete-option', function() {
-        var commentId = $(this).closest('tr').data('comment-id');
-
-        // AJAX 요청을 보내서 댓글 삭제
-        $.ajax({
-            url: 'Com_delete',
-            method: 'POST',
-            data: {
-                reply_id: commentId
-            },
-            success: function(response) {
-                // 삭제된 댓글 표시를 갱신하는 등의 작업 수행
-                location.reload();
-            },
-            error: function() {
-                alert('Failed to delete comment!');
-            }
-        });
-    });
-});
-</script> -->
-
-<!-- 좋아요 -->
-<script>
-$(document).ready(function(){
-    $('.like-form').on('submit', function(event){
-        event.preventDefault();
-        var form = $(this);
-        var board_id = form.find('input[name="board_id"]').val();
-        var likeButton = form.find('.like-button');
-        var heartIcon = likeButton.find('i.bi-heart-fill, i.bi-heart');
-        var likeText = likeButton.find('span');
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: {
-                board_id: board_id
-            },
-            success: function(response) {
-                console.log(response);
-                console.log(heartIcon);
-                // '좋아요' 카운트를 업데이트
-                likeText.text('좋아요 ' + response.count);
-                // '좋아요' 상태를 업데이트
-                if (response.isLiked) {
-                    heartIcon.removeClass('bi-heart').addClass('bi-heart-fill');
-                } else {
-                    heartIcon.removeClass('bi-heart-fill').addClass('bi-heart');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Error: " + textStatus + ", " + errorThrown);
-            }
-        });
-    });
-});
-
-</script>
-
 </head>
-
 <body class="sub_page">
 
   <div class="hero_area">
     <div class="bg-box">
       <img src="../resources/images/hero-bg.jpg" alt="">
     </div>
-    <!-- header 섹션 시작 -->
-    <header class="header_section" style="z-index: 100;">
+    <!-- 맛집헤더시작 -->
+     <header class="header_section" style="z-index: 100;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="../index.jsp">
@@ -199,7 +62,7 @@ $(document).ready(function(){
             </span>
           </a>
 
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
 
@@ -304,7 +167,6 @@ $(document).ready(function(){
 		    LOGOUT
 		  </a>
 		<% } %>
-            	
             </div>
           </div>
         </nav>
@@ -313,171 +175,53 @@ $(document).ready(function(){
     <!-- 헤더 섹션 종료 -->
   </div>
 
-	<% if (session.getAttribute("boss_id") != null) { %>
-	<br>
-	<div class="container">
-		<!--컨테이너  -->
-		<div class="row" class="col-md-9">
-			<!-- 로우설정  -->
-			<h3>
-				<strong><em><span
-						class="badge rounded-pill text-bg-warning p-3">자유게시판</span></em></strong>
-			</h3>
-		</div>
-		<br>
-		<div class="row" class="col-md-9">
-			<!-- 로우설정  -->
-			<h3>
-				<strong><em>${bag.title}</em></strong>
-			</h3>
-		</div>
-		<div class="row" class="col-md-9">
-			<h5>${bag.writer}</h5>
-		</div>
-		<div class="row" class="col-md-9">
-			<h6>${bag.content}</h6>
-		</div>
-		
-			<!--게시글 로드시 좋아요 여부에 따라 빈하트,꽉찬하트 - 현재 likes DB 더미데이터부족으로 구현불가 , 
-			더미데이터 확보한 이후 위의 form action대신 사용하면됨  -->
-			<%-- <form action="bosslike" method="post" class="like-form">
-		    <input type="hidden" name="board_id" value="${board.board_id}">
-		    <button type="submit" class="like-button">
-		        <i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${board.likecount}</span>
-		    </button>
-			</form> --%>
-			<div style="display: flex; align-items: center;">
-			  <form action="bosslike" method="post" class="like-form">
-			    <input type="hidden" name="board_id" value="${bag.board_id}">
-			    <button type="submit" class="like-button btn btn-outline-dark">
-			      <i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}" style="color:red;"></i> 
-			      <span>좋아요 ${bag.likecount} </span>
-			    </button>
-			  </form>
-			  <div style="width:50; font:bold;" class="btn btn-outline-dark">  댓글 개수: ${commentCount}</div>
-			</div>
-			</div>
-			
-			
-	<hr style="border: solid 3px gray;">
-	<div id="result">
-		<div class="container">
-			<div class="row">
-				<h4>
-					<strong>댓글</strong>
-				</h4>
-				<table>
-					<c:forEach items="${Com_list}" var="bag">
-						<tr>
-							<em><span style="border-bottom: 2px solid green;">${bag.writer}<br></span></em>
-						</tr>
-						<tr>${bag.content}<br>
-						</tr>
-						<tr>
-							<fmt:formatDate value="${bag.regdate}" pattern="yyyy-MM-dd HH:mm" />
-							<hr>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-		</div>
-	</div>
-	
-	<!-- 댓글 -->
-	<div class="container">
-		<% if (session.getAttribute("boss_id") != null) { %>
-		<h5 style="color: green;">회원:${user_id}</h5>
-
-		<input id="com">
-		<button id="b1" class="btn btn-outline-success">작성</button>
-		<br>
-
-		<%
-			} else {
-		%>로그인시 작성가능<%
-			}
-		%>
-		<!--댓글끝 -->
-
-<!-- 글수정  -->
-		<hr color="green">
-		<%
-		//세션에서 값을 꺼내는 방법
-		String id = (String) session.getAttribute("user_id");
-		//모델에서 값을 꺼내는 방법
-		//model.addAttribute("bag",bag)
-		BoardVO bag = (BoardVO) request.getAttribute("bag");
-		String writer = bag.getWriter();
-		
-		// 접속중인 id와 writer가 같으면 수정 , 삭제버튼 출력
-		if (id != null) {
-			if (id.equals(writer)) {
-				// 세션값으로 아래 내용4개를 저장해서 넘김
-		session.setAttribute("board_id", bag.getBoard_id());
-		session.setAttribute("title", bag.getTitle());
-		session.setAttribute("content", bag.getContent());
-		session.setAttribute("writer", bag.getWriter());
-		%>
-		<a href="boardUpdate.jsp">
-			<button class="btn btn-outline-success">수정</button>
-		</a> <a href="boardDelete.jsp">
-			<button class="btn btn-outline-danger">삭제</button>
-		</a>
-		
-		<%
-			}
-		}
-		%>
-	</div>
-	<br>
-	
-	<div class="container">
+<!-- 테이블내용 -->
+<br>
+<div class="container">
+    <!--컨테이너  -->
+    <div class="row">
+        <!-- 로우설정  -->
+        <br>
+        <table class="table" style="text-align: center; border: 1px solid #dddddd">
+            <thead style="background:#FFC31E;">
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">글쓴이</th>
+                    <th scope="col">작성시간</th>
+                    <th scope="col">조회수</th>
+                    <th scope="col">좋아요</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="boardSearch" items="${list}"> <!-- 'bag'을 'list'로 변경 -->
+                    <tr>
+                        <td><a href="Board_detail?board_id=${boardSearch.board_id}">${boardSearch.title}</a></td>
+                        <td>${boardSearch.writer}</td>
+                        <td><fmt:formatDate value="${boardSearch.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+                        <td>${boardSearch.viewscount}</td>
+                        <td>${boardSearch.likecount}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 검색창 -->
+<br>
+<div class="container">
     <!--컨테이너  -->
     <div class="row">
         <!-- 로우설정  -->
         <form action="Board_search" method="get" id="search">
             <input name="keyword" type="text" size="40" placeholder="제목이나 내용을 입력해주세요">
             <button type="submit" class="btn btn-outline-dark">
-                검색
+                검색<i class="bi bi-search"></i>
             </button>
         </form>
     </div>
 </div>
-	
-	<!-- 여기까지가 사장세션 접속시 보이는 리얼값 -->
-	
-	<%
-		} else {
-	%>
-	<!-- 여기서부터 블러처리 구독결제 유도 -->
-	<div class="container blur parent">
-		<!-- 블러 클래스를 추가합니다 -->
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<div id="content"></div>
-		</div>
-	</div>
-	<div id="payment-container"></div>
-	<div class="overlay" >
-		<!-- 오버레이를 추가합니다 -->
-		<a href="boss_member.jsp"><button class="subscribe-btn">구독 결제하기</button></a>
-	</div>
-	
-	<div class="container blur">
-		<!-- 블러 클래스를 추가합니다 -->
-		<!--컨테이너  -->
-		<div class="row">
-			
-		</div>
-	</div>
-	
-	<%
-		}
-	%>
-  <!-- end body section -->
 
-  <!-- footer section -->
+<!-- footer section -->
   <footer class="footer_section">
     <div class="container">
       <div class="row">
@@ -578,6 +322,6 @@ $(document).ready(function(){
   <!-- End Google Map -->
  <!--  <script src="../resources/js/boss_menu.js?ver=3"></script>
   커뮤니티메뉴 js 파일을 추가  -->
+	
 </body>
-
 </html>

@@ -46,6 +46,12 @@ public class BoardDAO {
 		BoardVO bag = my.selectOne("board.one", board_id);
 		return bag;
 	}// one
+	public List<BoardVO> searchByTitleOrContent(String keyword) {
+	    return my.selectList("board.searchByTitleOrContent", keyword);
+	}
+
+
+	
 	//게시판 상세페이지
 	public BoardVO detail(int board_id) {
 		BoardVO bag = my.selectOne("board.detail", board_id);

@@ -9,27 +9,42 @@
 		FROM
 		payment
 		WHERE
-		DATE(requestedAt) BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+		DATE(requestedAt) BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()
 		AND
 		store_id = #{storeId}
 		GROUP BY DATE(requestedAt)
 		ORDER BY DATE(requestedAt);
 	</select>
-	<!-- 이전달 7일의 데이터: 현재날짜기준 1달전부터 1달전의 7일후까지의 데이터 -->
+
+	<!-- 이전달 7일의 데이터: 현재날짜기준 1달전의 같은 기간 데이터 -->
 	<select id="XTotalAmount" resultType="ChartVO">
-		SELECT
-		DATE(requestedAt) AS date,
-		SUM(amount) AS total_amount
-		FROM
-		payment
-		WHERE
-		DATE(requestedAt)
-		BETWEEN DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), INTERVAL 7
-		DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
-		AND store_id = #{storeId}
-		GROUP BY DATE(requestedAt)
-		ORDER BY DATE(requestedAt);
+	    SELECT
+	    DATE(requestedAt) AS date,
+	    SUM(amount) AS total_amount
+	    FROM
+	    payment
+	    WHERE
+	    DATE(requestedAt)
+	    BETWEEN DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), INTERVAL 6 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+	    AND store_id = #{storeId}
+	    GROUP BY DATE(requestedAt)
+	    ORDER BY DATE(requestedAt);
 	</select>
+	<!-- 2달전 7일의 데이터: 현재날짜기준 1달전의 같은 기간 데이터 -->
+	<select id="twoTotalAmount" resultType="ChartVO">
+	    SELECT
+	    DATE(requestedAt) AS date,
+	    SUM(amount) AS total_amount
+	    FROM
+	    payment
+	    WHERE
+	    DATE(requestedAt)
+	    BETWEEN DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), INTERVAL 6 DAY) AND DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
+	    AND store_id = #{storeId}
+	    GROUP BY DATE(requestedAt)
+	    ORDER BY DATE(requestedAt);
+	</select>
+
 	<!--이번달매출:현재날짜 기준 일치하는 달에 총 매출데이터 -->
 	<select id="thisMonthTotalAmount" resultType="ChartVO">
 		SELECT
@@ -58,6 +73,21 @@
 		GROUP BY DATE(requestedAt)
 		ORDER BY DATE(requestedAt);
 	</select>
+	<!-- 2달 전 매출: 현재 날짜를 기준으로 2달 전에 해당하는 총 매출 데이터 -->
+	<select id="twoMonthsAgoTotalAmount" resultType="ChartVO">
+		SELECT
+			DATE(requestedAt) AS date,
+			SUM(amount) AS total_amount
+			FROM
+			payment
+			WHERE
+			MONTH(requestedAt) = MONTH(DATE_SUB(CURDATE(), INTERVAL 2 MONTH))
+			AND YEAR(requestedAt) = YEAR(DATE_SUB(CURDATE(), INTERVAL 2 MONTH))
+			AND store_id = #{storeId}
+		GROUP BY DATE(requestedAt)
+		ORDER BY DATE(requestedAt);
+	</select>
+	
 
 <!-- 재방문 차트 신규고객과 재방문 고객의 숫자를 찾는 쿼리  -->
 

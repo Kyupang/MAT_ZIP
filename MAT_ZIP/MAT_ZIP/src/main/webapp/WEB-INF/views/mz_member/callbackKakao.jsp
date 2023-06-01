@@ -27,8 +27,8 @@
       $("body").fadeIn(1000);  // 1초 뒤에 사라짐 
      
       setTimeout(function(){$("body").fadeOut(1000);},1000);
-      setTimeout(function(){location.href= "${pageContext.request.contextPath}/index.jsp"},2000);
-		// 2초 뒤에 메인 화면으로  
+      setTimeout(function(){location.href= "${pageContext.request.contextPath}/mz_member/myPage"},2000);
+		// 2초 뒤에 필요한 정보 수정할 수 있도록 마이페이지로
     
     })
   </script>

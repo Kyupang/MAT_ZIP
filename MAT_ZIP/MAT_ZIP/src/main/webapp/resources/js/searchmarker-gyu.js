@@ -158,7 +158,7 @@
 	                            // 새로운 인포윈도우 생성 및 열기
 	                            var infowindow = new kakao.maps.InfoWindow({
 						          content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+name+'</span><br>'+
-						          	'<a href="/zip/mainpage/mzone?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
+						          	'<a href="mainpage/mzonee?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
 					              removable: true
 	                            });
 	                            infowindow.open(map, marker);
@@ -242,7 +242,7 @@
 	                            // 새로운 인포윈도우 생성 및 열기
 	                            var infowindow = new kakao.maps.InfoWindow({
 						          content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+name+'</span><br>'+
-						          	'<a href="/zip/mainpage/mzone?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
+						          	'<a href="mainpage/mzonee?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
 					              removable: true
 	                            });
 	                            infowindow.open(map, marker);
@@ -394,7 +394,7 @@
 					        // 인포윈도우로 장소에 대한 설명을 표시합니다
 					        var infowindow = new kakao.maps.InfoWindow({
 					            content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+json.name+'</span><br>'+
-						          '<a href="/zip/mainpage/mzone?landNumAddress='+landNumAddress+'">가게 정보 보러가기</a></div>',
+						          '<a href="mainpage/mzonee?landNumAddress='+landNumAddress+'">가게 정보 보러가기</a></div>',
 					            removable: true
 					        });
 					        console.log(name);

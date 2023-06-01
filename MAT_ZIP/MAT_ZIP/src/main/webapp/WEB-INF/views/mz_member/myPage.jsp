@@ -30,11 +30,19 @@
 	})//$
 
 </script>
-<script>
-        function showPopup(){
-            window.open("${pageContext.request.contextPath}/point/pointhistory","팝업 테스트","width=400, height=300, top=10, left=10");
-        }
-        
+<script type="text/javascript">
+        $(function() {
+        	$.ajax({
+    			type : 'GET',
+    			url : "${pageContext.request.contextPath}/point/pointhistory",
+    			success : function(data) {
+    				$('#result1').append(data)
+    			},
+    			error : function(error) {
+    				console.error('Error:', error);
+    			}
+    		})//ajax
+        })
 </script>
 <script>
 		function deleteAccount() {
@@ -70,7 +78,30 @@
 			$('#deleteAccount').attr('hidden', 'hidden');
 			$('#updatePassword').attr('hidden', 'hidden');
 			$('#updateInfo').removeAttr('hidden');
-		}
+			
+			//번호 정규식 검사
+			var phNumRegex = /\d{3}-\d{4}-\d{4}/;
+			
+			//입력한 값
+			const updateNickname = $('#updateNickname').val();
+			const updatePhNum = $('#updatePhNum').val();
+			const updateBirthDate = $('#updateBirthDate').val();
+			
+			if(updateNickname != '' && updatePhNum != '' && updateBirthDate != '') {
+				if(phNumRegex.test(updatePhNum)) {
+					var updateConfirm = confirm('정보를 수정하시겠습니까?');
+					if(updateConfirm) {
+						alert('회원님의 정보가 수정되었습니다.');
+						document.getElementById('updateUserInfo').submit();
+					} else {
+						alert('정보 수정이 취소 되었습니다.');
+					}
+				} else {
+					document.getElementById('checkPhNum').innerHTML='번호 형식이 올바르지 않습니다.';
+			  		document.getElementById('checkPhNum').style.color='red';
+				}
+			}
+		} //updateSection
 		
 		function updatePwFunction() {
 			$('#deleteAccount').attr('hidden', 'hidden');
@@ -263,9 +294,6 @@ body{
 			</span>
 		</div>
 		<div>
-			<span>카테고리 1</span>
-			<span>카테고리 2</span>
-			<span>카테고리 3</span>
 		</div>
 	</div>
 	<!-- 영휘님 포인트 내역 임시 위치 -->
@@ -273,19 +301,19 @@ body{
 	<div>
 		<h3 class="myPage-margin-size" style="text-align: center;">
 				<a href="${pageContext.request.contextPath}/point/gifticon" class="a-tag">포인트 사용</a>
-				<a class="a-tag" onclick="showPopup();">포인트 내역</a>
 		</h3>
 	</div>
-	<form action="" id="">
+	<form action="updateUserInfo" id="updateUserInfo">
 	<div class="memberInfo1" id="updateInfo">
 		  <label for="name">닉네임</label>
-	      <input type="text" class="form-control pl-1r" id="name" value="${memberInfo.nickName}" name="name">
+	      <input type="text" class="form-control pl-1r" id="updateNickname" value="${memberInfo.nickName}" name="nickName">
+	    
+	      <label for="phNum" style="margin-top: 10px;">전화번호</label>
+	      <input type="text" class="form-control pl-1r" id="updatePhNum" name = "phNum" value="${memberInfo.phNum}" placeholder="-를 포함한 전체 전화번호를 적어 주세요." >
+	      <p id="checkPhNum"></p>
 		 
 	      <label for="birthDate" style="margin-top: 10px;">출생일자</label>
-	      <input type="date" class="form-control pl-1r" id="birthDate" name = "birthDate" value="${memberInfo.birthDate}">
-	    
-	      <label for="regDate" style="margin-top: 10px;">가입 일자</label>
-	      <input type="text" class="form-control pl-1r" id="regDate" name = "regDate" value="${memberInfo.accountDate}" disabled="disabled">
+	      <input type="date" class="form-control pl-1r" id="updateBirthDate" name = "birthDate" value="${memberInfo.birthDate}">
 	</div>
 	</form>
 	
@@ -316,7 +344,9 @@ body{
 	<h3 class="myPage-margin-size" style="text-align: center;">
 		<a onclick="deleteAccount();" class="a-tag">회원 탈퇴</a>
 		<a onclick="updateSection();" class="a-tag">정보 수정</a>
+		<c:if test="${password != null}">
 		<a onclick="updatePwFunction();" class="a-tag">비밀번호 변경</a>
+		</c:if>
 	</h3>
 
 </div>
@@ -325,10 +355,10 @@ body{
 <div style="height: 700px;">
 <div class="member-Info-container2">
 <div style="margin-top: 20px; height: 100%">
-<h1 class="myPage-margin-size" style="font-size: 40px;">DDO chelin of ${memberInfo.nickName}</h1>
+<h1 class="myPage-margin-size" style="font-size: 40px;">leaved ${memberInfo.nickName}'s feedback</h1>
 <hr>
 <div style="overflow: auto; height: 70%">
-<table class="tableHeader" style="width: 100%; text-align: center;'">
+<table class="tableHeader" style="width: 100%; text-align: center;">
       <thead>
         <tr>
           <th>음식점</th><th>리뷰 제목</th><th>작성 날짜</th>
@@ -356,25 +386,12 @@ body{
 </div>
   
 <div class="member-Info-container2" style="margin-top: 30px;">
-<div style="margin-top: 20px;">
-<h1 class="myPage-margin-size" style="font-size: 40px;">leaved ${memberInfo.nickName}'s feedback</h1>
+<div style="margin-top: 20px;  height: 100%">
+<h1 class="myPage-margin-size" style="font-size: 40px;">DDO chelin of ${memberInfo.nickName}</h1>
 <hr>
 	<div style="overflow: auto; height: 70%">
-		<table class="tableHeader" style="width: 100%; text-align: center;'">
-	      <thead>
-	        <tr>
-	          <th>음식점</th><th>카테고리</th><th>등록 날짜</th>
-	        </tr>
-	      </thead>
-	      <tbody>
-	        <tr>
-	      		<td>Lorem</td><td>Ipsum</td><td>Dolor</td>
-	        </tr>
-	      </tbody>
-	    </table>
+	<span id="result1"></span>
 	  </div>
-	<div >
-</div>
 </div>
 </div>    
 </div>

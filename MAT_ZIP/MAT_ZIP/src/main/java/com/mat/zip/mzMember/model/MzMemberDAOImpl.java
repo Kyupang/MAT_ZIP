@@ -49,5 +49,16 @@ public class MzMemberDAOImpl implements MzMemberDAO {
 		List<ReviewVO> reviewVO = my.selectList(namespace + "getReview", userId);
 		return reviewVO;
 	}
+	
+	@Override
+	public int memberCheck(String id) throws Exception {
+		int result = my.selectOne(namespace + "memberCheck", id);
+		return result;
+	}
+	
+	@Override
+	public void updateInfo(MzMemberDTO dto) throws Exception {
+		my.update(namespace + "updateInfo", dto);
+	}
 }
 

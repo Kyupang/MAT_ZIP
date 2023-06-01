@@ -82,11 +82,16 @@ public class MzMemberserviceImpl implements MzMemberService {
 	
 	/** 회원가입 실행 
 	 * 연령대 추가, 휴대폰 번호 수정 후 회원가입 실행
-	 * 들어온 값은 콘솔에서 확인 */
+	 * 들어온 값은 콘솔에서 확인 
+	 * 카카오에서 받아온 값으로 이 메서드 사용하기 위해 if문 추가*/
 	@Override
 	public void signUp(MzMemberDTO dto) throws Exception {
-		setAG(dto);
-		setPN(dto);
+		if(dto.getAgeGroup() == null) {
+			setAG(dto);
+		}
+		if(dto.getPhNum() != null) {
+			setPN(dto);
+		}
 		dao.signUp(dto);
 	}
 	
@@ -133,7 +138,7 @@ public class MzMemberserviceImpl implements MzMemberService {
 		}
 	}
 	
-	/** 로그인 실행 */
+	/** 회원 유효 체크 */
 	@Override
 	public int memberLogin(MzMemberDTO dto) throws Exception {
 		return dao.memberLogin(dto);
@@ -159,9 +164,33 @@ public class MzMemberserviceImpl implements MzMemberService {
 		dao.deleteAccount(dto);
 	}
 	
+	//작성한 리뷰 전체 가져옴
 	@Override
 	public List<ReviewVO> getReview(String userId) throws Exception {
 		return dao.userReview(userId);
+	}
+	
+	//회원 체크
+	@Override
+	public int memberCheck(String id) throws Exception {
+		return dao.memberCheck(id);
+	}
+	
+	public void excepteHyphen(MzMemberDTO dto) throws Exception {
+		String date = dto.getBirthDate();
+		String birthDate = date.replace("-", "");
+		dto.setBirthDate(birthDate);
+	}
+	
+	//회원 정보 수정
+	@Override
+	public void updateInfo(MzMemberDTO dto, HttpSession session) throws Exception {
+		String userId = (String) session.getAttribute("user_id");
+		dto.setUser_id(userId);
+		setPN(dto);
+		excepteHyphen(dto);
+		System.out.println(dto);
+		dao.updateInfo(dto);
 	}
 	
 }

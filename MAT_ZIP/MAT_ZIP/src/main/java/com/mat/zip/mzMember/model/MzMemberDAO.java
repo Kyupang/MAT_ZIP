@@ -16,4 +16,8 @@ public interface MzMemberDAO {
 	void changePw(MzMemberDTO dto) throws Exception;
 	
 	List<ReviewVO> userReview(String userId) throws Exception;
+	
+	int memberCheck(String id) throws Exception;
+	
+	void updateInfo(MzMemberDTO dto) throws Exception;
 }

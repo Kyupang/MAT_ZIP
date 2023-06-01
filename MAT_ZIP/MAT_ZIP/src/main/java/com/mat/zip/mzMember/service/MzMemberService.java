@@ -24,4 +24,8 @@ public interface MzMemberService {
 	void changePw(MzMemberDTO dto, HttpSession session) throws Exception;
 	
 	List<ReviewVO> getReview(String userId) throws Exception;
+	
+	int memberCheck(String id) throws Exception;
+	
+	void updateInfo(MzMemberDTO dto, HttpSession session) throws Exception;
 }

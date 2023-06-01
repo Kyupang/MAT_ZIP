@@ -53,15 +53,38 @@ public class JsonParser {
 	private String changeGender(Object gender) {
 		String sex = "";
 		
-		if(gender.equals("F")) {
+		if(gender.equals("F") || gender.equals("female")) {
 			sex = "여";
-		} else if(gender.equals("M")) {
+		} else if(gender.equals("M") || gender.equals("male")) {
 			gender = "남";
 		} else {
 			gender = " ";
 		}
 		
 		return sex;
+	}
+	
+	public MzMemberDTO chageKakaoInfo(String str) throws Exception {
+		JSONParser jsonParse = new JSONParser();
+		MzMemberDTO dto = new MzMemberDTO();
+		
+		JSONObject json = (JSONObject) jsonParse.parse(str);
+		JSONObject jsonObjcet = (JSONObject) json.get("kakao_account");
+		JSONObject jsonProfile = (JSONObject) jsonObjcet.get("profile");
+		
+		String email = (String) jsonObjcet.get("email");
+		String name = (String) jsonProfile.get("nickname"); //닉네임, 이름 다 같이 사용
+		String gender = changeGender(jsonObjcet.get("gender"));
+		String age_range = (String) jsonObjcet.get("age_range");
+		String ageGroup = age_range.substring(0, 2);
+		
+		dto.setUser_id(email);
+		dto.setName(name);
+		dto.setNickName(name);
+		dto.setGender(gender);
+		dto.setAgeGroup(ageGroup);
+		
+		return dto;
 	}
 }
 

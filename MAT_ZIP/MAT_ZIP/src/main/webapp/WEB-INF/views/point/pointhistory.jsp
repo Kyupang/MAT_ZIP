@@ -7,10 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-body {
-	background: black;
-}
-
 td {
 	width: 100px;
 	text-align: center;
@@ -21,13 +17,29 @@ td {
 	color: white;
 }
 
-.down {
-	background: orange;
-}
+  table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  .tableHeader thead th{
+  	position: sticky;
+  	top: 0px;
+  	color: white;
+  	background: black;
+  }
+  .tableHeader tbody tr td a{
+  	color: black;
+  }
 </style>
 </head>
 <body>
-	<table>
+<div style="overflow: auto; height: 70%">
+	<table class="tableHeader" style="width: 100%; text-align: center;">
 		<tr>
 			<td class="top">아이디</td>
 			<td class="top">타입</td>
@@ -41,4 +53,5 @@ td {
 			</tr>
 		</c:forEach>
 	</table>
+	</div>
 </html>

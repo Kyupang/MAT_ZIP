@@ -28,4 +28,8 @@ public interface MzMemberService {
 	int memberCheck(String id) throws Exception;
 	
 	void updateInfo(MzMemberDTO dto, HttpSession session) throws Exception;
+	
+	String temPwEmail(String email) throws Exception;
+	
+	void changeTemPw(String email, MzMemberDTO dto) throws Exception;
 }

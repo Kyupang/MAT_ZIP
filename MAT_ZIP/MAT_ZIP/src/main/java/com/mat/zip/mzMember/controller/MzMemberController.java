@@ -216,4 +216,27 @@ public class MzMemberController {
 		return "redirect:/index.jsp";
 	}
 	
+	/** 비밀번호 수정  경로 맵핑*/
+	@RequestMapping(value = "temIssuance", method = RequestMethod.GET)
+	public void temIssuance(MzMemberDTO dto, HttpSession session) throws Exception {
+	}
+	
+	@RequestMapping(value = "temporaryPw", method = RequestMethod.GET)
+	public String temporaryPw(String sendEmail, RedirectAttributes rttr, MzMemberDTO dto) throws Exception {
+		logger.info("임시 비밀번호 요청");
+		logger.info("회원 메일: " + sendEmail);
+		
+		int memberCheck = service.memberCheck(sendEmail);
+		
+		if (memberCheck == 0) {
+			 rttr.addFlashAttribute("msg", "notMember"); //리다이렉트 필요
+			 return "redirect:/mz_member/temIssuance";
+		} else { 
+			logger.info("회원 있음");
+			service.temPwEmail(sendEmail);
+			service.changeTemPw(sendEmail, dto);
+	        }
+		return "redirect:/index.jsp";
+	}
+	
 }

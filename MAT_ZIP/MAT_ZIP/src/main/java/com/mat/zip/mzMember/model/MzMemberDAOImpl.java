@@ -60,5 +60,6 @@ public class MzMemberDAOImpl implements MzMemberDAO {
 	public void updateInfo(MzMemberDTO dto) throws Exception {
 		my.update(namespace + "updateInfo", dto);
 	}
+	
 }
 

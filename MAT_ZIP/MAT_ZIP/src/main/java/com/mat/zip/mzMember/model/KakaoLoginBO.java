@@ -21,7 +21,7 @@ public class KakaoLoginBO {
 	 * (클라이언트 아이디, 시크릿, 콜백 url, 로그인 요청 고유값, 프로필 조회 url */
 	private final static String CLIENT_ID = "9c46bab62bcd4496d8c31f3549ecf319";
 	private final static String CLIENT_SECRET = "5ONKJOLqu49lOABq025fKgaCxFu96Phy";
-	private final static String CALLBACK_URI = "https://matjavamatzip.click/MAT_ZIP-1.1.0/mz_member/callbackKakao";
+	private final static String CALLBACK_URI = "http://localhost:8898/zip/mz_member/callbackKakao";
 	private final static String SESSION_STATE = "kakao_oauth_state";
 	private final static String PROFILE_API_URL = "https://kapi.kakao.com/v2/user/me";
 	
@@ -82,6 +82,7 @@ public class KakaoLoginBO {
 		
 		oauthService.signRequest(oauthToken, request); //이부분 에러 발생
 		Response response = request.send();
+		
 		return response.getBody();
 	}
 	

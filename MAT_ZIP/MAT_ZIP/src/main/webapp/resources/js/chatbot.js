@@ -3,7 +3,7 @@
 	//소켓 연결
 	function connect() {
 		//소켓 객체 생성
-		var wsUri = 'ws://localhost:8898/zip/chatbot';
+		var wsUri = 'ws://matjavamatzip.click/MAT_ZIP-1.1.0/chatbot';
 		websocket = new WebSocket(wsUri);
 		//console.log("연결됨" + websocket);
 		websocket.onopen = onOpen;

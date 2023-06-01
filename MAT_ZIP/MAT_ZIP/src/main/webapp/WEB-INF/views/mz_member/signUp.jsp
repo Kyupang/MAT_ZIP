@@ -32,7 +32,28 @@
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
-
+  
+<style type="text/css">
+body{
+	background-color: #343a40;
+}
+.btn{
+  	background-color: #dcdcdc;
+}
+  
+hr{
+	color: #ffc107
+}
+.page_total{
+	width: 40rem;
+	height: 100%;
+	border-radius: 7px;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+}
+</style>
   <script type="text/javascript">
   $(function(){
 	  
@@ -102,18 +123,19 @@
         </nav>
       </div>
     </header>
-	
+    
+	<div class="page_total" style="background-color: white; ">
 <form action="signUp" method="post" accept-charset="utf-8">
 <div class="member-container">
-
+	
   <h1 style="text-align: center; margin-top: 20px;">SIGN UP</h1>
   <hr style="border: solid 2px;">
 
     <div class="form-group" style="margin-bottom: 0;">
       <label for="user_id">이메일</label>
-	 	<div class="input-group">
-     		<input type="email" class="form-control pl-1r" id="user_id" value="${memberDTO.user_id}" placeholder="이메일을 입력해 주세요." name="user_id">
-     	<div class="input-group-btn" style="padding-bottom: 0; padding-top: 0">
+	 	<div class="input-group"  style="width: 69%">
+     		<input type="email" class="form-control pl-1r" id="user_id" value="${memberDTO.user_id}" placeholder="이메일을 입력해 주세요." name="user_id" style="width: 69%">
+     	<div class="input-group-btn" style="padding-bottom: 0; padding-top: 0;">
       		<button class="btn btn-default p2-10" type="button" id = "emailCheck-Btn" style="background-color: #dcdcdc;">이메일 인증</button>
     	</div>
   		</div>
@@ -185,11 +207,12 @@
 	</div>
 </form>
 	<div class="member-container">
-		<div class="form-group">
+		<div class="form-group" style="margin-bottom: 0px;">
 			  <p style="text-align: center; font-size: small; margin: 13px 0px;">
-			     맛.zip의 회원이신가요? <a href="login" style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">로그인</a>
+			     맛.zip의 회원이신가요? <a href="login" style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">로그인</a>
 			  </p>
 		</div>
+</div>
 </div>
 </body>
 </html>

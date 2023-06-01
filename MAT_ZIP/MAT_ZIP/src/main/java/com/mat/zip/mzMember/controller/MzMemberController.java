@@ -90,9 +90,12 @@ public class MzMemberController {
 			logger.info("회원 정보 가져옴");
 			session.setAttribute("user_id", memberInfo.getUser_id());
 			
-	        if(memberInfo.getUser().equals("사장")) {
+			Boss_memberVO bossBag = new Boss_memberVO();
+			bossBag.setUser_id(dto.getUser_id());
+			bossBag.setPassword(dto.getPassword());
+			
+	        if(dao.login(bossBag) != null) {
 		        // Boss_member 테이블 로그인
-	        	Boss_memberVO bossBag = new Boss_memberVO();
 		        bossBag.setUser_id(dto.getUser_id());
 		        bossBag.setPassword(dto.getPassword());
 		        Boss_memberVO bossVo = dao.login(bossBag);
@@ -111,45 +114,53 @@ public class MzMemberController {
 	/* 네이버 로그인 성공 시 호출하는 callback 메서드 */
 	@RequestMapping(value = "callbackNaver", method = {RequestMethod.GET, RequestMethod.POST})
 	public String loginPostNaver(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, MzMemberDTO dto) throws Exception{
-		logger.info("callback controller 실행");
+		logger.info("네이버 로그인 콜백 실행");
 		JsonParser json = new JsonParser();
 		
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		String apiResult = naverLoginBO.getUserProfile(oauthToken);
 		dto = json.changeJson(apiResult);
-		
-		System.out.println(dto.getUser_id());
-//		int loginResult = service.memberLogin(dto);
-//		if (loginResult == 0) {
-//			logger.info("간편 로그인 유저 회원가입");
-//			 
-//			 return "/mz_member/callbackNaver";
-//		}
-		
-		//윗부분에 if문 써서 db에 count해서 정보가 없다면 위에 껄 실행해서 추가하고, 아니면 그냥 냅두는 형식
-		//if()
-		
 		session.setAttribute("user_id", dto.getUser_id());
-		System.out.println(model);
+		
+		int userCheck = service.memberCheck(dto.getUser_id());
+		
+		if (userCheck == 0) {
+			logger.info("간편 로그인 유저 회원가입");
+			service.signUp(dto);
+			
+			return "/mz_member/callbackNaver";
+		} else {
+			logger.info("네이버 간편 로그인");
+		}
+		
 		return "/mz_member/callbackNaver";
 	}
 	
 	/* 카카오 로그인 성공 시 콜백 메서드 */
 	@RequestMapping(value = "callbackKakao", method = {RequestMethod.GET, RequestMethod.POST})
-	public String loginKakao(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws Exception {
-		logger.info("카카오 로그인 콜백 성공");
-		//JsonParser json = new JsonParser();
+	public String loginKakao(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, MzMemberDTO dto) throws Exception {
+		logger.info("카카오 로그인 콜백 실행");
+		JsonParser json = new JsonParser();
 		
 		OAuth2AccessToken oauthToken;
 		oauthToken = kakaoLoginBO.getAccessToken(session, code, state); 
 		String apiResult = kakaoLoginBO.getUserProfile(oauthToken);
-		System.out.println(apiResult);
 		
-		//json.changeJson(apiResult);
+		dto = json.chageKakaoInfo(apiResult);
+		session.setAttribute("user_id", dto.getUser_id());
 		
-		model.addAttribute("memberInfo", apiResult);
-		System.out.println(model);
+		int userCheck = service.memberCheck(dto.getUser_id());
+		System.out.println(userCheck);
+		
+		if (userCheck == 0) {
+			logger.info("카카오 로그인 유저 회원가입");
+			
+			service.signUp(dto);
+			return "/mz_member/callbackKakao";
+		} else {
+			logger.info("카카오 간편 로그인");
+		}
 		
 		return "/mz_member/callbackKakao";
 	}
@@ -175,16 +186,16 @@ public class MzMemberController {
 		//리뷰 정보 리스트로 불러서 출력
 		List<ReviewVO> review = service.getReview(id);
 		model.addAttribute("review",review);
-		System.out.println(review);
 		
 		return "/mz_member/myPage";
 	}
 	
-	/** 게시글 불러서 내 vo에 넣기 */
-	
 	/** 회원 정보 수정 맵핑 */
-	@RequestMapping(value = "changeInfo", method = RequestMethod.GET)
-	public void changeInfo() {
+	@RequestMapping(value = "updateUserInfo", method = RequestMethod.GET)
+	public String changeInfo(MzMemberDTO dto, HttpSession session) throws Exception {
+		logger.info("회원 정보 수정");
+		service.updateInfo(dto, session);
+		return "redirect:/index.jsp";
 	}
 	
 	/** 회원 탈퇴  */

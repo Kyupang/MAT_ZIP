@@ -59,7 +59,7 @@
     <header class="header_section" style="z-index: 100;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="../index.jsp">
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">
             <span>
               Mat.zip
             </span>
@@ -72,10 +72,10 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
               <li class="nav-item">
-                <a class="nav-link" href="../index.jsp">Home </a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="../boss/board_index.jsp">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/boss/board_index.jsp">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
               </li>
               <li class="nav-item active">
                 <a class="nav-link" href="boardIndex.jsp">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
@@ -143,13 +143,13 @@
             <div class="box" style="margin: 10px;">
               <div class="user-img-box">
               	<c:if test="${user_id == null}">
-              	<a href="mz_member/signUp">
-                <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+              	<a href="${pageContext.request.contextPath}/mz_member/signUp">
+                <img src="${pageContext.request.contextPath}/resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
 				</c:if>
               	<c:if test="${user_id != null}">
-              	<a href="mz_member/myPage">
-                <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+              	<a href="${pageContext.request.contextPath}/mz_member/myPage">
+                <img src="${pageContext.request.contextPath}/resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
               	</a>
 				</c:if>
               </div>
@@ -172,7 +172,7 @@
 						<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
 					<div class="overlay-content">
 						<a href="index.jsp">HOME</a>
-						<a href="mz_member/myPage">ABOUT ME</a>
+						<a href="../mz_member/myPage">ABOUT ME</a>
 						<a href="book.jsp">BOOK TABLE</a>
 					</div>
 				</div>
@@ -185,7 +185,6 @@
     </header>
     <!-- end header section -->
   </div>
-
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript">

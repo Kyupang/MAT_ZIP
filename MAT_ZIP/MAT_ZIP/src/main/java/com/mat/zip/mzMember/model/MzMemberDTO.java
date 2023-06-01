@@ -11,7 +11,7 @@ public class MzMemberDTO {
 	@NotBlank(message = "필수 입력 항목입니다.")
 	private String user_id;
 	
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d@!%*#?&]{6,15}$", message = "6~15자의 영문 대소문자, 숫자, 특수문자를 사용하여 입력해 주세요.")
+	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[a-z\\d@!%*#?&]{6,15}$", message = "6~15자의 영문 대소문자, 숫자, 특수문자를 사용하여 입력해 주세요.")
 	@NotBlank(message = "필수 입력 항목입니다.")
 	private String password;
 	

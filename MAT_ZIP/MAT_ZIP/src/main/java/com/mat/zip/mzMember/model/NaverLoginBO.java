@@ -20,7 +20,7 @@ public class NaverLoginBO {
 	//불변의 값, 재할당 불가능하도록 final static으로 선언
 	private final static String CLIENT_ID = "3xT2B77_H4W9n_XmfKAc";
 	private final static String CLIENT_SECRET = "etyMpD7DfD";
-	private final static String CALLBACK_URI = "http://localhost:8898/zip/mz_member/callbackNaver";
+	private final static String CALLBACK_URI = "https://matjavamatzip.click/MAT_ZIP-1.1.0/mz_member/callbackNaver";
 	private final static String SESSION_STATE = "oauth_state";
 	/** 프로필 조회 API URL */
 private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";

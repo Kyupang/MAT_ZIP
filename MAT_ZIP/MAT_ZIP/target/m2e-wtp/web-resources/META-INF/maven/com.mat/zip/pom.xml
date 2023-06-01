@@ -269,20 +269,6 @@
 			<version>2.3</version>
 		</dependency>
 		
-		<!-- json 라이브러리 -->
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20180130</version>
-		</dependency>
-		
-		<dependency>  
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		<!-- json 라이브러리 끝 -->
-		
 		<!-- 아래 4개는 챗봇, json 데이터 추출 라이브러리 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -309,7 +295,14 @@
 		</dependency>
 		<!-- 챗봇 끝 -->
 		<!-- 정서현 끝 -->
-
+		
+		<!-- S3 파일업로드 -->
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>aws-sdk-java</artifactId>
+			<version>2.20.74</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

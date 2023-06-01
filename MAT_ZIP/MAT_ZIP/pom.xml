@@ -266,7 +266,13 @@
 
 		
 
-		
+		<!-- S3 파일업로드 -->
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>aws-sdk-java</artifactId>
+			<version>2.20.74</version>
+		</dependency>
 
 	</dependencies>
 	<build>

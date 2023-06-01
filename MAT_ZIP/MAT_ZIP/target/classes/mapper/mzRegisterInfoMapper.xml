@@ -31,6 +31,9 @@
   		WHERE buyTime = #{buyTime}
 	</select>
 	
+	
+	
+	
 	<!-- 추가적 관리를 위한 대비 -->
 	<delete id="del"  parameterType="Integer">
 		delete from mzRegisterInfo where no = #{no}

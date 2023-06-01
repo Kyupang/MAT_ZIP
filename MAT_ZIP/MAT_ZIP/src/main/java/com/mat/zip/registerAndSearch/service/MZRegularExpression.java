@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class MZRegularExpression {
 	public List<String> MZRegularExpress(String resultStr) {
 		String resultStr2 = resultStr;
-
+		System.out.println("추출함수 파라미터로 넘어온 :" + resultStr);
 		// 지번주소
 		String regex = "(([가-힣]+(시|도)?|[서울]|[인천]|[대구]|[광주]|[부산]|[울산])( |))" // 그룹1
 				+ "([가-힣]+(시|군|구)( |))" // 그룹5
@@ -46,6 +46,7 @@ public class MZRegularExpression {
 		if (matcher.find()) {
 			// System.out.println(matcher.group());
 			jibun = matcher.group();
+			System.out.println("지번 : " + jibun);
 		} else {
 			//System.out.println("안돼용~1");
 			jibun = "Can not";
@@ -53,6 +54,7 @@ public class MZRegularExpression {
 		if (newMatcher.find()) {
 			// System.out.println(newMatcher.group());
 			doro = newMatcher.group();
+			System.out.println("도로 : " + doro);
 		} else {
 			//System.out.println("안돼용~2");
 			doro = "Can not";
@@ -82,7 +84,8 @@ public class MZRegularExpression {
 				day = day.substring(1);
 			}
 
-			date = year + " " + month + " " + day;            
+			date = year + " " + month + " " + day;           
+			System.out.println("date : " + date);
         } else {
         	date = "Can not extract date";
         }
@@ -93,6 +96,9 @@ public class MZRegularExpression {
             time = time.replaceAll("\\s+"," ").trim();
             
             String[] timeParts = time.split("\\s+"); // Splitting the date into individual parts
+           
+            System.out.println(timeParts);
+            
             String time2 = timeParts[0];
 			if (time2.startsWith("0")) {
 				time2 = time2.substring(1);
@@ -102,19 +108,30 @@ public class MZRegularExpression {
 			if (minute.startsWith("0")) {
 				minute = minute.substring(1);
 			}
-
-			String second = timeParts[2];
-			if (second.startsWith("0")) {
-				second = second.substring(1);
+			//인덱스가 없어서 접근이 안됐었다.
+			
+			String second;
+			if(timeParts.length > 2) {
+				second = timeParts[2];
+				if (second.startsWith("0")) {
+					second = second.substring(1);
+				}
+			}else {
+				second = "";
 			}
+			
+			
 
 			time = time2 + " " + minute + " " + second;
+			System.out.println("시간 : " + time);
         } else {
         	time = "Can not extract time";
+        	
         }
 		if (phoneMatcher.find()) {
             phone = phoneMatcher.group();
             phone = phone.replaceAll("[^0-9]","");
+            System.out.println("phone : " + phone);
         } else {
         	phone = "Can not extract store phone number";
         }
@@ -125,7 +142,7 @@ public class MZRegularExpression {
 		result.add(date);
 		result.add(time);
 		result.add(phone);
-		
+		System.out.println(result);
 		
 		return result;
 	}

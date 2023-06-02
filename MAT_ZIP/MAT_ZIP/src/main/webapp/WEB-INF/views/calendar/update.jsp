@@ -112,8 +112,8 @@ a:hover {
 /* 버튼 */
 .buttonstyle {
 	border: 1px solid #A0D9E2;
-	color: #A0D9E2;
-	background-color: white;
+	color: black;
+	background-color: #f5a700;
 	margin-bottom: 7px;
 	font-weight: bold;
 	border-radius: 5px;

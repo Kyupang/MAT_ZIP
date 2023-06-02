@@ -125,8 +125,8 @@ a:hover {
 /* 버튼 */
 .buttonstyle {
 	border: 1px solid #A0D9E2;
-	color: #A0D9E2;
-	background-color: white;
+	color: black;
+	background-color: #f5a700;
 	margin-bottom: 7px;
 	font-weight: bold;
 	border-radius: 5px;
@@ -620,32 +620,32 @@ ${Schedule_list}
 					value="${today_info.search_month-1}" />
 				<table class="calendar_body">
 				
-						<tr bgcolor="#A0D9E2">
+						<tr bgcolor="#f5a700">
 							<td class="day" width="100">순번 :</td>
 							<td class="text_desc" width="200">
 								<input type="text" name="schedule_num" class="text_type"   />
 							</td>
 						</tr>
-						<tr bgcolor="#A0D9E2">
+						<tr bgcolor="#f5a700">
 							<td class="day">날짜 :</td>
 							<td class="text_desc">
 								<input type="text" name="schedule_date" class="text_type1"
 									id="testDatepicker" readonly="readonly" />
 							</td>
 						</tr>
-						<tr bgcolor="#A0D9E2">
+						<tr bgcolor="#f5a700">
 							<td class="day">제목 :</td>
 							<td class="text_desc">
 								<input type="text" name="schedule_subject" class="text_type1" />
 							</td>
 						</tr>
-						<tr bgcolor="#A0D9E2">
+						<tr bgcolor="#f5a700">
 							<td class="day">내용 :</td>
 							<td class="text_area_desc">
 								<textarea name="schedule_desc" class="textarea_type1" rows="5"></textarea>
 							</td>
 						</tr>
-						<tr bgcolor="#A0D9E2">
+						<tr bgcolor="#f5a700">
 							<td class="day">공유 :</td> 
 							<td><input class="radio"
 							type="radio" name="schedule_share" value="1" checked="checked">
@@ -654,7 +654,7 @@ ${Schedule_list}
 							 
 							</td>
 						</tr>
-						<tr bgcolor="#A0D9E2">
+						<tr bgcolor="#f5a700">
 							<td class="day">색상 :</td> 
 							<td>
 							<input class="colorbox"

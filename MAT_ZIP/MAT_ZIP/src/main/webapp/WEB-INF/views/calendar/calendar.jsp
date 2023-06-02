@@ -108,6 +108,15 @@ a:hover {
 	font-weight: bold;
 	text-align: center;
 }
+.day1 {
+	width: 100px;
+	height: 30px;
+	font-weight: bold;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	color: white;
+}
 
 .sat {
 	color: #0030DB;
@@ -124,8 +133,8 @@ a:hover {
 /* 버튼 */
 .buttonstyle {
 	border: 1px solid #A0D9E2;
-	color: #A0D9E2;
-	background-color: white;
+	color: black;
+	background-color: #f5a700;
 	margin-bottom: 7px;
 	font-weight: bold;
 	border-radius: 5px;
@@ -613,27 +622,27 @@ a:hover {
 		<table class="calendar_body">
 
 			<thead>
-				<tr bgcolor="#A0D9E2">
-					<td class="day">no</td>
+				<tr bgcolor="#595751">
+					<td class="day1">no</td>
 					<!-- 저장된 순서 -->
-					<td class="day">id</td>
+					<td class="day1">id</td>
 					<!-- 임의로 입력한 일정의 id 번호 -->
-					<td class="day">sort</td>
+					<td class="day1">sort</td>
 					<!-- 유형 -->
-					<td class="day">menu</td>
+					<td class="day1">menu</td>
 					<!-- 음식 메뉴 -->
-					<td class="day">date</td>
+					<td class="day1">date</td>
 					<!-- 날짜 -->
-					<td class="day">share</td>
+					<td class="day1">share</td>
 					<!-- 공유 여부 -->
-					<td class="day">mycolor</td>
+					<td class="day1">mycolor</td>
 					<!-- 색상 저장 -->
 				</tr>
 			</thead>
 			<tbody>
 
 				<c:forEach var="dateList" items="${Schedule_list}">
-					<tr bgcolor="#A0D9E2">
+					<tr bgcolor="#f5a700">
 						<td class="day">${dateList.schedule_idx}</td>
 						<td class="day"><a
 							href="one?schedule_idx=${dateList.schedule_idx}">${dateList.schedule_num}</a></td>

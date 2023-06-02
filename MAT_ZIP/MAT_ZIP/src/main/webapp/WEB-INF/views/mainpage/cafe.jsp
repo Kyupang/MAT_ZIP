@@ -59,7 +59,7 @@
 		<header class="header_section">
 			<div class="container">
 				<nav class="navbar navbar-expand-lg custom_nav-container ">
-					<a class="navbar-brand" href="index.html"> <span>
+					<a class="navbar-brand" href="../index.html"> <span>
 							Mat.zip </span>
 					</a>
 
@@ -73,12 +73,12 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav  mx-auto ">
 							<li class="nav-item active"><a class="nav-link"
-								href="index.jsp">Home </a> <!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 --></li>
+								href="../index.jsp">Home </a> <!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 --></li>
 							<li class="nav-item"><a class="nav-link"
-								href="boss/board_index.jsp">사장님 커뮤니티</a></li>
+								href="../boss/board_index.jsp">사장님 커뮤니티</a></li>
 
 							<li class="nav-item"><a class="nav-link"
-								href="board/boardIndex.jsp">회원 커뮤니티</a></li>
+								href="../board/boardIndex.jsp">회원 커뮤니티</a></li>
 
 						</ul>
 						<div class="user_option">

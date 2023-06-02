@@ -58,8 +58,8 @@
 		<header class="header_section">
 			<div class="container">
 				<nav class="navbar navbar-expand-lg custom_nav-container ">
-					<a class="navbar-brand" href="index.jsp"> <span>
-							Mat.zip </span>
+					<a class="navbar-brand" href="../index.jsp"> <span> Mat.zip
+					</span>
 					</a>
 
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -74,10 +74,10 @@
 							<li class="nav-item active"><a class="nav-link"
 								href="index.jsp">Home </a> <!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 --></li>
 							<li class="nav-item"><a class="nav-link"
-								href="boss/board_index.jsp">사장님 커뮤니티</a></li>
+								href="../boss/board_index.jsp">사장님 커뮤니티</a></li>
 
 							<li class="nav-item"><a class="nav-link"
-								href="board/boardIndex.jsp">회원 커뮤니티</a></li>
+								href="../board/boardIndex.jsp">회원 커뮤니티</a></li>
 
 						</ul>
 						<div class="user_option">
@@ -112,9 +112,9 @@
 							<g> </g>
 							<!--캘린더 들어갈 위치 -->
 							<div style="width: 50px; height: 50px;">
-								<a href="resources/images/c.png" data-title="오늘의 캘린더"
+								<a href="../../resources/images/c.png" data-title="오늘의 캘린더"
 									data-lightbox="example-set" style="margin: 0px 0px;"> <img
-									src="resources/images/cal.png" style="width: 50px">
+									src="../../resources/images/cal.png" style="width: 50px">
 								</a>
 							</div>
 							<!-- 로그인했을 시에 마이페이지 버튼 표시 -->
@@ -122,21 +122,21 @@
 								<div class="box" style="margin: 10px;">
 									<div class="user-img-box">
 										<c:if test="${user_id == null}">
-											<a href="mz_member/signUp"> <img
-												src="resources/images/basic.png" alt="" class="box-img"
+											<a href="../mz_member/signUp"> <img
+												src="../../resources/images/basic.png" alt="" class="box-img"
 												style="width: 50px;">
 											</a>
 										</c:if>
 										<c:if test="${user_id != null}">
-											<a href="mz_member/myPage"> <img
-												src="resources/images/basic.png" alt="" class="box-img"
+											<a href="../mz_member/myPage"> <img
+												src="../../resources/images/basic.png" alt="" class="box-img"
 												style="width: 50px;">
 											</a>
 										</c:if>
 									</div>
 								</div>
 							</div>
-							<c:if test="${user_id == null}">
+							<%-- <c:if test="${user_id == null}">
 								<a href="mz_member/login" class="order_online"> LOGIN </a>
 							</c:if>
 							<c:if test="${user_id != null}">
@@ -152,7 +152,7 @@
 									<a href="index.jsp">HOME</a> <a href="mz_member/myPage">ABOUT
 										ME</a> <a href="book.jsp">BOOK TABLE</a>
 								</div>
-							</div>
+							</div> --%>
 						</div>
 					</div>
 				</nav>
@@ -184,9 +184,10 @@
 
 			<!-- --------------------------------- -->
 			<div>
-			
+
 				<button
-					onclick="copyToClipboard('http://localhost:8888/zip/mainpage/mzonee?landNumAddress=' + encodeURIComponent('${vo.landNumAddress}'))">URL 복사</button>
+					onclick="copyToClipboard('http://localhost:8888/zip/mainpage/mzonee?landNumAddress=' + encodeURIComponent('${vo.landNumAddress}'))">URL
+					복사</button>
 
 				<script>
 					
@@ -213,9 +214,10 @@
 					}
 					
 				</script>
-				
 
-				<button onclick="../../board/boardReview.jsp">후기 및 커뮤니티 바로가기</button>
+
+				<button onclick="../../board/boardReview.jsp">후기 및 커뮤니티
+					바로가기</button>
 
 			</div>
 			<!-- ------------------------------------- -->
@@ -379,7 +381,7 @@
 
 						<hr>
 						<br>
-				
+
 
 						<!-- -----------------포털 검색으로 매장의 정보 확인하기 끝------------------ -->
 
@@ -391,8 +393,8 @@
 						<div class="heading_container">
 							<h2>주변 카페, 음식점 더보기</h2>
 							<br>
-							
-		<title>카테고리별 장소 검색하기</title>
+
+							<title>카테고리별 장소 검색하기</title>
 							<style>
 .map_wrap, .map_wrap * {
 	margin: 0;

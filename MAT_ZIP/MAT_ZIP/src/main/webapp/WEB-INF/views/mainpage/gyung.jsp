@@ -59,7 +59,7 @@
 		<header class="header_section">
 			<div class="container">
 				<nav class="navbar navbar-expand-lg custom_nav-container ">
-					<a class="navbar-brand" href="index.html"> <span>
+					<a class="navbar-brand" href="../index.html"> <span>
 							Mat.zip </span>
 					</a>
 
@@ -73,12 +73,12 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav  mx-auto ">
 							<li class="nav-item active"><a class="nav-link"
-								href="index.jsp">Home </a> <!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 --></li>
+								href="../index.jsp">Home </a> <!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 --></li>
 							<li class="nav-item"><a class="nav-link"
-								href="boss/board_index.jsp">사장님 커뮤니티</a></li>
+								href="../boss/board_index.jsp">사장님 커뮤니티</a></li>
 
 							<li class="nav-item"><a class="nav-link"
-								href="board/boardIndex.jsp">회원 커뮤니티</a></li>
+								href="../board/boardIndex.jsp">회원 커뮤니티</a></li>
 
 						</ul>
 						<div class="user_option">
@@ -113,7 +113,7 @@
 							<g> </g>
 							<!--캘린더 들어갈 위치 -->
 							<div style="width: 50px; height: 50px;">
-								<a href="resources/images/c.png" data-title="오늘의 캘린더"
+								<a href="../../resources/images/c.png" data-title="오늘의 캘린더"
 									data-lightbox="example-set" style="margin: 0px 0px;"> <img
 									src="resources/images/cal.png" style="width: 50px">
 								</a>
@@ -123,14 +123,14 @@
 								<div class="box" style="margin: 10px;">
 									<div class="user-img-box">
 										<c:if test="${user_id == null}">
-											<a href="mz_member/signUp"> <img
-												src="resources/images/basic.png" alt="" class="box-img"
+											<a href="../mz_member/signUp"> <img
+												src="../../resources/images/basic.png" alt="" class="box-img"
 												style="width: 50px;">
 											</a>
 										</c:if>
 										<c:if test="${user_id != null}">
 											<a href="mz_member/myPage"> <img
-												src="resources/images/basic.png" alt="" class="box-img"
+												src="../../resources/images/basic.png" alt="" class="box-img"
 												style="width: 50px;">
 											</a>
 										</c:if>
@@ -138,10 +138,10 @@
 								</div>
 							</div>
 							<c:if test="${user_id == null}">
-								<a href="mz_member/login" class="order_online"> LOGIN </a>
+								<a href="../mz_member/login" class="order_online"> LOGIN </a>
 							</c:if>
 							<c:if test="${user_id != null}">
-								<a href="mz_member/logout" class="order_online"> LOGOUT </a>
+								<a href="../mz_member/logout" class="order_online"> LOGOUT </a>
 							</c:if>
 							<span onclick="openNav()" class="user_link"
 								style="margin-left: 15px;"> </span>
@@ -150,7 +150,7 @@
 								<a href="javascript:void(0)" class="closebtn"
 									onclick="closeNav()">X</a>
 								<div class="overlay-content">
-									<a href="index.jsp">HOME</a> <a href="mz_member/myPage">ABOUT
+									<a href="../index.jsp">HOME</a> <a href="mz_member/myPage">ABOUT
 										ME</a> <a href="book.jsp">BOOK TABLE</a>
 								</div>
 							</div>

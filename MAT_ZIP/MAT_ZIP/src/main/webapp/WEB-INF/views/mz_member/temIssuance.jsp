@@ -25,13 +25,20 @@
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
+<script type="text/javascript">
+	function showAlert() {
+		alert('이메일이 정확한지 확인해 주세요.');
+	}
+	
+	function knowAlert(){
+		alert('이메일로 임시 비밀번호가 전송되었습니다.');
+	}
+</script>
 <style type="text/css">
 body{
 	background-color: #343a40;
 }
-hr{
-	color: #ffc107
-	}
+
 .page_total{
 	width: 35rem;
 	height: 100%;
@@ -40,6 +47,10 @@ hr{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: auto;
+}
+
+hr{
+	color: #ffc107
 }
 </style>
 </head>
@@ -60,57 +71,42 @@ hr{
       </div>
     </header>
 	        <!-- End header section -->
-	        <div class="page_total" style="background-color: white; ">
-	<form action="login" method="post">
+    
+    <div class="page_total" style="background-color: white; ">
+	<form action="temporaryPw">
 		<div class="member-container">
 			<h1 style="text-align: center; margin-top: 20px;">LOGIN</h1>
 			<hr style="border: solid 2px;">
 
 			<div class="form-group">
 				<label for="email">이메일</label> <input type="text"
-					class="form-control  pl-1r" id="user_id" placeholder="이메일을 입력하세요."
-					name="user_id">
+					class="form-control  pl-1r" id="sendEmail" placeholder="발급 받을 이메일을 적어 주세요."
+					name="sendEmail">
+				<c:if test="${msg eq 'notMember'}">
+					<p style="color: red;">가입 되지 않은 이메일입니다.</p>
+					<p style="color: red;">회원가입을 먼저 진행해 주세요.</p>
+				</c:if>
 			</div>
-
-			<div class="form-group">
-				<label for="usr">비밀번호</label> <input type="text"
-					class="form-control  pl-1r" id="password"
-					placeholder="비밀번호를 입력하세요." name="password">
-			</div>
-			<hr>
+			
 			<div style="text-align: center;">
-				<c:if test="${memberVal == null}">
 					<button type="submit" class="btn p2-10"
-						style="width: 320px; background-color: #dcdcdc" id="loginCk">로그인</button>
-				</c:if>
-				<c:if test="${msg eq 'miss'}">
-			<p style="color: red;" >로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
-				</c:if>
+						style="width: 320px; background-color: #dcdcdc" id="loginCk" onclick="knowAlert();">임시 비밀번호 발급</button>
+				<p style="text-align: center; font-size: small; margin: 10px 0px 0px 0px;">
+			     	<a onclick="showAlert();" style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px; cursor: pointer;">이메일이 오지 않았나요?</a>
+			 	</p>
 			</div>
-			<hr style="border: solid 1px;">
+			<hr style="border: solid 1px; margin-top: 10px;">
 		</div>
 	</form>
-	<!-- 컨트롤러에서 Url이 넘어옴 -->
-	<div class="OAuth-btn" id="naver_id_login" style=""><a href="${naverUrl}">
-	<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
-	
-	<div class="OAuth-btn" style="">
-	<a id="kakao-login-btn" href="${kakaoUrl}">
-	  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="223"
-	    alt="카카오 로그인 버튼" />
-	</a>
-	<p id="token-result"></p>
-	</div>
 	<div class="member-container">
     	<div class="form-group">
 			<p style="text-align: center; font-size: small;">
 				맛.zip이 처음이신가요? <a href="signUp"
 					style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">회원가입</a>
 			</p>
-			<p style="text-align: center; font-size: small;">
-				비밀번호를 잃어버리셨나요? <a href="temIssuance"
-					style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">임시 비밀번호 발급</a>
-			</p>
+			<p style="text-align: center; font-size: small; margin: 13px 0px;">
+			     맛.zip의 회원이신가요? <a href="login" style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">로그인</a>
+			 </p>
 		</div>
     </div>
     </div>

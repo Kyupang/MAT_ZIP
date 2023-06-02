@@ -12,4 +12,5 @@ public interface RestaurantDAO {
 	RegistedAddressAndNameVO addressAndName(MZRegisterInfoVO bag);
 	
 	List<RegistedAddressAndNameVO> addressesAndNames();
+	
 }

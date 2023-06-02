@@ -15,13 +15,42 @@
 	and password = #{password}
 </select>
 
+<select id="memberCheck" parameterType="String" resultType="Integer">
+	select count(*) from multi.mz_member 
+	where user_id = #{user_id} 
+</select>
+
 <!-- 로그인 / 회원 정보 전달 -->
 <select id="getInfo" parameterType="String" resultType="memberDTO">
 	select * from multi.mz_member 
 	where user_id = #{user_id} 
 </select>
 
-<update id="mzUpdate" parameterType="memberDTO">
+<!-- 비밀번호 변경 -->
+<update id="changePw" parameterType="memberDTO">
+	update multi.mz_member
+	set password = #{password}, pwCheck = #{pwCheck}
+	where user_id = #{user_id} 
+</update>
+
+<!-- 회원 탈퇴 -->
+<delete id="deleteAccount" parameterType="memberDTO">
+	delete from multi.mz_member
+	where user_id = #{user_id} 
+	and password = #{password}
+</delete>
+
+<!-- 작성한 리뷰 글 불러오기 -->
+<select id="getReview" resultType="reviewVO">
+	select * from multi.cs_review 
+	where user_id = #{user_id} 
+</select>
+
+<!-- 작성한 리뷰 글 불러오기 -->
+<update id="updateInfo" parameterType="memberDTO">
+	update multi.mz_member
+	set nickName = #{nickName}, phNum = #{phNum}, birthDate = ${birthDate}
+	where user_id = #{user_id} 
 </update>
 
 </mapper>

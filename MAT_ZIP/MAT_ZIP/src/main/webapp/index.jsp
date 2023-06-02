@@ -37,6 +37,8 @@
   <!-- 등록 모달 style -->
   <link rel="stylesheet" type="text/css" href="resources/css/modal-gyu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+  <!-- 챗봇 style -->
+   <link rel="stylesheet" type="text/css" href="resources/css/chatbot.css">
   
   
   <!--카카오 맵 위치로 테스트-->
@@ -45,15 +47,17 @@
 
 <body>
 
-  <div class="hero_area">
+	<!--style="margin-top: 20px;"  -->
+	<!-- --> 
+  <div class="hero_area" style="height: 700px;" >
     <div class="bg-box">
-      <img src="resources/images/hero-bg.jpg" alt="">
+      <img src="resources/images/hero-bg.jpg" alt=""  style="height: 680px;">
     </div>
     <!-- header section strats -->
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.jsp">
             <span>
               Mat.zip
             </span>
@@ -468,10 +472,31 @@
 
   <!-- end food section -->
 
-  <!-- about section -->
+  <!-- chatbot -->
 
-  
-  <!-- end about section -->
+<div id="chatMain" class="chatCommon" hidden="hidden">
+		<div id="chatTop">
+			<div id="chatTitle">
+				<span style="font-size: 24px;">맛돌이</span>
+			</div>
+			<button class="chatBtn chatMenuBtn" onclick="chatToggle()">
+				<span class="material-symbols-outlined symbol">x</span>
+			</button>
+		</div>
+		<div id="chat">
+			<div id="chatList"></div>
+		</div>
+		<div id="chatBottom">
+			<button id="home" class="chatMenuBtn" onclick="sendMessage(this)" value="메인">
+				<span class="material-symbols-outlined symbol">메인 메뉴</span>
+			</button>
+		</div>
+	</div>
+	<button id="chatOpenBtn" class="chatBtn chatCommon" onclick="chatToggle(); removeHidden();" style = "z-index: 1;"  >
+		<span class="material-symbols-outlined symbol" >챗봇</span>
+	</button>
+ 
+  <!-- end chatbot -->
 
   <!-- end book section -->
 
@@ -580,6 +605,8 @@
   <!-- search map is  -->
   <script src="resources/js/searchmarker-gyu.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
+ <!-- 챗봇 js / 현재 웹소켓 연결 경로 절대 경로 설정  -->
+ <script type="text/javascript" src="resources/js/chatbot.js"></script>
  
   <script type="text/javascript">
   	function openNav() {

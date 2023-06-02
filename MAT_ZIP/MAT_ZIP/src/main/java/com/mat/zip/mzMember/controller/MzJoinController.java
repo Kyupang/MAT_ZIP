@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mat.zip.mzMember.model.MzMemberDTO;
 import com.mat.zip.mzMember.service.MzMemberserviceImpl;
@@ -59,4 +60,14 @@ public class MzJoinController {
 		
 		return "redirect:/mz_member/login";
 	}
+	
+	/** 이메일 인증 */
+	@RequestMapping(value = "mailCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public String mailCheck(String email) {
+		logger.info("이메일 인증 요청이 들어옴");
+		logger.info("인증 진행 메일: " + email);
+		return service.authEmail(email);
+	}
+	
 }

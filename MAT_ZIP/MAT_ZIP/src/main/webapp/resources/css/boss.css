@@ -9,7 +9,7 @@
   background: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: 10px;
   left: 0;
   right: 0;
   display: flex;
@@ -94,4 +94,20 @@ td {
 	position: relative;
 	left: 300px;
 	bottom: 30px;
+}
+.nav-link:hover {
+  background-color: #5a6268 !important;
+  color: yellow !important;
+}
+#uniqueSidebar {
+   background-color: white;
+   border: 2px solid #FFB900;
+}
+
+#uniqueSidebar hr {
+    border-top: 1px solid black;
+}
+
+#uniqueSidebar .btn.nav-link {
+    color: black;
 }

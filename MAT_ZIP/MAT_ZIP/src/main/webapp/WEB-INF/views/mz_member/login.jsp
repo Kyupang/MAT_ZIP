@@ -25,14 +25,30 @@
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="${pageContext.request.contextPath}/resources/css/responsive.css" rel="stylesheet" />
-
+<style type="text/css">
+body{
+	background-color: #343a40;
+}
+hr{
+	color: #ffc107
+	}
+.page_total{
+	width: 35rem;
+	height: 100%;
+	border-radius: 7px;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+}
+</style>
 </head>
 <body>
 	        <!-- header section strats -->
     <header class="header_section" style="background-color: #343a40;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.jsp">
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">
             <span>
               Mat.zip
             </span>
@@ -44,6 +60,7 @@
       </div>
     </header>
 	        <!-- End header section -->
+	        <div class="page_total" style="background-color: white; ">
 	<form action="login" method="post">
 		<div class="member-container">
 			<h1 style="text-align: center; margin-top: 20px;">LOGIN</h1>
@@ -88,9 +105,14 @@
     	<div class="form-group">
 			<p style="text-align: center; font-size: small;">
 				맛.zip이 처음이신가요? <a href="signUp"
-					style="font-size: small; color: green; font-weight: 700; padding-left: 5px;">회원가입</a>
+					style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">회원가입</a>
+			</p>
+			<p style="text-align: center; font-size: small;">
+				비밀번호를 잃어버리셨나요? <a href="temIssuance"
+					style="font-size: small; color: #ffc107; font-weight: 700; padding-left: 5px;">임시 비밀번호 발급</a>
 			</p>
 		</div>
+    </div>
     </div>
 </body>
 </html>

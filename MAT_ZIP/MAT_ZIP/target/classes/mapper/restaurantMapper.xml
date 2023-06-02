@@ -12,36 +12,32 @@
 		OR landNumAddress =#{storeAddress}
 	</select>
 	
-	<!--지도에 마커를 그려주기 위해서 주소와 이름을 가져온다. -->
+	<!--2번 이상 등록된 정보를 지도에 마커를 그려주기 위해서 주소와 이름을 가져온다. -->
 	<!--지번주소와 이름을 가져온다. -->
 	<select id="addressAndName"
 		parameterType="mzRegisterInfoVO"
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT DISTINCT
-		s.landNumAddress,
-		s.name
-		FROM mzregisterinfo
-		JOIN restaurant s
-		ON s.tel = #{storePhoneNumber} 
+		r.landNumAddress, r.name
+		FROM mzRegisterInfo m
+		JOIN restaurant r
+		ON r.tel = #{storePhoneNumber} 
+		GROUP BY m.storeAddress, m.storePhoneNumber,r.landNumAddress, r.name
+		HAVING COUNT(*) > 1; 
 	</select> 
 	
 	
-	<!-- 알맞는 데이터의 주소,이름, 음식종류를 가져온다. -->
+	<!-- 2번 이상 등록된 데이터 중, 각 한개씩의 식당데이터의 주소,이름, 음식종류를 가져온다. -->
 	<!-- 검색에 사용한다.  -->
 	<select id="addressesAndNames"
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
-		SELECT distinct 
-		s.landNumAddress,
-		s.name,
-		s.food
-		FROM mzregisterinfo m
-		JOIN restaurant s
-		ON m.storeAddress = s.landNumAddress  
-		OR m.storeAddress = s.roadNameAddress 
-		OR m.storePhoneNumber = s.tel 
+		SELECT DISTINCT r.landNumAddress, r.name, r.food
+		FROM mzRegisterInfo m
+		JOIN restaurant r ON m.storePhoneNumber = r.tel 
+		GROUP BY m.storeAddress, m.storePhoneNumber, r.name, r.food, r.landNumAddress
+		HAVING COUNT(*) > 1; 
 	</select>
 	
 	
-
 </mapper>
 

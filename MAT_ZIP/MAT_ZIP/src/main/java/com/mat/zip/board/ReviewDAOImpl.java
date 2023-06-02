@@ -51,5 +51,14 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.allReview");
 	}
 	
-
+	@Override
+	public List<EmojiMapVO> findAllEmojis() {
+		return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.findAllEmojis");
+	}
+	
+	@Override
+	public List<ReviewVO> searchReview(String searchTerm) {
+	    return sqlSession.selectList("com.mat.zip.mapper.ReviewMapper.searchReview", searchTerm);
+	}
+	
 }

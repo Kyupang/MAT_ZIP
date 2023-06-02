@@ -7,7 +7,7 @@ public class MzlistVO {
 	
 	private int no;
 	private String landNumAddress;
-	private String roadNumAddress;
+	private String roadNameAddress;
 	private String name;
 	private String status;
 	private String tel;
@@ -26,11 +26,11 @@ public class MzlistVO {
 	public void setLandNumAddress(String landNumAddress) {
 		this.landNumAddress = landNumAddress;
 	}
-	public String getRoadNumAddress() {
-		return roadNumAddress;
+	public String getroadNameAddress() {
+		return roadNameAddress;
 	}
-	public void setRoadNumAddress(String roadNumAddress) {
-		this.roadNumAddress = roadNumAddress;
+	public void setroadNameAddress(String roadNameAddress) {
+		this.roadNameAddress = roadNameAddress;
 	}
 	public String getName() {
 		return name;
@@ -71,12 +71,10 @@ public class MzlistVO {
 	
 	@Override
 	public String toString() {
-		return "MzlistVO [no=" + no + ", landNumAddress=" + landNumAddress + ", roadNumAddress=" + roadNumAddress
+		return "MzlistVO [no=" + no + ", landNumAddress=" + landNumAddress + ", roadNameAddress=" + roadNameAddress
 				+ ", name=" + name + ", status=" + status + ", tel=" + tel + ", food=" + food + ", star=" + star
 				+ ", img=" + img + "]";
 	}
-	
-
 	
 	
 }

@@ -1,6 +1,6 @@
-<%@page import="com.mat.zip.boss.BoardVO"%>
-<%@page import="com.mat.zip.boss.ComVO"%>
-<%@page import="com.mat.zip.boss.Boss_memberVO"%>
+<%@page import="com.mat.zip.boss.model.BoardVO"%>
+<%@page import="com.mat.zip.boss.model.ComVO"%>
+<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -22,17 +22,12 @@
 <script type="text/javascript">
 	$(function() {
 		$.ajax({
-			url : "Board_list",
+			url : "board_index.jsp",
 			data : {
 				board_id : '${bag.board_id}',
 			},
 			success : function(x) {
-				window.location.href = "Board_list"
-				/* $('#result').empty();
-				$('#result').append(x); */
-				/* location.reload(); */
-				/* $('#result').append(
-					"- " + content + ", " + writer + "<br>") */
+				window.location.href = "board_index.jsp"
 			},
 			error : function() {
 				alert('computer요청 실패!')

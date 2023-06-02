@@ -67,6 +67,7 @@
 				    };
 
 					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+					var openInfowindow = null;
 					
 					// 반복문 map으로 수정 가능할 것 같슴..
 					
@@ -100,27 +101,8 @@
 						      
 						      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 								
-						      addMarker(coords);  
-						        // 결과값으로 받은 위치를 마커로 표시합니다
-						      var marker = new kakao.maps.Marker({
-						          map: map,
-						          position: coords,
-						          clickable: true
-						      });
-						      no=8;
-						      // <a href="mainpage/mzone?landNumAddress=address"><button>+name+"상세페이지로 이동"+</button></a>
-						      // 인포윈도우로 장소에 대한 설명을 표시합니다
-						      var infowindow = new kakao.maps.InfoWindow({
-						          content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+name+'</span><br>'+
-						          	'<a href="/zip/mainpage/mzone?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
-					              removable: true
-						      });
-						      infowindow.open(map, marker);
-						      
-						      kakao.maps.event.addListener(marker, 'click', function() {
-					              // 마커 위에 인포윈도우를 표시합니다
-					              infowindow.open(map, marker);  
-					          });
+						      addMarker(coords,name,address);  
+						        
 						      
 						      map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
 						      
@@ -130,50 +112,64 @@
 	                }else if(matchedAddresses.length > 1){
 	                	for (var i = 0; i < matchedAddresses.length; i++) {
 							var address = matchedAddresses[i];
-							geocoder.addressSearch(address, function(result, status) {
-							    // if the search was successful
-							    if (status === kakao.maps.services.Status.OK) {
-							   	  var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-									
-								  addMarker(coords);  
-								  
-							    }
-							});	            
+							var name = matchedNames[i];
+							
+							geocodeAddress(address, name);          
 				        }
 	                	//한국 강남 중심좌표 
 	                	map.setCenter(new kakao.maps.LatLng(37.4967,127.0630));
 	                	map.setLevel(8);
 	                }
 	                
+	                function geocodeAddress(address, name) {
+	                    var geocoder = new kakao.maps.services.Geocoder();
+	
+	                    geocoder.addressSearch(address, function(result, status) {
+	                        // 정상적으로 검색이 완료됐으면
+	                        if (status === kakao.maps.services.Status.OK) {
+	                            // 좌표값 저장
+	                            addMarker(new kakao.maps.LatLng(result[0].y, result[0].x), name , address);
+	                        }
+	                    });
+	                }
+	                
 	                
 					
+					function addMarker(position, name , address) {
+	
+	                    // 마커를 생성합니다
+	                    var marker = new kakao.maps.Marker({
+	                        position: position,
+	                        clickable: true
+	                    });
+	
+	                    // 마커가 지도 위에 표시되도록 설정합니다
+	                    marker.setMap(map);
+	
+	                    // 클로저를 사용하여 인포윈도우 생성
+	                    (function(marker, name) {
+	                        // 마커에 클릭 이벤트를 등록합니다
+	                        kakao.maps.event.addListener(marker, 'click', function() {
+	                            // 이전에 열려있던 인포윈도우가 있으면 닫기
+	                            if (openInfowindow) {
+	                                openInfowindow.close();
+	                            }
+	
+	                            // 새로운 인포윈도우 생성 및 열기
+	                            var infowindow = new kakao.maps.InfoWindow({
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+name+'</span><br>'+
+						          	'<a href="mainpage/mzonee?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
+					              removable: true
+	                            });
+	                            infowindow.open(map, marker);
+	
+	                            // 열린 인포윈도우를 저장
+	                            openInfowindow = infowindow;
+	                        });
+	                    })(marker, name);
+	                }
 					
-					function addMarker(position) {
-			            
-			            // 마커를 생성합니다
-			            var marker = new kakao.maps.Marker({
-			                position: position,
-			                clickable: true
-			            });
-
-			            // 마커가 지도 위에 표시되도록 설정합니다
-			            marker.setMap(map);
-			            
-			            var iwContent = '<div style="padding:5px;"><a href="https://map.kakao.com/link/to/Hello World!,'+ marker.getPosition().getLat()+','+ marker.getPosition().getLng()+'" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-			            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-			        	// 인포윈도우를 생성합니다
-			        	var infowindow = new kakao.maps.InfoWindow({
-			           	 content : iwContent,
-			           	 removable : iwRemoveable
-			        	});
-
-			       		 // 마커에 클릭이벤트를 등록합니다
-			        	kakao.maps.event.addListener(marker, 'click', function() {
-			              // 마커 위에 인포윈도우를 표시합니다
-			             	 infowindow.open(map, marker);  
-			        	});
-			        }
+					
 				} //success
 			}) //ajax
 		})//b2 
@@ -184,81 +180,83 @@
 		
 		
 	$(function() {
-		//현 위치기반 찍힌 마커 보여주기. 
-		$('#b2').click(function() {
-			$.ajax({
-				url : "registerAndSearch/controller/Remap.mz",
-				dataType : "json",
-				success : function(json) {
-					document.getElementById("map").innerHTML = "";
-					
-					
-					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-				    mapOption = { 
-				        center: new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
-				        level: 3 // 지도의 확대 레벨
-				    };
-
-					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-					
-					
-					for (var i = 0; i < json.length; i++) {
-			            var obj = json[i];
-			            // Access the properties of the object
-			            var name = obj.name;
-			            var address = obj.landNumAddress;
-			            
-			            var geocoder = new kakao.maps.services.Geocoder();
-			            
-			            geocoder.addressSearch(address, function(result, status) {
-						    // 정상적으로 검색이 완료됐으면 
-						     if (status === kakao.maps.services.Status.OK) {
-								//좌표값 저장.
-						       addMarker(new kakao.maps.LatLng(result[0].y, result[0].x));
-						     } 	
-						});			            
-			        }
-					
-					function addMarker(position) {
-			            
-			            // 마커를 생성합니다
-			            var marker = new kakao.maps.Marker({
-			                position: position,
-			                clickable: true
-			            });
-
-			            // 마커가 지도 위에 표시되도록 설정합니다
-			            marker.setMap(map);
-			            
-			            var iwContent = '<div style="padding:5px;"><a href="https://map.kakao.com/link/to/Hello World!,'+ marker.getPosition().getLat()+','+ marker.getPosition().getLng()+'" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-			            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-			        	// 인포윈도우를 생성합니다
-			        	var infowindow = new kakao.maps.InfoWindow({
-			           	 content : iwContent,
-			           	 removable : iwRemoveable
-			        	});
-
-			       		 // 마커에 클릭이벤트를 등록합니다
-			        	kakao.maps.event.addListener(marker, 'click', function() {
-			              // 마커 위에 인포윈도우를 표시합니다
-			             	 infowindow.open(map, marker);  
-			        	});
-			            
-			            
-			            // 생성된 마커를 배열에 추가합니다
-			            markers.push(marker);
-			        }
-					
-						
-					
-				} //success
-			}) //ajax
-		})//b2
-		
-
-		
-	})// function	
+	    // 현재 위치 기반으로 찍힌 마커 보여주기.
+	    $('#b2').click(function() {
+	        $.ajax({
+	            url: "registerAndSearch/controller/Remap.mz",
+	            dataType: "json",
+	            success: function(json) {
+	                document.getElementById("map").innerHTML = "";
+	
+	                var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+	                var mapOption = {
+	                    center: new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
+	                    level: 3 // 지도의 확대 레벨
+	                };
+	
+	                var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+	                var openInfowindow = null; // 현재 열려있는 인포윈도우를 저장하기 위한 변수
+	
+	                for (var i = 0; i < json.length; i++) {
+	                    var obj = json[i];
+	                    // Access the properties of the object
+	                    var name = obj.name;
+	                    var address = obj.landNumAddress;
+	
+	                    geocodeAddress(address, name); // 주소를 좌표로 변환하고 마커를 추가하는 함수 호출
+	                }
+	
+	                function geocodeAddress(address, name) {
+	                    var geocoder = new kakao.maps.services.Geocoder();
+	
+	                    geocoder.addressSearch(address, function(result, status) {
+	                        // 정상적으로 검색이 완료됐으면
+	                        if (status === kakao.maps.services.Status.OK) {
+	                            // 좌표값 저장
+	                            addMarker(new kakao.maps.LatLng(result[0].y, result[0].x), name , address);
+	                        }
+	                    });
+	                }
+	
+	                function addMarker(position, name , address) {
+	
+	                    // 마커를 생성합니다
+	                    var marker = new kakao.maps.Marker({
+	                        position: position,
+	                        clickable: true
+	                    });
+	
+	                    // 마커가 지도 위에 표시되도록 설정합니다
+	                    marker.setMap(map);
+	
+	                    // 클로저를 사용하여 인포윈도우 생성
+	                    (function(marker, name) {
+	                        // 마커에 클릭 이벤트를 등록합니다
+	                        kakao.maps.event.addListener(marker, 'click', function() {
+	                            // 이전에 열려있던 인포윈도우가 있으면 닫기
+	                            if (openInfowindow) {
+	                                openInfowindow.close();
+	                            }
+	
+	                            // 새로운 인포윈도우 생성 및 열기
+	                            var infowindow = new kakao.maps.InfoWindow({
+						          content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+name+'</span><br>'+
+						          	'<a href="mainpage/mzonee?landNumAddress='+address+'">가게 정보 보러가기</a></div>',
+					              removable: true
+	                            });
+	                            infowindow.open(map, marker);
+	
+	                            // 열린 인포윈도우를 저장
+	                            openInfowindow = infowindow;
+	                        });
+	                    })(marker, name);
+	                }
+	
+	            } //success
+	        }) //ajax
+	    }) //b2
+	})
 
 	
 	
@@ -396,7 +394,7 @@
 					        // 인포윈도우로 장소에 대한 설명을 표시합니다
 					        var infowindow = new kakao.maps.InfoWindow({
 					            content: '<div style="width:150px;text-align:center;padding:6px 0;"><span style="color: black;">'+json.name+'</span><br>'+
-						          '<a href="/zip/mainpage/mzone?landNumAddress='+landNumAddress+'">가게 정보 보러가기</a></div>',
+						          '<a href="mainpage/mzonee?landNumAddress='+landNumAddress+'">가게 정보 보러가기</a></div>',
 					            removable: true
 					        });
 					        console.log(name);
@@ -462,11 +460,10 @@
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 
-	// When the user clicks the button, open the modal 
 	function openModal() {
-		modal.style.display = "block";
+	  modal.style.display = "block";
 	}
-
+	
 	// When the user clicks on <span> (x), close the modal
 	function closeModal() {
 		modal.style.display = "none";

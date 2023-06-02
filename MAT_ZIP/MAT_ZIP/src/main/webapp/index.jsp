@@ -474,9 +474,9 @@
 
   <!-- chatbot -->
 
-<div id="chatMain" class="chatCommon" hidden="hidden">
+<div id="chatMain" class="chatCommon" hidden="hidden" style="z-index:1;">
 		<div id="chatTop">
-			<div id="chatTitle">
+			<div id="chatTitle" >
 				<span style="font-size: 24px;">맛돌이</span>
 			</div>
 			<button class="chatBtn chatMenuBtn" onclick="chatToggle()">

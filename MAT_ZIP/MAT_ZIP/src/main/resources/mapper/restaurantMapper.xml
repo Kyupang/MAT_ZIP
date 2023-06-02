@@ -19,10 +19,10 @@
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT DISTINCT
 		r.landNumAddress, r.name
-		FROM mzregisterinfo m
+		FROM mzRegisterInfo m
 		JOIN restaurant r
 		ON r.tel = #{storePhoneNumber} 
-		GROUP BY m.storeAddress, m.storePhoneNumber
+		GROUP BY m.storeAddress, m.storePhoneNumber,r.landNumAddress, r.name
 		HAVING COUNT(*) > 1; 
 	</select> 
 	
@@ -32,9 +32,9 @@
 	<select id="addressesAndNames"
 		resultType="com.mat.zip.registerAndSearch.model.RegistedAddressAndNameVO">
 		SELECT DISTINCT r.landNumAddress, r.name, r.food
-		FROM mzregisterinfo m
+		FROM mzRegisterInfo m
 		JOIN restaurant r ON m.storePhoneNumber = r.tel 
-		GROUP BY m.storeAddress, m.storePhoneNumber
+		GROUP BY m.storeAddress, m.storePhoneNumber, r.name, r.food, r.landNumAddress
 		HAVING COUNT(*) > 1; 
 	</select>
 	

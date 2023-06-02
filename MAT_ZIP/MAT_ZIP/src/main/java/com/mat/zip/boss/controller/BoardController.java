@@ -51,10 +51,10 @@ public class BoardController {
 	    // 이전 페이지로 리다이렉트
 	    String prevPage = (String) session.getAttribute("prevPage");
 	    if (prevPage != null) {
-	        return "redirect:" + prevPage;
+	        return "redirect:board_index.jsp";
 	    } else {
 	        // 이전 페이지 정보가 없는 경우, 기본 페이지로 리다이렉트
-	        return "forward:Board_list"; // 이 부분은 원하는 기본 페이지 URL로 변경하세요
+	        return "forward:board_index.jsp"; // 이 부분은 원하는 기본 페이지 URL로 변경하세요
 	    }
 	}
 
@@ -70,13 +70,12 @@ public class BoardController {
 //	
 //
 //	
-	@RequestMapping("/Board_one")
-	public void one(int board_id, Model model) {
-		System.out.println("one요청됨.");
-		boardDAO.view(board_id);
-		BoardVO bag = boardDAO.one(board_id);
-		System.out.println(bag);
-		model.addAttribute("bag", bag);
+	@RequestMapping("/Board_search")
+	public void search(String keyword, Model model) {
+	    System.out.println("search 요청됨.");
+	    List<BoardVO> list = boardDAO.searchByTitleOrContent(keyword);
+	    System.out.println(list);
+	    model.addAttribute("list", list); // attribute 이름을 'bag'에서 'list'로 변경
 	}
 
 	@RequestMapping("/Board_detail")
@@ -143,18 +142,18 @@ public class BoardController {
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	//페이지 로드될때 꽉찬하트 빈하트
+//	//페이지 로드될때 꽉찬하트 빈하트
 //	@GetMapping("/bosslikeload/{board_id}")
-//	public ModelAndView getBoard(HttpSession session, @PathVariable("board_id") int board_id) {
-//	    ModelAndView mav = new ModelAndView();
-//	    String user_id = session.getAttribute("user_id").toString();
-//	    boolean isLiked = boardDAO.isLikedByUser(user_id, board_id);
-//	    BoardVO board = boardDAO.detail(board_id);
-//	    mav.addObject("board", board);
-//	    mav.addObject("isLiked", isLiked);
-//	    mav.setViewName("board/detail");
-//	    return mav;
-//	}
+//    public ModelAndView getBoard(HttpSession session, @PathVariable("board_id") int board_id) {
+//        ModelAndView mav = new ModelAndView();
+//        String user_id = session.getAttribute("user_id").toString();
+//        boolean isLiked = boardDAO.isLikedByUser(user_id, board_id);
+//        BoardVO board = boardDAO.detail(board_id);
+//        mav.addObject("board", board);
+//        mav.addObject("isLiked", isLiked);
+//        mav.setViewName("board/detail");
+//        return mav;
+//    }
 
 
 

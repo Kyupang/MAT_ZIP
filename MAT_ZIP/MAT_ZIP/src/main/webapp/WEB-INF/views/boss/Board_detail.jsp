@@ -142,30 +142,8 @@ $(function() {
     });
 });
 </script> -->
+
 <!-- 좋아요 -->
-<!-- <script>
-$(document).ready(function(){
-    $('.like-form').on('submit', function(event){
-        event.preventDefault();
-        var form = $(this);
-        var board_id = form.find('input[name="board_id"]').val();
-        var likeButton = form.find('.like-button');
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: {
-                board_id: board_id
-            },
-            success: function(response) {
-                // '좋아요' 카운트를 업데이트
-                likeButton.text('좋아요 ' + response);
-            }
-        });
-    });
-});
-</script> -->
-
 <script>
 $(document).ready(function(){
     $('.like-form').on('submit', function(event){
@@ -202,7 +180,6 @@ $(document).ready(function(){
 });
 
 </script>
-
 
 </head>
 
@@ -336,40 +313,6 @@ $(document).ready(function(){
     <!-- 헤더 섹션 종료 -->
   </div>
 
-  <!-- 사장 커뮤 헤더시작 -->
-<header class="p-3 text-bg-dark">
-<div class="container">
-<div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
-<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-	<svg class="bi-me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-		<use xlink:href="#bootstrap"></use>
-	</svg>
-</a>
-<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li><a href="board_index.jsp">
-	<button class="btn btn-outline-light me-2">매출차트</button></a>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
-	</li>
-	<li>
-	<a href="board_index.jsp">
-	<button class="btn btn-outline-light me-2">자유게시판</button></a>
-	</li>
-</ul>
-		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-        </form>
-       
-</div>
-</div>
-
-</header>
-<!-- 사장커뮤 헤더 끝 -->
-
 	<% if (session.getAttribute("boss_id") != null) { %>
 	<br>
 	<div class="container">
@@ -378,7 +321,7 @@ $(document).ready(function(){
 			<!-- 로우설정  -->
 			<h3>
 				<strong><em><span
-						class="badge rounded-pill text-bg-secondary p-3">자유게시판</span></em></strong>
+						class="badge rounded-pill text-bg-warning p-3">자유게시판</span></em></strong>
 			</h3>
 		</div>
 		<br>
@@ -395,15 +338,26 @@ $(document).ready(function(){
 			<h6>${bag.content}</h6>
 		</div>
 		
-			<form action="bosslike" method="post" class="like-form">
-    		<input type="hidden" name="board_id" value="${bag.board_id}">
-    		<button type="submit" class="like-button">
-        	<i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${bag.likecount}</span>
-    		</button>
-			</form>
-			
-			<div style="width:50; font:bold;">댓글 개수: ${commentCount}</div>
+			<!--게시글 로드시 좋아요 여부에 따라 빈하트,꽉찬하트 - 현재 likes DB 더미데이터부족으로 구현불가 , 
+			더미데이터 확보한 이후 위의 form action대신 사용하면됨  -->
+			<%-- <form action="bosslike" method="post" class="like-form">
+		    <input type="hidden" name="board_id" value="${board.board_id}">
+		    <button type="submit" class="like-button">
+		        <i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}"></i> <span>좋아요 ${board.likecount}</span>
+		    </button>
+			</form> --%>
+			<div style="display: flex; align-items: center;">
+			  <form action="bosslike" method="post" class="like-form">
+			    <input type="hidden" name="board_id" value="${bag.board_id}">
+			    <button type="submit" class="like-button btn btn-outline-dark">
+			      <i class="${isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}" style="color:red;"></i> 
+			      <span>좋아요 ${bag.likecount} </span>
+			    </button>
+			  </form>
+			  <div style="width:50; font:bold;" class="btn btn-outline-dark">  댓글 개수: ${commentCount}</div>
 			</div>
+			</div>
+			
 			
 	<hr style="border: solid 3px gray;">
 	<div id="result">
@@ -445,8 +399,7 @@ $(document).ready(function(){
 		%>
 		<!--댓글끝 -->
 
-
-
+<!-- 글수정  -->
 		<hr color="green">
 		<%
 		//세션에서 값을 꺼내는 방법
@@ -468,7 +421,7 @@ $(document).ready(function(){
 		<a href="boardUpdate.jsp">
 			<button class="btn btn-outline-success">수정</button>
 		</a> <a href="boardDelete.jsp">
-			<button class="btn btn-outline-success">삭제</button>
+			<button class="btn btn-outline-danger">삭제</button>
 		</a>
 		
 		<%
@@ -477,57 +430,20 @@ $(document).ready(function(){
 		%>
 	</div>
 	<br>
-
+	
 	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<table class="table"
-				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-secondary">
-					<td><input type="hidden" id></td>
-					<div class="col-md-6">
-						<td>제목</td>
-					</div>
-					<div class="col-md-1">
-						<td>글쓴이</td>
-					</div>
-					<div class="col-md-3">
-						<td>작성시간</td>
-					</div>
-					<div class="col-md-1">
-						<td>조회수</td>
-					</div>
-					<div class="col-md-1">
-						<td>좋아요</td>
-					</div>
-				</tr>
-				<c:forEach items="${Board_list}" var="bag">
-					<tr>
-						<td><input type="hidden" ${bag.board_id}></td>
-						<td><a href="Board_detail?board_id=${bag.board_id}">${bag.title}
-						</a></td>
-						<td>${bag.writer}</td>
-						<td><fmt:formatDate value="${bag.regdate}"
-								pattern="yyyy-MM-dd HH:mm" /></td>
-						<td>${bag.viewscount}</td>
-						<td>${bag.likecount}</td>
-
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-	</div>
-	<!-- <form action="Board_like" method="get">
-	<button>좋아요</button>
-</form> -->
-	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			
-		</div>
-	</div>
+    <!--컨테이너  -->
+    <div class="row">
+        <!-- 로우설정  -->
+        <form action="Board_search" method="get" id="search">
+            <input name="keyword" type="text" size="40" placeholder="제목이나 내용을 입력해주세요">
+            <button type="submit" class="btn btn-outline-dark">
+                검색
+            </button>
+        </form>
+    </div>
+</div>
+	
 	<!-- 여기까지가 사장세션 접속시 보이는 리얼값 -->
 	
 	<%
@@ -559,7 +475,7 @@ $(document).ready(function(){
 	<%
 		}
 	%>
-  <!-- end book section -->
+  <!-- end body section -->
 
   <!-- footer section -->
   <footer class="footer_section">

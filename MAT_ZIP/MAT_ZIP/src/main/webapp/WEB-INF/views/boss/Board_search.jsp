@@ -1,16 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	<!--JSTL -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="com.mat.zip.boss.model.BoardVO"%>
 <%@page import="com.mat.zip.boss.model.ComVO"%>
-<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
-
 <head>
-  <!-- Basic -->
+<!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Mobile Metas -->
@@ -46,17 +45,15 @@
   <!-- boss.css 파일을 추가 -->
   <style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap'); </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
 </head>
-
 <body class="sub_page">
 
   <div class="hero_area">
     <div class="bg-box">
       <img src="../resources/images/hero-bg.jpg" alt="">
     </div>
-    <!-- header 섹션 시작 -->
-    <header class="header_section" style="z-index: 100;">
+    <!-- 맛집헤더시작 -->
+     <header class="header_section" style="z-index: 100;">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="../index.jsp">
@@ -71,18 +68,21 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
-              <li class="nav-item">
-                <a class="nav-link" href="../index.jsp">Home </a>
-              </li>
               <li class="nav-item active">
-                <a class="nav-link" href="book.html">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
+              	
+                <a class="nav-link" href="../index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="book.html">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../boss/board_index.jsp">사장님 커뮤니티</a>
               </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="../board/boardIndex.jsp">회원 커뮤니티</a>
+              </li>
+              
             </ul>
             <div class="user_option">
-              <g>
+                  <g>
                     <g>
                       <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
@@ -167,7 +167,6 @@
 		    LOGOUT
 		  </a>
 		<% } %>
-            	
             </div>
           </div>
         </nav>
@@ -176,94 +175,53 @@
     <!-- 헤더 섹션 종료 -->
   </div>
 
-  <!-- 사장 커뮤 헤더시작 -->
-<header class="p-3 text-bg-dark">
+<!-- 테이블내용 -->
+<br>
 <div class="container">
-<div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
-<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-	<svg class="bi-me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-		<use xlink:href="#bootstrap"></use>
-	</svg>
-</a>
-<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li>
-	<button id="board_index.jsp" class="btn btn-outline-light me-2">매출차트</button>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
-	</li>
-	<li>
-	<button id="board_index.jsp" class="btn btn-outline-light me-2">자유게시판</button>
-	</li>
-</ul>
-		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+    <!--컨테이너  -->
+    <div class="row">
+        <!-- 로우설정  -->
+        <br>
+        <table class="table" style="text-align: center; border: 1px solid #dddddd">
+            <thead style="background:#FFC31E;">
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">글쓴이</th>
+                    <th scope="col">작성시간</th>
+                    <th scope="col">조회수</th>
+                    <th scope="col">좋아요</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="boardSearch" items="${list}"> <!-- 'bag'을 'list'로 변경 -->
+                    <tr>
+                        <td><a href="Board_detail?board_id=${boardSearch.board_id}">${boardSearch.title}</a></td>
+                        <td>${boardSearch.writer}</td>
+                        <td><fmt:formatDate value="${boardSearch.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
+                        <td>${boardSearch.viewscount}</td>
+                        <td>${boardSearch.likecount}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 검색창 -->
+<br>
+<div class="container">
+    <!--컨테이너  -->
+    <div class="row">
+        <!-- 로우설정  -->
+        <form action="Board_search" method="get" id="search">
+            <input name="keyword" type="text" size="40" placeholder="제목이나 내용을 입력해주세요">
+            <button type="submit" class="btn btn-outline-dark">
+                검색<i class="bi bi-search"></i>
+            </button>
         </form>
-       
+    </div>
 </div>
-</div>
 
-</header>
-<!-- 사장커뮤 헤더 끝 -->
-
-<!-- 결제성공 메시지 시작 -->
-<h1>결제가 완료되었습니다.</h1>
-<p>주문 상품: 사장님 커뮤니티 구독 결제</p>
-<p>${paymentResponse.toString()}</p>
-<p>주문 ID: <span id="orderId">${paymentResponse.get("orderId").getAsString()}</span></p>
-<p>결제 총액: <span id="totalAmount">${paymentResponse.get("totalAmount").getAsInt()}</span></p>
-<p>주문 이름: <span id="orderName">${paymentResponse.get("orderName").getAsString()}</span></p>
-<!-- 결제성공 메시지 끝 -->
-
-<!-- 결제성공내역 결제내역테이블로 전달 시작 -->
-<script>
-    $(document).ready(function() {
-        var paymentVO = {
-            "orderId": $("#orderId").text(),
-            "amount": $("#totalAmount").text(),
-            "orderName": $("#orderName").text()
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "payment", // 변경이 필요할 수 있습니다.
-            contentType: "application/json",
-            data: JSON.stringify(paymentVO),
-            success: function() {
-                alert("결제 정보가 성공적으로 전송되었습니다.");
-            },
-            error: function() {
-                alert("결제 정보 전송에 실패했습니다.");
-            }
-        });
-    });
-    /* 결제성공내역 결제내역테이블로 전달 종료 */
-    
-	/* 사장회원등록 시작 */    
-    $(document).ready(function() {
-        // 결제 성공 후 AJAX 요청
-        if (sessionStorage.getItem("storeId")) {
-            $.ajax({
-                url: "innerJoinAndInsert",
-                method: "POST",
-                data: { store_id: sessionStorage.getItem("storeId") }  // 세션에서 storeId 값을 읽어서 AJAX 요청에 포함
-            }).done(function() {
-                console.log("innerJoinAndInsert 성공");
-                sessionStorage.removeItem("storeId");  // 요청이 완료된 후 storeId 값을 세션에서 제거
-            }).fail(function() {
-                console.log("innerJoinAndInsert 실패");
-            });
-        }
-    });
-	/* 사장회원등록 종료 */
-</script>    
-
-  <!-- end book section -->
-
-  <!-- footer section -->
+<!-- footer section -->
   <footer class="footer_section">
     <div class="container">
       <div class="row">
@@ -361,12 +319,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <!-- custom js -->
   <script src="../resources/js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-  </script>
   <!-- End Google Map -->
  <!--  <script src="../resources/js/boss_menu.js?ver=3"></script>
   커뮤니티메뉴 js 파일을 추가  -->
+	
 </body>
-
 </html>

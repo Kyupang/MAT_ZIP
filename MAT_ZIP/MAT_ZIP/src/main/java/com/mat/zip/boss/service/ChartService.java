@@ -28,6 +28,10 @@ public class ChartService {
     public List<ChartVO> XTotalAmount(String storeId) {
     	return chartDAO.XTotalAmount(storeId);
     }
+    // 2달전 7일 매출
+    public List<ChartVO> twoTotalAmount(String storeId) {
+    	return chartDAO.XTotalAmount(storeId);
+    }
 //  이번달 총 매출
     public List<ChartVO> thisMonthTotalAmount(String storeId) {
         return chartDAO.thisMonthTotalAmount(storeId);
@@ -35,6 +39,11 @@ public class ChartService {
 //  저번달 총 매출
     public List<ChartVO> lastMonthTotalAmount(String storeId) {
         return chartDAO.lastMonthTotalAmount(storeId);
+    }
+    
+ // 2달 전 총 매출
+    public List<ChartVO> twoMonthsAgoTotalAmount(String storeId) {
+        return chartDAO.twoMonthsAgoTotalAmount(storeId);
     }
     
 //  재방문율 차트   

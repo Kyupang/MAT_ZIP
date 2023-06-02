@@ -1,196 +1,309 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<!--JSTL -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="com.mat.zip.boss.model.BoardVO"%>
+<%@page import="com.mat.zip.boss.model.ComVO"%>
+<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
 <!DOCTYPE html>
 <html>
-<head>
 
-<link
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="../resources/images/favicon.png" type="">
+
+  <title>Mat.zip </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="../resources/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../resources/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../resources/css/responsive.css" rel="stylesheet" />
+  <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script type="text/javascript">
-	$(function() {
-		$('#b1').click(function() {
-			content = $('#com').val()
-			writer = "${user_id}"
-			/* regdate = '${bag.regdate}' */
-			$.ajax({
-				url : "Board_insertcom",
-				data : {
-					board_id : '${bag.board_id}',
-					content : content,
-					writer : writer
-
-				},
-				success : function(x) {
-					$('#result').load(location.href + ' #result')
-					/* $('#result').empty();
-					$('#result').append(x); */
-					/* location.reload(); */
-					/* $('#result').append(
-						"- " + content + ", " + writer + "<br>") */
-				},
-				error : function() {
-					alert('computer요청 실패!')
-				}//error
-			})//ajax
-		})//b1
-	})//$
-</script>
-<style>
-@import
-	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap')
-	;
-
-body {
-	font-family: 'IBM Plex Sans KR', sans-serif;
-}
-
-.id {
-	text-align: center;
-	position: absolute;
-	right: 100px;
-	top: 50px;
-}
-.logout {
-	text-align: center;
-	position: absolute;
-	right: 100px;
-	top: 90px;
-	z-index: 100;
-}
-
-#search {
-	position: relative;
-	left: 430px;
-	bottom: 25px;
-}
-
-#main {
-	position: relative;
-	left: 300px;
-}
-
-#main2 {
-	position: relative;
-	left: 300px;
-	bottom: 31px;
-}
-</style>
-<meta charset="UTF-8">
-<title>맛.zip</title>
+  <link href="../resources/css/boss.css?ver=1" rel="stylesheet">
+  <!-- boss.css 파일을 추가 -->
+  <style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap'); </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
 </head>
-<body>
 
-	<h1 style="color: green;" id="main">
-	<a href ="board_index.jsp">
-		<button class="btn btn-outline-success"
-			style="width: 100px; border-bottom: 2px solid green;">
-			<em>맛.zip</em>
-		</button></a>
-	</h1>
-	<form action="Board_one" method="get" id="search">
-		<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
-		<button type="submit" class="btn btn-success">
-			검색<i class="bi bi-search"></i>
-		</button>
-	</form>
-	<h3 style="color: gray;" id="main2">
-		<em><span style="border-bottom: 2px solid gray;">사장님</span></em>
-	</h3>
+<body class="sub_page">
 
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="../resources/images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header 섹션 시작 -->
+    <header class="header_section" style="z-index: 100;">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="../index.jsp">
+            <span>
+              Mat.zip
+            </span>
+          </a>
 
-	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<%
-				if (session.getAttribute("user_id") != null) {
-			%>
-			<h3 style="color: green;">
-				<em class="id"><span class="badge text-bg-warning">${nickName}님</span></em>
-			</h3>
-			<h3 style="color: green;">
-				<em class="logout"> <a href="logout"><button type="button"
-							class="btn btn-danger opacity-75 bi bi-box-arrow-right">로그아웃  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-						fill="currentColor" class="bi bi-box-arrow-right"
-						viewBox="0 0 16 16">
-  <path fill-rule="evenodd"
-							d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-  <path fill-rule="evenodd"
-							d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-</svg></button>
-				</a> </em>
-			</h3>
-			<%
-				} else {
-			%>
-			<a href="boss_member.jsp"> <span class="id2"><button
-						class="btn btn-warning">회원가입</button></span>
-			</a><a href="boss_login.jsp"> <span class="id"><button
-						class="btn btn-success">로그인</button></span>
-			</a>
-			<%
-				}
-			%>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mx-auto ">
+              <li class="nav-item active">
+              	
+                <a class="nav-link" href="../index.jsp">Home </a><!-- <span class="sr-only">(current)</span> 원래 a태그 안에있던것 -->
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../boss/board_index.jsp">사장님 커뮤니티</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="../board/boardIndex.jsp">회원 커뮤니티</a>
+              </li>
+              
+            </ul>
+            <div class="user_option">
+                  <g>
+                    <g>
+                      <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                    </g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  
+          <!--캘린더 들어갈 위치 -->
+          <div style="width: 50px; height: 50px; ">
+	          <a href="../resources/images/c.png" data-title="오늘의 캘린더" data-lightbox="example-set" style="margin: 0px 0px;">
+	          	<img src="../resources/images/cal.png" style="width: 50px">
+	          </a>
+          </div>
+          
+        <!-- 로그인했을 시에 마이페이지 버튼 표시 -->
+		<div class="client_section">
+		  <div class="box" style="margin: 10px;">
+		    <div class="user-img-box">
+		      <% if (session.getAttribute("user_id") == null) { %>
+		        <a href="../mz_member/signUp">
+		          <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+		        </a>
+		      <% } %>
+		      <% if (session.getAttribute("user_id") != null) { %>
+		        <a href="../mz_member/myPage">
+		          <img src="../resources/images/basic.png" alt="" class="box-img" style="width: 50px;">
+		        </a>
+		      <% } %>
+		    </div>
+		  </div>
 		</div>
-	</div>
+		<% if (session.getAttribute("user_id") == null) { %>
+		  <a href="../mz_member/login" class="order_online">
+		    LOGIN
+		  </a>
+		<% } %>
+		<% if (session.getAttribute("user_id") != null) { %>
+		  <a href="../mz_member/logout" class="order_online">
+		    LOGOUT
+		  </a>
+		<% } %>
+            	
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- 헤더 섹션 종료 -->
+  </div>
 
-
+	<br>
 	<div class="container">
 		<!--컨테이너  -->
-		<div class="row">
+		<div class="row" class="col-md-9">
 			<!-- 로우설정  -->
-			<table class="table"
-				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-success">
-					<div class="col-md-3">
-						<!-- 12개의 컬럼중에 3개씩 할당 -->
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>매출,마진계산기</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>맛 News</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="Board_list">
-								<button style="background-color: #fafafa;">
-									<h4>자유게시판</h4>
-								</button>
-						</a></td>
-					</div>
-					<div class="col-md-3">
-						<td><a href="owner_login">
-								<button style="background-color: #fafafa;">
-									<h4>전문가QnA</h4>
-								</button>
-						</a></td>
-					</div>
-				</tr>
-			</table>
+			<h3>
+				<strong><em><span
+						class="badge rounded-pill text-bg-warning p-3">삭제하시겠습니까?</span></em></strong>
+			</h3>
 		</div>
-	</div>
-	<div class="container">
-		<h3>
-			<span class="badge rounded-pill text-bg-success">자유게시판 글 삭제 </span>
-		</h3>
-
-		<hr color="green">
-		<form action="Board_delete" method="get">
-			<input name="board_id" value="" placeholder="게시판 번호를 입력해주세요"><br>
+		<br>
+		<div class="row" class="col-md-9">
+			<!-- 로우설정  -->
+			<form action="Board_delete" method="get">
+			<input name="board_id" value="${sessionScope.board_id}" type="hidden"><br>
 			<hr color="green">
-			<button type="submit" class="btn btn-success">삭제</button>
+			<button type="submit" class="btn btn-danger" style="margin-bottom: 500px;">삭제</button>
 		</form>
-	</div>
+			</div>
+			</div>
+			
 
+  <!-- end body section -->
+
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Contact Us
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +01 1234567890
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  demo@gmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_detail">
+            <a href="" class="footer-logo">
+              Feane
+            </a>
+            <p>
+              Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+            </p>
+            <div class="footer_social">
+              <a href="">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-pinterest" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>
+            Opening Hours
+          </h4>
+          <p>
+            Everyday
+          </p>
+          <p>
+            10.00 Am -10.00 Pm
+          </p>
+        </div>
+      </div>
+      <div class="footer-info">
+        <p>
+          &copy; <span id="displayYear"></span> All Rights Reserved By
+          <a href="https://html.design/">Free Html Templates</a><br><br>
+          &copy; <span id="displayYear"></span> Distributed By
+          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script src="../resources/js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- isotope js -->
+  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <!-- custom js -->
+  <script src="../resources/js/custom.js"></script>
+  <!-- End Google Map -->
+ <!--  <script src="../resources/js/boss_menu.js?ver=3"></script>
+  커뮤니티메뉴 js 파일을 추가  -->
 </body>
+
 </html>

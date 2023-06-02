@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="header.jsp"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <head>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -22,6 +23,14 @@
 	text-align: center;
 	right: 100px;
 
+}
+.table a {
+    color: black;
+    text-decoration: none;
+}
+
+.table a:hover {
+    text-decoration: underline;
 }
 </style>
 <meta charset="UTF-8">
@@ -56,16 +65,16 @@ $(document).ready(function() {
 
 </head>
 <body>
-
 	<div class="container">
 		<!--컨테이너  -->
 		<div class="row">
 			<!-- 로우설정  -->
+			<br>
 			<table class="table"
 				style="text-align: center; border: 1px solid #dddddd">
-				<tr class="table-secondary">
+				<tr style="background:#FFC31E;">
 					<td><input type="hidden" id></td>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<td>제목</td>
 					</div>
 					<div class="col-md-1">
@@ -123,16 +132,19 @@ $(document).ready(function() {
 <br>
 	
 	<div class="container">
-		<!--컨테이너  -->
-		<div class="row">
-			<!-- 로우설정  -->
-			<form action="Board_one" method="get" id="search">
-			<input name="board_id" type="text" size="40" placeholder="내용을 입력해주세요">
-			<button type="submit" class="btn btn-outline-dark">
-				검색<i class="bi bi-search"></i>
-			</button>
-	</form>
-		</div>
-	</div>
+    <!--컨테이너  -->
+    <div class="row">
+        <!-- 로우설정  -->
+        <form action="Board_search" method="get" id="search">
+            <input name="keyword" type="text" size="40" placeholder="제목이나 내용을 입력해주세요">
+            <button type="submit" class="btn btn-outline-dark">
+                검색
+            </button>
+        </form>
+    </div>
+</div>
+
+
+
 	
 </body>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,203 +11,188 @@
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-	<style>
-  @import
-	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap')
-	; 
-</style>
+<link href="../resources/css/boss_chart.css?ver=1" rel="stylesheet">
 <meta charset="UTF-8">
-<!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> --> <!--감정분석추가 -->
-
 
 <title>Chart.js Test</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- <script src="../resources/js/boss_chart.js"></script>boss_chart.js파일을 추가 -->
 	<link href="../resources/css/boss.css" rel="stylesheet"><!-- boss.css 파일을 추가 -->
+	
 <!-- 매출 차트  -->	
 <script type="text/javascript">
 google.charts.load('current', {'packages':['line']});
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-    var storeId = '<%= session.getAttribute("store_id") %>'; /* 세션에서 storeId 가져오기 */
-    var encodedStoreId = encodeURIComponent(storeId);
-    console.log('chart/' + encodedStoreId);
-    $.ajax({
-        url: 'chart/'+ encodedStoreId,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            /* console.log(response); */
-            var data = new google.visualization.DataTable();
-            data.addColumn('number', '날짜'); //날짜 대신에 달의 날짜를 표시
-            data.addColumn('number', '이번달');
-            data.addColumn('number', '저번달');
-			
-            /* 이번달,저번달 총 매출액  */
-            var thisMonthData = response.thisMonthTotal;
-			var lastMonthData = response.lastMonthTotal;
-			
-			var thisMonthTotalAmount = thisMonthData.reduce(function (total, item) {
-			    return total + item.total_amount;
-			}, 0);
-			
-			var lastMonthTotalAmount = lastMonthData.reduce(function (total, item) {
-			    return total + item.total_amount;
-			}, 0);
-			
-		
-            // HTML 태그에 매출액 설정
-            document.getElementById('thisMonthTotal').textContent = '이번달 총매출: ' + thisMonthTotalAmount.toLocaleString('ko-KR') + '원';
-			document.getElementById('lastMonthTotal').textContent = '저번달 총매출: ' + lastMonthTotalAmount.toLocaleString('ko-KR') + '원';
+  var storeId = '<%= session.getAttribute("store_id") %>'; // 세션에서 storeId 가져오기
+  var encodedStoreId = encodeURIComponent(storeId);
+  
+  $.ajax({
+    url: 'chart/' + encodedStoreId,
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Day');
+      data.addColumn('number', '이번달 총 매출');
+      data.addColumn('number', '저번달 총 매출');
+      data.addColumn('number', '2달 전 총 매출');
 
-            
-            /* 최근7일간의 이번달과 저번달 매출액  */
-            var thisMonthData = response.thisMonth;
-            var lastMonthData = response.lastMonth;
-            /* reduce함수 */
-            var thisMonthDays = thisMonthData.reduce(function(total, item) { return total + item.total_amount; }, 0);
-            var lastMonthDays = lastMonthData.reduce(function(total, item) { return total + item.total_amount; }, 0);
-         
-         	// HTML 태그에 매출액 설정
-            document.getElementById('thisMonthDays').textContent = '같은기간 이번달 매출: ' + thisMonthDays.toLocaleString('ko-KR') + '원';
-            document.getElementById('lastMonthDays').textContent = '같은기간 저번달 매출: ' + lastMonthDays.toLocaleString('ko-KR') + '원';
+      
+      var thisMonthData = response.thisMonthTotal;
+      var lastMonthData = response.lastMonthTotal;
+      var twoMonthsAgoData = response.twoMonthsAgoTotal;
+      
+      /* 최근7일간의 이번달과 저번달 매출액  */
+      var thisMonthDataSince = response.thisMonth;
+      var lastMonthDataSince = response.lastMonth;
+      var twoMonthDataSince = response.twoMonth;
+      /* reduce함수 */
+      var thisMonthDays = thisMonthDataSince.reduce(function(total, item) { return total + item.total_amount; }, 0);
+      var lastMonthDays = lastMonthDataSince.reduce(function(total, item) { return total + item.total_amount; }, 0);
+      var twoMonthDays = twoMonthDataSince.reduce(function(total, item) { return total + item.total_amount; }, 0);
+      var thisMonthTotalAmount = thisMonthData.reduce(function (total, item) {
+		    return total + item.total_amount;
+		}, 0);
+	  var lastMonthTotalAmount = lastMonthData.reduce(function (total, item) {
+		    return total + item.total_amount;
+		}, 0);
+	  var twoMonthTotalAmount = twoMonthsAgoData.reduce(function (total, item) {
+		    return total + item.total_amount;
+		}, 0);
+      
+   	 // HTML 태그에 매출액 설정
+      document.getElementById('thisMonthTotal').textContent = '이번달 총매출: ' + thisMonthTotalAmount.toLocaleString('ko-KR') + '원';
+      document.getElementById('lastMonthTotal').textContent = '1달전 총매출: ' + lastMonthTotalAmount.toLocaleString('ko-KR') + '원';
+      document.getElementById('twoMonthTotal').textContent = '2달전 총매출: ' + twoMonthTotalAmount.toLocaleString('ko-KR') + '원';
+      document.getElementById('thisMonthDays').textContent = '같은 기간 이번달 매출: ' + thisMonthDays.toLocaleString('ko-KR') + '원';
+      document.getElementById('lastMonthDays').textContent = '같은 기간 1달전 매출: ' + lastMonthDays.toLocaleString('ko-KR') + '원'; 
+      document.getElementById('twoMonthDays').textContent = '같은 기간 2달전 매출: ' + twoMonthDays.toLocaleString('ko-KR') + '원'; 
 
-            var rows = [];
 
-            for (var i = 0; i < thisMonthData.length; i++) {
-                var dateParts = thisMonthData[i].date.split("-");
-                if (dateParts.length === 3) {
-                    var dayOfMonth = dateParts[2];
-                    rows[dayOfMonth] = [parseInt(dayOfMonth), thisMonthData[i].total_amount, null];
-                } else {
-                    console.log(`날짜 형식이 잘못되었습니다: ${thisMonthData[i].date}`);
-                }
-            }
+      // 데이터 행 추가
+      for (var i = 0; i < thisMonthData.length; i++) {
+        var day = i + 1;
+        var thisMonthAmount = thisMonthData[i].total_amount;
+        var lastMonthAmount = lastMonthData[i].total_amount;
+        var twoMonthsAgoAmount = twoMonthsAgoData[i].total_amount;
+        data.addRow([day, thisMonthAmount, lastMonthAmount, twoMonthsAgoAmount]);
+      }
 
-            for (var i = 0; i < lastMonthData.length; i++) {
-                var dateParts = lastMonthData[i].date.split("-");
-                if (dateParts.length === 3) {
-                    var dayOfMonth = dateParts[2];
-                    if(rows[dayOfMonth]) {
-                        rows[dayOfMonth][2] = lastMonthData[i].total_amount;
-                    } else {
-                        rows[dayOfMonth] = [parseInt(dayOfMonth), null, lastMonthData[i].total_amount];
-                    }
-                } else {
-                    console.log(`날짜 형식이 잘못되었습니다: ${lastMonthData[i].date}`);
-                }
-            }
+      var options = {
+    		  chart: {
+                  title: '<%= session.getAttribute("store_id") %>',
+                  subtitle: '일별매출, 월별비교'
+              },
+              width: 1200,
+              height: 400,
+              hAxis: {
+                //날짜 포맷설정 format:'D' 원하는 문자열 삽입
+                 
+              },
+              vAxis: {
+                  format: '#,###원'  // Y축 단위변경 
+              },
+              series: {
+                  0: { color: '#0A6EFF' }, // 이번달 선 색상
+                  1: { color: '#FFC81E' }, // 저번달 선 색상
+                  2: { color: '#0A6E0A' }  // 2달전 선 색상
+              }
+          };
 
-              // Add rows to data table
-            Object.keys(rows).forEach(function(key) {
-    		data.addRow(rows[key]);
-			});
-                   
-           	
-            var options = {
-                chart: {
-                    title: '<%= session.getAttribute("store_id") %>',
-                    subtitle: '일별매출, 월별비교'
-                },
-                width: 1200,
-                height: 400,
-                hAxis: {
-                  //날짜 포맷설정 format:'D' 원하는 문자열 삽입
-                   
-                },
-                vAxis: {
-                    format: '#,###원'  // Y축 단위변경 
-                },
-                series: {
-                    0: { color: '#0064FF' }, // 이번달 선 색상
-                    1: { color: '#FF9100' }  // 저번달 선 색상
-                }
-            };
-
-            var chart = new google.charts.Line(document.getElementById('linechart_material'));
-
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
+      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  });
 }
 
+
 </script>
+
+
 <!-- 재방문율 차트 -->
 	 <!-- 이번달,지난달 재방문율 차트 조회 -->
 	<script type="text/javascript">
+	// 신규 고객 증가율과 재방문 고객 증가율 계산 함수
+	function calculateGrowth(thisMonth, lastMonth) {
+	    var growth;
+	    if (lastMonth === 0) {
+	        growth = thisMonth > 0 ? 100 : 0;
+	    } else {
+	        growth = (thisMonth - lastMonth) / lastMonth * 100; 
+	    }
+	    return Math.floor(growth); // 소수점 이하를 잘라냅니다.
+	}
+
+	// 증가율 포맷 함수
+	function formatGrowth(growth, elementId) {
+	    var element = document.getElementById(elementId);
+	    if(growth >= 0) {
+	        element.innerHTML = '↑<span style="color:green; font-weight:bold;">' + growth + '%</span>';
+	    } else {
+	        element.innerHTML = '↓<span style="color:red; font-weight:bold;">' + Math.abs(growth) + '%</span>';
+	    }
+	}
+
+	// Google 차트 로딩
 	google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
+	google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        var storeId = '<%= session.getAttribute("store_id") %>';
-        var encodedStoreId = encodeURIComponent(storeId);
-        $.ajax({
-            url: 'returnCustomerCount/' + encodedStoreId,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-            	console.log(response);
-            
-            	var thisMonthNewCustomers = response.thisMonthNew.new_customers;  /* 이번달 신규 고객 수 */
-            	var thisMonthReturningCustomers = response.thisMonthReturning.returning_customers; /* 이번달 재방문 고객 수 */
+	// 차트 그리기 함수
+	function drawChart() {
+	    var storeId = '<%= session.getAttribute("store_id") %>';
+	    var encodedStoreId = encodeURIComponent(storeId);
+	    $.ajax({
+	        url: 'returnCustomerCount/' + encodedStoreId,
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function (response) {
+	        	console.log(response);
 
-            	var lastMonthNewCustomers = response.lastMonthNew.new_customers; /* 저번달 신규 고객 수 */
-            	var lastMonthReturningCustomers = response.lastMonthReturning.returning_customers; /* 저번달 재방문 고객 수 */
+	        	var thisMonthNewCustomers = response.thisMonthNew.new_customers;
+	        	var thisMonthReturningCustomers = response.thisMonthReturning.returning_customers;
 
-            	/* 재방문 고객 증가율 */
-            	var returningCustomerGrowth; 
-            	if (lastMonthReturningCustomers === 0) {
-            	  returningCustomerGrowth = thisMonthReturningCustomers > 0 ? 100 : 0;
-            	} else {
-            	  returningCustomerGrowth = (thisMonthReturningCustomers - lastMonthReturningCustomers) / lastMonthReturningCustomers * 100;
-            	}
-            	console.log(returningCustomerGrowth);
+	        	var lastMonthNewCustomers = response.lastMonthNew.new_customers;
+	        	var lastMonthReturningCustomers = response.lastMonthReturning.returning_customers;
 
-            	/* 신규 고객 증가율 */
-            	var newCustomerGrowth; 
-            	if (lastMonthNewCustomers === 0) {
-            	  newCustomerGrowth = thisMonthNewCustomers > 0 ? 100 : 0;
-            	} else {
-            	  newCustomerGrowth = (thisMonthNewCustomers - lastMonthNewCustomers) / lastMonthNewCustomers * 100; 
-            	}
+	        	// 신규 고객 증가율, 소수점 이하 잘라내기
+	            var newCustomerGrowth = calculateGrowth(thisMonthNewCustomers, lastMonthNewCustomers);
+	            // 재방문 고객 증가율, 소수점 이하 잘라내기
+	            var returningCustomerGrowth = calculateGrowth(thisMonthReturningCustomers, lastMonthReturningCustomers);
 
-                /* 도넛 차트 데이터 생성 */
-                var data = google.visualization.arrayToDataTable([
-                    ['Customer', 'Count'],
-                    ['신규주문\n'+returningCustomerGrowth.toFixed(2) + '%', thisMonthNewCustomers],
-                    ['재주문\n'+newCustomerGrowth.toFixed(2) + '%', thisMonthReturningCustomers]
-                ]);
+	            var data = google.visualization.arrayToDataTable([
+	                ['Customer', 'Count'],
+	                ['신규주문', thisMonthNewCustomers],
+	                ['재주문', thisMonthReturningCustomers]
+	            ]);
 
-                 /* 도넛 차트 옵션 */
-                var options = {
-                    title: '재주문율 비교',
-                    pieHole: 0.3,
-                    stroke: {
-                        0: { color: '#0064FF' }, // 이번달 선 색상
-                        1: { color: '#FF9100' }  // 저번달 선 색상
-                    }
-                };
+	            var options = {
+	                title: '재주문율 비교',
+	                pieHole: 0.3,
+	                stroke: {
+	                    0: { color: '#0064FF' }, // 이번달 선 색상
+	                    1: { color: '#FF9100' }  // 저번달 선 색상
+	                }
+	            };
 
-                /* 도넛 차트 그리기 */
-                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-                chart.draw(data, options);
+	            var chart = new google.visualization.PieChart(document.getElementById('reorderChart'));
+	            chart.draw(data, options);
 
-                /* HTML 태그에 데이터 설정 */
-                document.getElementById('returningCustomerGrowth').textContent = '재방문 고객 증가율: ' + returningCustomerGrowth.toFixed(2) + '%';
-                document.getElementById('newCustomerGrowth').textContent = '신규 고객 증가율: ' + newCustomerGrowth.toFixed(2) + '%';
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
+	            // HTML 태그에 데이터 설정
+	            formatGrowth(returningCustomerGrowth, 'returningCustomerGrowth');
+	            formatGrowth(newCustomerGrowth, 'newCustomerGrowth');
+
+	        },
+	        error: function (error) {
+	            console.log(error);
+	        }
+	    });
+	}
 </script>
 <!-- 재방문율 -->
 	 <!-- 2~5번 방문한 단골고객의 수 차트 -->
@@ -472,7 +458,7 @@ function drawChart() {
                 dataType: 'json',
                 contentType: 'application/json; charset=UTF-8',
                 success: function(response) {
-                    console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2));
+                   /*  console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2)); */
                     // 필드들을 표시할 <div> 요소 가져오기
                     var resultElement = $("#result");
 
@@ -536,153 +522,215 @@ function drawChart() {
 </script>
 	<!-- 감정분석 긍정탑5 부정탑5 -->
 	<script>
-	$(document).ready(function() {
-	    var storeId = '<%= session.getAttribute("store_id") %>';
-	    var encodedStoreId = encodeURIComponent(storeId);
+$(document).ready(function() {
+    var storeId = '<%= session.getAttribute("store_id") %>';
+    var encodedStoreId = encodeURIComponent(storeId);
 
-	    $.ajax({
-	        url: 'analyze/' + encodedStoreId,
-	        type: 'GET',
-	        dataType: 'json',
-	        contentType: 'application/json; charset=UTF-8',
-	        success: function(response) {
-	            console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2));
+    $.ajax({
+        url: 'analyze/' + encodedStoreId,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        success: function(response) {
+            console.log("성공시 응답받은 데이터: " + JSON.stringify(response, null, 2));
 
-	            // 필드들을 표시할 <div> 요소 가져오기
-	            var resultElement = $("#result");
+            // 긍정 리뷰와 부정 리뷰를 분리하기
+            var positiveReviews = response.filter(function(review) {
+                return review.document.sentiment === "positive";
+            });
+            var negativeReviews = response.filter(function(review) {
+                return review.document.sentiment === "negative";
+            });
 
-	            // 기존 결과 초기화
-	            resultElement.empty();
+            // 각각의 리스트를 정렬하기
+            positiveReviews.sort(function(a, b) {
+                return b.document.confidence.positive - a.document.confidence.positive;
+            });
+            negativeReviews.sort(function(a, b) {
+                return b.document.confidence.negative - a.document.confidence.negative;
+            });
 
-	            // 긍정 리뷰와 부정 리뷰를 분리하기
-	            var positiveReviews = response.filter(function(review) {
-	                return review.document.sentiment === "positive";
-	            });
-	            var negativeReviews = response.filter(function(review) {
-	                return review.document.sentiment === "negative";
-	            });
+            // 최대 5개의 긍정 리뷰와 부정 리뷰 선택하기
+            var maxPositiveReviews = positiveReviews.slice(0, 5);
+            var maxNegativeReviews = negativeReviews.slice(0, 5);
 
-	            // 각각의 리스트를 정렬하기
-	            positiveReviews.sort(function(a, b) {
-	                return b.document.confidence.positive - a.document.confidence.positive;
-	            });
-	            negativeReviews.sort(function(a, b) {
-	                return b.document.confidence.negative - a.document.confidence.negative;
-	            });
+            // 최대 긍정 점수가 높은 리뷰 표시
+            var positiveReviewElement = $("#positiveReviews");
+            positiveReviewElement.empty(); // 이 줄 추가
+            for (var i = 0; i < maxPositiveReviews.length; i++) {
+                var review = maxPositiveReviews[i];
+                var reviewElement = $("<p>").text("리뷰 내용: " + decodeURIComponent(review.sentences[0].content) + ", 감정 분석 결과: " + review.document.sentiment);
+                positiveReviewElement.append(reviewElement);
+            }
 
-	            // 최대 5개의 긍정 리뷰와 부정 리뷰 선택하기
-	            var maxPositiveReviews = positiveReviews.slice(0, 5);
-	            var maxNegativeReviews = negativeReviews.slice(0, 5);
+            // 최대 부정 점수가 높은 리뷰 표시
+            var negativeReviewElement = $("#negativeReviews");
+            negativeReviewElement.empty(); // 이 줄 추가
+            for (var i = 0; i < maxNegativeReviews.length; i++) {
+                var review = maxNegativeReviews[i];
+                var reviewElement = $("<p>").text("리뷰 내용: " + decodeURIComponent(review.sentences[0].content) + ", 감정 분석 결과: " + review.document.sentiment);
+                negativeReviewElement.append(reviewElement);
+            }
+        },
 
-	            // 최대 긍정 점수가 높은 리뷰 표시
-	            resultElement.append("<h3>긍정 리뷰 TOP 5</h3>");
-	            for (var i = 0; i < maxPositiveReviews.length; i++) {
-	                var review = maxPositiveReviews[i];
-	                var reviewElement = $("<p>").text("리뷰 내용: " + decodeURIComponent(review.sentences[0].content) + ", 감정 분석 결과: " + review.document.sentiment);
-	                resultElement.append(reviewElement);
-	            }
+        error: function(error) {
+            alert('감정 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    });
 
-	            // 최대 부정 점수가 높은 리뷰 표시
-	            resultElement.append("<h3>부정 리뷰 TOP5</h3>");
-	            for (var i = 0; i < maxNegativeReviews.length; i++) {
-	                var review = maxNegativeReviews[i];
-	                var reviewElement = $("<p>").text("리뷰 내용: " + decodeURIComponent(review.sentences[0].content) + ", 감정 분석 결과: " + review.document.sentiment);
-	                resultElement.append(reviewElement);
-	            }
-	        },
-
-	        error: function(error) {
-	            alert('감정 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
-	        }
-	    });
-
-	});
-
-	</script>
+});
+</script>
 
 
 
 </head>
 <body>
-	<div class="container">
-	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 매출 차트</i></h1></div>
-	<div id="linechart_material" style="width: 600px; height: 500px"></div>
-	<ul>
-	<li><div class="text-bg-primary p-3">
-	<div id="thisMonthDays">같은기간 이번달 매출</div><div id="thisMonthTotal">이번달 총 매출</div></li>
-	<li><div class="text-bg-warning p-3">
-	<div id="lastMonthDays">같은기간 저번달 매출</div>
-	<div id="lastMonthTotal">저번달 총 매출</div></li>
-	</ul>	
-	</div>
-	<hr style="border: dashed 10px #121d40;" align="center">
-	
+<div class="container-fluid">
+  <div class="row">
+    <!-- 사이드바 시작 -->
+    <div id="uniqueSidebar" class="col-md-3 d-flex flex-column flex-shrink-0 p-3 text-bg-light" style="width: 200px; height:300px; position: fixed; top: 116px; right: 0; left: auto;">
+     <a href="/" class="d-flex align-items-center mb-md-0 me-md-auto text-black text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32" style="fill: black;"><use xlink:href="#bi bi-shop"></use></svg>
+        <span class="fs-4">매출<br>장부</span>
+      </a>
+      <hr style="background-color:black">
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <button id="salesChartBtn" class="btn nav-link text-black" style="font:bold;">
+            <svg class="bi bi-shop me-2" width="16" height="16" style="fill: black;"><use xlink:href="#home"></use></svg>
+            매출
+          </button>
+        </li>
+        <li>
+          <button id="reorderChartBtn" class="btn nav-link text-black" style="font:bold;">
+            <svg class="bi pe-none me-2" width="16" height="16" style="fill: black;"><use xlink:href="#speedometer2"></use></svg>
+            또슐랭
+          </button>
+        </li>
+        <li>
+          <button id="emotionChartBtn" class="btn nav-link text-black" style="font:bold;">
+            <svg class="bi pe-none me-2" width="16" height="16" style="fill: black;"><use xlink:href="#table"></use></svg>
+            감정분석
+          </button>
+          </ul>
+      <hr>
+    </div>
+    </div>
+    </div>
 	
 	<br>
 	<div class="container">
-	<div class="row">
-	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 재주문율 차트</i></h1></div>
-	<table>
-	<tr>
-	<td>
-	<div id="donutchart" style="width: 800px; height: 500px;"></div>
-	</td>
-	<td>
-	<div id="여러번주문차트" style="width: 600px; height: 400px;"></div>
-	</td>
-	</tr>
-	</table>
-	</div>
-	</div>
+    <!--매출차트 시작-->
+    <div class="card1" style="position: relative; margin-bottom: 20px;">
+        <div class="card-body">
+            <h1 class="card-title"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 매출 차트</i></h1>
+            <div id="linechart_material" style="width: 90%; height: 500px"></div>
+            <h5 class="red-underline">저번달과 매출비교</h5>
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <h5>총매출</h5>
+                    <div id="thisMonthTotal" class="text-bg-primary p-3"></div>  <!-- 이번달 총매출 -->
+                    <div id="lastMonthTotal" class="text-bg-warning p-3"></div>  <!-- 저번달 총매출 -->
+                    <div id="twoMonthTotal" class="text-bg-success p-3"></div>  <!-- 저번달 총매출 -->
+                </div>
+                <div class="col-md-6 mb-2">
+                    <h5>최근 7일간 매출</h5>
+                    <div id="thisMonthDays" class="text-bg-primary p-3"></div>  <!-- 같은기간 이번달 매출 -->
+                    <div id="lastMonthDays" class="text-bg-warning p-3"></div>  <!-- 같은기간 저번달 매출 -->
+                    <div id="twoMonthDays" class="text-bg-success p-3"></div>  <!-- 같은기간 저번달 매출 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 	
-	<div class="container">
-	<div class="row">
-	<table>
-	<tr>
-	<td><div class="text-bg-primary p-3">
-	<div id="returningCustomerGrowth"></div></div></td>
-	<td>
-	<div class="text-bg-warning p-3">
-	<div id="newCustomerGrowth"></div></div>
-	</td>
-	</tr>
-	</table>
-	</div>
-	</div>
-	
-	<hr style="border: dashed 10px #121d40;" align="center">
+	<!-- <hr style="border: dashed 10px #121d40;" align="center"> -->
 	<br>
-	<div class="container">
-	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 신규고객,재주문고객 금액 비교</i></h1></div>
-	<div id="MonthTotal" style="width: 900px; height: 500px;"></div>
-	</div>
-	
-	<div class="container">
-	<div id="MonthOrder" style="width: 900px; height: 500px;"></div>
-	</div>
-	
+<div class="container">
+    <div class="card2" style="position: relative; margin-bottom: 20px;">
+        <div class="card-body">
+            <h1 class="card-title" style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 신규고객,재주문고객 금액 비교</i></h1>
+            <div id="MonthTotal" style="width: 900px; height: 500px;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card2" style="position: relative;">
+        <div class="card-body">
+            <div id="MonthOrder" style="width: 900px; height: 500px;"></div>
+        </div>
+    </div>
+</div>
+
 	<hr style="border: dashed 10px #121d40;" align="center">
-	<br>
-	<div class="container">
-	<div class="row">
-	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 총 결제금액, 주문수 비교</i></h1></div>
-	<ul>
-	<li>신규고객 결제금액 증가율<div id="newOrderTotalGrowth" class="text-bg-warning p-3"></div></li>
-	<li>재주문 고객 결제금액 증가율<div id="returnOrderTotalGrowth" class="text-bg-light p-3"></div></li>
-	<li>신규 고객 주문 건 증가율<div id="newOrderCountGrowth" class="text-bg-warning p-3"></div></li>
-	<li>재주문 고객 주문 건 증가율<div id="returnOrderCountGrowth" class="text-bg-light p-3"></div></li>
-	</ul>
-	</div>
-	</div>
+	<!-- 매출차트 끝 -->
 	
+	<!-- 또슐랭 차트 시작 -->
+<br>
+<div class="container">
+    <div class="row">
+        <div class="card4" style="position: relative; margin-bottom: 20px;">
+            <div class="card-body">
+                <h1 class="card-title" style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 또슐랭 차트</i></h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="reorderChart" style="width: 100%; height: 500px;"></div>
+                    </div>
+                    <div class="col-md-6">
+                    	<h5>주문율 비교</h5>
+                    	<ul>
+                    	<li>재주문 고객 증가율 <div id="returningCustomerGrowth" class="text-bg-light p-3"></div></li>
+                    	<li>신규 고객 증가율 <div id="newCustomerGrowth" class="text-bg-warning p-3"></div></li>
+                    	</ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="여러번주문차트" style="width: 100%; height: 500px;"></div>
+                    </div>
+                    <div class="col-md-6">
+                    	<h5>결제금액 비교</h5>
+                        <ul>
+	                    <li>신규고객 결제금액 증가율<div id="newOrderTotalGrowth" class="text-bg-warning p-3"></div></li>
+	                    <li>재주문 고객 결제금액 증가율<div id="returnOrderTotalGrowth" class="text-bg-light p-3"></div></li>
+	                    </ul>
+	                    <h5>주문건 수 비교</h5>
+	                    <ul>
+	                    <li>신규 고객 주문 건 증가율<div id="newOrderCountGrowth" class="text-bg-warning p-3"></div></li>
+	                    <li>재주문 고객 주문 건 증가율<div id="returnOrderCountGrowth" class="text-bg-light p-3"></div></li>
+                		</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	<!-- 또슐랭차트 끝 -->
+	
+	<!-- 감정분석 차트 시작-->
 	<hr style="border: dashed 10px #121d40;" align="center">
-	<br>
-	<div class="container">
-	<div><h1 style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 리뷰 감정분석 차트</i></h1></div>
-	<div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
-	<div id="result">리뷰긍정5부정5표시되는곳</div>
-	</div>
-	
+<div class="container">
+    <div class="card5" style="position: relative; margin-bottom: 20px;">
+        <div class="card-body">
+            <h1 class="card-title" style="width:1200px; height:80px;"><i class="bi bi-shop"> <span style="color:#0938d6; font:bold"><%= session.getAttribute("store_id") %></span> 리뷰 감정분석 차트</i></h1>
+            <div id="piechart_3d" style="width: 1000px; height: 500px;"></div>
+            <div id="positiveReviewsContainer" class="text-bg-light p-3">
+		    <h3><span style="color: blue;">긍정</span> 리뷰 <span style="color: blue;">TOP 5</span></h3>
+		    <div id="positiveReviews"></div>
+			</div>
+			<hr>
+			<div id="negativeReviewsContainer" class="text-bg-light p-3">
+		    <h3><span style="color: red;">부정</span> 리뷰 <span style="color: red;">TOP 5</span></h3>
+		    <div id="negativeReviews"></div>
+			</div>
+
+        </div>
+    </div>
+</div>
+
+	<script src="../resources/js/boss_scroll.js?ver=11"></script>
 </body>
 
 </html>

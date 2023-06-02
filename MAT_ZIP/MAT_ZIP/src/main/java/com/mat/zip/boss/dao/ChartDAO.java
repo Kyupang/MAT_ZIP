@@ -28,6 +28,10 @@ public class ChartDAO {
     public List<ChartVO> XTotalAmount(String storeId) {
     	return sqlSession.selectList("chartMapper.XTotalAmount",storeId);
     }
+// 2달전 7일 매출
+    public List<ChartVO> twoTotalAmount(String storeId) {
+    	return sqlSession.selectList("chartMapper.XTotalAmount",storeId);
+    }
 //  이번달 총 매출
     public List<ChartVO> thisMonthTotalAmount(String storeId) {
         return sqlSession.selectList("chartMapper.thisMonthTotalAmount",storeId);
@@ -36,6 +40,10 @@ public class ChartDAO {
     public List<ChartVO> lastMonthTotalAmount(String storeId) {
         return sqlSession.selectList("chartMapper.lastMonthTotalAmount",storeId);
     }
+//	2달전 총 매출
+    public List<ChartVO> twoMonthsAgoTotalAmount(String storeId) {
+        return sqlSession.selectList("chartMapper.twoMonthsAgoTotalAmount", storeId);
+    } 
     
 //    재방문율 차트
  // 재방문 차트 이번달과 저번달 신규고객과 재방문 고객의 숫자를 찾는 쿼리

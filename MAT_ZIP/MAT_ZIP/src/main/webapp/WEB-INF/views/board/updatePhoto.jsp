@@ -1,6 +1,5 @@
-<%@page import="com.mat.zip.mzMember.model.MzMemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -46,7 +45,25 @@
   
   <!-- board.css 파일을 추가 -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css">
-   
+  
+  <!-- 로그인을 하지 않고 접근했을 시 로그인 페이지로 리다이렉트 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+  	
+  	<% String user_id = (String) session.getAttribute("user_id"); %>
+  	
+    $(document).ready(function(){
+    	
+    	var user_id = "<%= session.getAttribute("user_id") %>";
+    	
+        if (!user_id) {
+            alert('로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.');
+            window.location.href = "${pageContext.request.contextPath}/mz_member/login"; // 로그인 페이지로 리다이렉트
+        }
+    });
+	</script>
+  
+  
 </head>
 
 
@@ -186,114 +203,38 @@
     </header>
     <!-- end header section -->
   </div>
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		
-		// boardReview를 실행하자마자 allReview를 ajax로 불러오자 
-		$("#result").empty();
-        $.ajax({
-            url : "allReview",
-            success : function(data) {
-            	$('#result').append(data)
-            },
-            error:function(request, status, error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            } // error
-        }); // ajax
-        
-        // 리뷰 제목 검색 
-    	$(document).ready(function(){
-    	    $('#searchForm').on('submit', function(e){
-    	        e.preventDefault(); // Prevent form submission
-
-    	        var searchTerm = $('#searchTerm').val();
-
-    	        $.ajax({
-    	            url: 'searchReview', 
-    	            type: 'GET',
-    	            data: { searchTerm: searchTerm },
-    	            success: function(data) {
-    	                // 새로운 테이블 행을 저장할 빈 배열을 만듭니다.
-    	                var newRows = [];
-
-    	                // 각 검색 결과에 대해
-    	                $.each(data, function(i, review){
-    	                    // 새로운 테이블 행을 만듭니다.
-    	                    var newRow = '<tr class="table table-striped">' +
-    	                        '<td>리뷰게시판</td>' +
-    	                        '<td>' + review.store_id + '</td>' +
-    	                        '<td>' + review.store_cg + '</td>' +
-    	                        '<td><a href="oneReviewId?review_id=' + review.review_id + '">' + review.review_title + '</a></td>' +
-    	                        '<td>' + review.emoticon + '</td>' +
-    	                        '<td>' + review.user_id + '</td>' +
-    	                        '<td>' + formatDate(review.updated_date) + '</td>' +
-    	                        '<td>' + review.review_view_count + '</td>' +
-    	                        '</tr>';
-
-    	                    // 새로운 테이블 행을 배열에 추가합니다.
-    	                    newRows.push(newRow);
-    	                });
-
-    	                // 기존 테이블 행을 제거하고 새로운 행을 추가합니다.
-    	                $('table').find('tr:gt(0)').remove();
-    	                $('table').append(newRows.join(''));
-    	            }
-    	        });
-    	    });
-    	});
-
-    	// 유닉스 타임스탬프를 "yyyy-MM-dd" 형식의 문자열로 변환하는 함수입니다.
-    	function formatDate(unixTimestamp) {
-    	    var date = new Date(unixTimestamp);
-    	    var year = date.getFullYear();
-    	    var month = ('0' + (date.getMonth() + 1)).slice(-2);
-    	    var day = ('0' + date.getDate()).slice(-2);
-    	    return year + '-' + month + '-' + day;
-    	}
-        
-        
-	}); // $
-	
-</script>
-	
-	<%-- 세션에 저장된 회원 정보 가져오기 --%>
-	<% String user_id = (String) session.getAttribute("user_id"); %>
-	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
-	
-	<% if (user_id == null) { %>
-		! 로그인이 필요합니다. ! 
-		<a href="../mz_member/login" class="order_online">
-		      LOGIN
-		</a>
-	<% } else { %>
-		
+  
+  
+	<h3>사진게시판 - 게시물 수정 화면입니다.</h3>
+	<hr color="red">
+	<form action="updatePhoto" id="form" method="post" enctype="multipart/form-data" >
+		회원 ID : <input name="photo_id" value="${data.photo_id}" readonly/><br>
+		회원 ID : <input name="user_id" value="${user_id}" readonly/><br>
+		제목 : <input name="photo_title" value="${data.photo_title}"><br>
+		게시물의 사진 카테고리 : <select name="photo_cg" value="${data.photo_cg}">
+			<option value="한식">한식</option>
+			<option value="양식">양식</option>
+			<option value="중식">중식</option>
+			<option value="일식">일식</option>
+			<option value="아시안음식">아시안음식</option>
+			<option value="기타">기타</option>
+		</select><br>
+		회원님의 선호 음식 카테고리 : <select name="category" value="${data.category}">
+			<option value="한식">한식</option>
+			<option value="양식">양식</option>
+			<option value="중식">중식</option>
+			<option value="일식">일식</option>
+			<option value="아시안음식">아시안음식</option>
+			<option value="기타">기타</option>
+		</select><br>
+		내용 : <input name="photo_content" style="width:500px; height:200px;" maxlength=140 value="${data.photo_content}"><br> 
+		파일 첨부 : <input type="file" name="file"><br>
 		<br>
-		<br>
-		<form action="writeReview" id="form" method="get">
-			<button type="submit" class="btn btn-warning">리뷰 게시글 작성하기</button>
-		</form>
-		<br>
-	<% } %>
-	
-	<form id="searchForm">
-	    <input type="text" id="searchTerm" placeholder="Search..." required>
-	    <input type="submit" value="Search">
+		<button type="submit">게시물 작성하기</button>
 	</form>
-	
-	<hr color=green>
-	<div id="result"></div>
-	<hr color=green>
-	<a href="boardIndex.jsp">
-		<button type="button" class="btn btn-outline-secondary">게시판 index 페이지로 돌아가기</button>
-	</a>
-	<br>
 	<br>
 	
-	  <!-- end client section -->
+		<!-- end client section -->
 
   <!-- footer section -->
   <footer class="footer_section">

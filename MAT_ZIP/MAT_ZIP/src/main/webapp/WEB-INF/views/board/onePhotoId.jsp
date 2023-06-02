@@ -1,10 +1,10 @@
-<%@page import="com.mat.zip.mzMember.model.MzMemberDTO"%>
+<%@page import="com.mat.zip.board.PhotoVO"%>
+<%@page import="com.mat.zip.board.PhotoComVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-
 <head>
   <!-- Basic -->
   <meta charset="utf-8" />
@@ -46,9 +46,20 @@
   
   <!-- board.css 파일을 추가 -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css">
-   
-</head>
+  
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+</style>
 
+</head>
 
 <body class="sub_page">
 
@@ -188,112 +199,182 @@
   </div>
 
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript"> /* ajax */ 
+	
+	// JSP로부터 값을 가져와 JavaScript 변수에 저장
+	var photo_id = parseInt("${data.photo_id}");
+	var userId = "${data.user_id}";
+	var writerId = "${data.user_id}";
+	
 	$(function() {
 		
-		// boardReview를 실행하자마자 allReview를 ajax로 불러오자 
-		$("#result").empty();
-        $.ajax({
-            url : "allReview",
-            success : function(data) {
-            	$('#result').append(data)
-            },
-            error:function(request, status, error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            } // error
-        }); // ajax
-        
-        // 리뷰 제목 검색 
-    	$(document).ready(function(){
-    	    $('#searchForm').on('submit', function(e){
-    	        e.preventDefault(); // Prevent form submission
-
-    	        var searchTerm = $('#searchTerm').val();
-
-    	        $.ajax({
-    	            url: 'searchReview', 
-    	            type: 'GET',
-    	            data: { searchTerm: searchTerm },
-    	            success: function(data) {
-    	                // 새로운 테이블 행을 저장할 빈 배열을 만듭니다.
-    	                var newRows = [];
-
-    	                // 각 검색 결과에 대해
-    	                $.each(data, function(i, review){
-    	                    // 새로운 테이블 행을 만듭니다.
-    	                    var newRow = '<tr class="table table-striped">' +
-    	                        '<td>리뷰게시판</td>' +
-    	                        '<td>' + review.store_id + '</td>' +
-    	                        '<td>' + review.store_cg + '</td>' +
-    	                        '<td><a href="oneReviewId?review_id=' + review.review_id + '">' + review.review_title + '</a></td>' +
-    	                        '<td>' + review.emoticon + '</td>' +
-    	                        '<td>' + review.user_id + '</td>' +
-    	                        '<td>' + formatDate(review.updated_date) + '</td>' +
-    	                        '<td>' + review.review_view_count + '</td>' +
-    	                        '</tr>';
-
-    	                    // 새로운 테이블 행을 배열에 추가합니다.
-    	                    newRows.push(newRow);
-    	                });
-
-    	                // 기존 테이블 행을 제거하고 새로운 행을 추가합니다.
-    	                $('table').find('tr:gt(0)').remove();
-    	                $('table').append(newRows.join(''));
-    	            }
-    	        });
-    	    });
-    	});
-
-    	// 유닉스 타임스탬프를 "yyyy-MM-dd" 형식의 문자열로 변환하는 함수입니다.
-    	function formatDate(unixTimestamp) {
-    	    var date = new Date(unixTimestamp);
-    	    var year = date.getFullYear();
-    	    var month = ('0' + (date.getMonth() + 1)).slice(-2);
-    	    var day = ('0' + date.getDate()).slice(-2);
-    	    return year + '-' + month + '-' + day;
-    	}
-        
-        
-	}); // $
-	
-</script>
-	
-	<%-- 세션에 저장된 회원 정보 가져오기 --%>
-	<% String user_id = (String) session.getAttribute("user_id"); %>
-	<%= user_id != null ? user_id + " 님이 로그인 중입니다." : "" %>
-	
-	<% if (user_id == null) { %>
-		! 로그인이 필요합니다. ! 
-		<a href="../mz_member/login" class="order_online">
-		      LOGIN
-		</a>
-	<% } else { %>
+		// 게시글 로드 완료 후 조회수 증가 요청
+		$.ajax({
+		    url : "incrementPhotoViewCount",
+		    data : {
+		        photo_id : photo_id
+		    },
+		    success : function() {
+		        console.log("조회수 증가");
+		    },
+		    error : function(request, status, error) {
+		        console.log("오류 발생");
+		    }
+		});
 		
-		<br>
-		<br>
-		<form action="writeReview" id="form" method="get">
-			<button type="submit" class="btn btn-warning">리뷰 게시글 작성하기</button>
-		</form>
-		<br>
-	<% } %>
+		// 댓글 list 요청 
+		$.ajax({
+		    url: "photoComList",
+		    type: "GET",
+		    data : {
+		    	photo_id : photo_id
+		    },
+		    success : function(data) {
+		      // 댓글 리스트를 가져와서 화면에 출력 
+		      for (var i = 0; i < data.length; i++) {
+	  			var photoCom = data[i];
+	  			var updatedDate = new Date(photoCom.updated_date); // 새 Date 객체 생성
+	  			var photoComElement = "<p>" + photoCom.photo_comment + ", " + photoCom.user_id + "</p>" +
+	                       "<p>댓글 작성 시간: " + updatedDate.toLocaleString() + "</p><hr>";
+	  			$("#photoComList").append(photoComElement);
+			} // for 
+		    }, // success 
+		    error : function(jqXHR, textStatus, errorThrown) {
+		      console.log(textStatus, errorThrown);
+		    } // error 
+		  }); // ajax 
+		
+		  // 댓글 달기 
+		  $("#b1").click(function() {
+			    var userId = $("#user_id").val(); // input 필드에서 사용자 ID 가져오기
+			    var photo_comment = $("#photoCom").val(); // 댓글 내용 
+			    if (!userId) { // 사용자가 로그인하지 않은 상태
+			        alert("로그인 후 댓글을 작성할 수 있습니다.");
+			        return;
+			    }
+			    
+			    $.ajax({
+			        type : "POST", // 요청 방식을 POST로 지정
+			        url : "createPhotoCom",
+			        data : {
+			            photo_id: photo_id,
+			            user_id: userId, 
+			            photo_comment: photo_comment 
+			        },
+			        success : function() {
+			            alert("댓글 달기 성공!");
+			            var newRow = "<p>" + photo_comment + ", " + userId + "</p>" + 
+			            "<p>댓글 작성 시간: " + new Date().toLocaleString() + "</p><hr>";
+			            
+			            $("#photoComList").append(newRow);
+			            $("#photoCom").val('');
+			        }, // success
+			        error: function() {
+			            alert("댓글 달기 실패!");
+			        }
+			    }); // ajax  
+			}); // b1 
+
+		
+			// 수정 버튼 클릭 시
+			$("#updateBtn").click(function() {
+				if (confirm("정말로 게시물을 수정하시겠습니까?")) {
+					$.ajax({
+						type: "GET",
+						url: "updatePhoto",
+						data: {
+							photo_id: ${data.photo_id} // 수정하려는 게시물의 id
+						},
+						success: function() {
+							window.location.href = "updatePhoto?photo_id=" + photo_id; // 수정 페이지로 이동
+						}
+					});
+				}
+			});
+			
+		 	// 삭제 버튼 클릭 시
+		    $("#deleteBtn").click(function() {
+		        if (confirm("정말로 게시물을 삭제하시겠습니까?")) {
+		            $.ajax({
+		                type: "POST",
+		                url: "deletePhoto",
+		                data: { 
+		                	photo_id: photo_id,
+		                	user_id: userId
+		                },
+		                success: function() {
+		                    alert("게시물이 삭제되었습니다.");
+		                    window.location.href = "boardPhoto.jsp";
+		                },
+		                error: function() {
+		                    alert("게시물 삭제에 실패했습니다.");
+		                }
+		            });
+		        }
+		    });
+		  
+		
+	}) // function
+
+	</script>
 	
-	<form id="searchForm">
-	    <input type="text" id="searchTerm" placeholder="Search..." required>
-	    <input type="submit" value="Search">
-	</form>
 	
-	<hr color=green>
-	<div id="result"></div>
-	<hr color=green>
-	<a href="boardIndex.jsp">
-		<button type="button" class="btn btn-outline-secondary">게시판 index 페이지로 돌아가기</button>
+	<a href="boardPhoto.jsp">
+		<button  type="button" class="btn btn-outline-secondary">사진게시판으로 돌아가기</button>
 	</a>
+	<hr color="red">
 	<br>
+	photo id : ${data.photo_id} <br> 
+	user id : ${data.user_id} <br>
+	<br>
+	사진의 음식 종류 : ${data.photo_cg} <br>
+	<br>
+	${user_id} 님의 선호 음식 카테고리 : ${data.category} <br>
+	<br>
+	<br>
+	제목 : ${data.photo_title} <br>
+	내용 : ${data.photo_content} <br>
+	<c:choose>
+	  <c:when test="${not empty data.photo_file}">
+	    <img src="${pageContext.request.contextPath}/resources/img/${data.photo_file}" width=300 height=300> <br>
+	  </c:when>
+	  <c:otherwise>
+	    <p style="color:#919191">첨부 이미지가 없습니다.</p>
+	  </c:otherwise>
+	</c:choose>
+	<br>
+	작성 시간 : ${data.created_date}  /  게시물 최종 수정 시간 : ${data.updated_date}
 	<br>
 	
-	  <!-- end client section -->
+	<hr color="red">
+	
+	<c:choose>
+	    <c:when test="${sessionScope.user_id == data.user_id}">
+        <button type="button" id="updateBtn" class="btn btn-outline-dark">게시물 수정</button>
+        <button type="button" id="deleteBtn" class="btn btn-outline-dark">게시물 삭제</button>
+	    </c:when>
+	</c:choose>
+	
+	<hr color="red">
+	
+	<c:choose>
+	    <c:when test="${session.getAttribute('user_id') != null}">
+	        회원 ID : <input id="user_id" value="${user_id}" readonly/><br>
+	        댓글달기 <input id="photoCom"> <button id="b1">댓글달기</button>
+	    </c:when>
+	    <c:otherwise>
+	        <input id="user_id" type="hidden" value="${user_id}">
+	        댓글달기 <input id="photoCom"> <button id="b1">댓글달기</button>
+	    </c:otherwise>
+	</c:choose>
+	
+	<div id="photoComList"></div>
+	<br>
+	
+	
+		<!-- end client section -->
+
 
   <!-- footer section -->
   <footer class="footer_section">
@@ -413,5 +494,8 @@
   </script>
   <!--규환 script 관련 코드 end -->
 	
+	
+	
 </body>
+
 </html>

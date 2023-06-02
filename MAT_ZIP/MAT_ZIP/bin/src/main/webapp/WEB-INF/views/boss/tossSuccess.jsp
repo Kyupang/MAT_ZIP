@@ -3,9 +3,6 @@
 	<!--JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page import="com.mat.zip.boss.model.BoardVO"%>
-<%@page import="com.mat.zip.boss.model.ComVO"%>
-<%@page import="com.mat.zip.boss.model.Boss_memberVO"%>
 <!DOCTYPE html>
 <html>
 
@@ -75,10 +72,10 @@
                 <a class="nav-link" href="../index.jsp">Home </a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="book.html">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../boss/board_index.jsp">사장 커뮤니티 <span class="sr-only">(current)</span> </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="book.html">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../board/boardIndex.jsp">회원 커뮤니티 <span class="sr-only">(current)</span> </a>
               </li>
             </ul>
             <div class="user_option">
@@ -176,50 +173,33 @@
     <!-- 헤더 섹션 종료 -->
   </div>
 
-  <!-- 사장 커뮤 헤더시작 -->
-<header class="p-3 text-bg-dark">
-<div class="container">
-<div class="d-flex flex-wrap align-tiems-center justify-content-center justify-content-lg-start">
-<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-	<svg class="bi-me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-		<use xlink:href="#bootstrap"></use>
-	</svg>
-</a>
-<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-	<li>
-	<button id="board_index.jsp" class="btn btn-outline-light me-2">매출차트</button>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">또슐랭차트</a>
-	</li>
-	<li>
-	<a href="#" class="btn btn-outline-light me-2">감정분석차트</a>
-	</li>
-	<li>
-	<button id="board_index.jsp" class="btn btn-outline-light me-2">자유게시판</button>
-	</li>
-</ul>
-		<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-        </form>
-       
-</div>
-</div>
-
-</header>
-<!-- 사장커뮤 헤더 끝 -->
-
+<%-- <p>${paymentResponse.toString()}</p> 전체 결제응답 메시지--%>
 <!-- 결제성공 메시지 시작 -->
-<h1>결제가 완료되었습니다.</h1>
+<br>
+<div class="container">
+<div class="row">
+<!--  결제성공,실패 알림창 -->
+<div id="alertS" class="alert alert-warning" role="alert" style="display: none;">
+  <strong>성공!</strong> 결제가 성공적으로 이루어졌습니다.
+</div>
+<div id="alertF" class="alert alert-danger" role="alert" style="display: none;">
+  <strong>실패!</strong> 결제가 취소 되었습니다.
+</div>
+<h3><strong><em><span class="badge rounded-pill text-bg-warning p-3">결제가 완료되었습니다.</span></em></strong></h3>
 <p>주문 상품: 사장님 커뮤니티 구독 결제</p>
-<p>${paymentResponse.toString()}</p>
-<p>주문 ID: <span id="orderId">${paymentResponse.get("orderId").getAsString()}</span></p>
 <p>결제 총액: <span id="totalAmount">${paymentResponse.get("totalAmount").getAsInt()}</span></p>
-<p>주문 이름: <span id="orderName">${paymentResponse.get("orderName").getAsString()}</span></p>
+<% if (session.getAttribute("user_id") != null) { %>
+	<h5 style="color: #FF9614;">${user_id}님 사장 회원가입을 축하합니다 !</h5><%} %>
+<p style="display:none;">주문 ID: <span id="orderId">${paymentResponse.get("orderId").getAsString()}</span></p>
+<p style="display:none;">주문 이름: <span id="orderName">${paymentResponse.get("orderName").getAsString()}</span></p>
+</div></div>
 <!-- 결제성공 메시지 끝 -->
+<div class="container" style="margin-top: 600px;">
+<div class="row">
+</div></div>
 
 <!-- 결제성공내역 결제내역테이블로 전달 시작 -->
-<script>
+<script>	
     $(document).ready(function() {
         var paymentVO = {
             "orderId": $("#orderId").text(),
@@ -233,10 +213,10 @@
             contentType: "application/json",
             data: JSON.stringify(paymentVO),
             success: function() {
-                alert("결제 정보가 성공적으로 전송되었습니다.");
+            	$("#alertS").show();
             },
             error: function() {
-                alert("결제 정보 전송에 실패했습니다.");
+            	$("#alertF").show();
             }
         });
     });

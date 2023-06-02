@@ -248,14 +248,13 @@
 			<version>1.4.7</version>
 		</dependency>
 
-		<!-- 이메일 의존성 2 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>5.3.9</version>
 		</dependency>
 		<!-- 이메일 의존성 끝 -->
-		
+
 		<!-- oauth 라이브러리 -->
 		<dependency>
 			<groupId>com.github.scribejava</groupId>
@@ -270,27 +269,6 @@
 			<version>2.3</version>
 		</dependency>
 
-		<!-- json 라이브러리 -->
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20180130</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-
-		<!-- 캘린더 lombok log4j -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.26</version>
-			<scope>provided</scope>
-		</dependency>
-		
 		<!-- 아래 4개는 챗봇, json 데이터 추출 라이브러리 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -299,10 +277,10 @@
 		</dependency>
 
 		<dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.6</version>
-        </dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.6</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -317,13 +295,21 @@
 		</dependency>
 		<!-- 챗봇 끝 -->
 		<!-- 정서현 끝 -->
-		
+
 		<!-- S3 파일업로드 -->
 		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
 			<version>2.20.74</version>
+		</dependency>
+
+		<!-- 캘린더 lombok log4j -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>

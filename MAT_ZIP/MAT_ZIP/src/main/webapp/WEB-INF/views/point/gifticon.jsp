@@ -104,7 +104,7 @@ $(function() {
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="/zip/index.jsp">
             <span>
               matzip
             </span>
@@ -138,10 +138,10 @@ $(function() {
           <div class="form_container">
           <c:forEach items="${list}" var="bag">
               <div class="btn_box">
-                <button id="${bag.id}">
-                  <img src="${pageContext.request.contextPath}/resources/images/gif${bag.id}.jpg" style="width: 150px; height: 250px;">
-                  <p style="font-size: 25px; font-weight: bold; color: yellow;">${bag.name}</p>
-                  <p style="font-size: 25px; font-weight: bold; color: yellow;">4600원</p>
+                <button id="${bag.id}"  style="width: 50%; height: 100%;">
+                  <img src="${pageContext.request.contextPath}/resources/images/gif${bag.id}.jpg" style="width: 100%; height: 100%;">
+                  <p style="font-size: 15px; font-weight: bold; color: yellow;">${bag.name}</p>
+                  <p style="font-size: 15px; font-weight: bold; color: yellow;">${bag.point}</p>
                 </button>
               </div>
             </c:forEach>

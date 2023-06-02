@@ -135,7 +135,7 @@
                   </g>
           <!--캘린더 들어갈 위치 -->
           <div style="width: 50px; height: 50px; ">
-	          <a href="resources/images/c.png" data-title="오늘의 캘린더" data-lightbox="example-set" style="margin: 0px 0px;">
+	          <a href="calendar/calendar">
 	          	<img src="resources/images/cal.png" style="width: 50px">
 	          </a>
           </div>

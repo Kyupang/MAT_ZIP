@@ -61,7 +61,7 @@ public class PointExchangeHistoryServiceImpl implements PointExchangeHistoryServ
 		sms.setUser_id(userpoint.getUser_id());
 		sms.setImg(product.getImg());
 		// sms.setTel(tel);
-		//sensapi.sendSMS(sms);
+		sensapi.sendSMS(sms);
 	}
 
 	@Override

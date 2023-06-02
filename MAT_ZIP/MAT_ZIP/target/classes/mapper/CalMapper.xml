@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendar">
+	
+	<insert id="add" parameterType="calVO">
+		insert into schedule
+		values (null, #{schedule_num}, #{schedule_subject}, #{schedule_desc}, #{schedule_date}, #{schedule_share}, #{schedule_mycolor})
+	</insert>
+	
+	<delete id="del" parameterType="int">
+		delete from schedule
+		where schedule_idx = #{schedule_idx}
+	</delete>
+
+	<update id="up" parameterType="calVO">
+		update schedule 
+		set schedule_num = #{schedule_num}, 
+			schedule_subject = #{schedule_subject}, 
+			schedule_desc = #{schedule_desc}, 
+			schedule_date = #{schedule_date}, 
+     	 	schedule_mycolor = #{schedule_mycolor}
+		where schedule_idx = #{schedule_idx}
+	</update>
+	
+	<select id="one" parameterType="int" resultType="calVO">
+		select * 
+		from schedule
+		where schedule_idx = #{schedule_idx}
+	</select>
+	
+	<select id="all" resultType="calVO">
+		select *
+		from schedule
+	</select>
+</mapper>

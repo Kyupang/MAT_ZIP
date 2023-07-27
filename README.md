@@ -29,7 +29,7 @@
 * JQuery 3.6.4
 * BootStrap 4.1
 
-### `DevOps`
+### `Deploy`
 * AWS EC2, S3, RDS, CloudFront, Route 53, ALB
 * Tomcat 8.5
 * MySQL 8.0.32

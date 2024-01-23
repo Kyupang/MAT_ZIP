@@ -116,7 +116,7 @@
 	
   ### `아키텍쳐 설계에 대한 정리`
 * 📌 담당자 : 김규환 
-* 📌 https://docs.google.com/presentation/d/1ctdr4CTAJIyls9e24kb9k101kQK0VD6m/edit?usp=sharing&ouid=104520414346845957015&rtpof=true&sd=true
+* 📌 [https://docs.google.com/presentation/d/1ctdr4CTAJIyls9e24kb9k101kQK0VD6m/edit?usp=sharing&ouid=104520414346845957015&rtpof=true&sd=true](https://docs.google.com/presentation/d/1DFS7NtHwpOtXI2UusBhJ_isyykqLt1HO/edit?usp=sharing&ouid=104520414346845957015&rtpof=true&sd=true)
 * 📌 처음 배포를 하는 과정에서 많은 어려움과 난관에 봉착하였었지만 하나하나 해결해 나가며 AWS 아키텍쳐에 대한 이해가 높아졌습니다. 관련 세부사항은 27~28페이지부터 확인하실 수 있습니다.
 * **현재 https:://도메인. 으로 배포상태에 있으며, 사진 등록은 로그인 후에 이용하실 수 있습니다.**
 	
@@ -165,8 +165,6 @@
 <details>
   <summary>📌 핵심 기능 설명</summary>
 
-  📌 https://docs.google.com/presentation/d/1ctdr4CTAJIyls9e24kb9k101kQK0VD6m/edit?usp=sharing&ouid=104520414346845957015&rtpof=true&sd=true  
-  📌 위 링크엔 핵심 기능의 상세한 설명과 근거, 서버 아키텍쳐 구성, 트러블 슈팅에 대한 설명이 준비 되어있습니다. 
 <br>
 <br>
   🔜 개선사항 : **DataValidationService에 있는 서비스 각각의 케이스들을 분리하여 절차지향적으로 테스트코드를 작성하고, 리팩토링을 할 수 있게 대비할 예정입니다.**
